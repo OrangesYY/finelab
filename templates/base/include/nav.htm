@@ -1,0 +1,110 @@
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">{{config['G_AppName']}}</a>
+            </div>
+            
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                            role="button" aria-haspopup="true" aria-expanded="false">对象视图<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/tmplt_based_ui/search?b_name=o_persons">人员</a></li>
+                            <li><a href="/tmplt_based_ui/search?b_name=o_rooms">房间</a></li>
+                            <li><a href="#">事件活动</a></li>
+                            <li><a href="/tmplt_based_ui/search?b_name=o_lab_planned_projects">计划项目</a></li>
+                            <li><a href="#">名义项目</a></li>
+                            <li><a href="#">文件</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">设备</a></li>
+                            <li><a href="#">配件</a></li>
+                            <li><a href="#">耗材</a></li>
+                            <li><a href="#">工具</a></li>
+                            <li><a href="#">钥匙</a></li>
+                            <li><a href="#">器件</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                           role="button" aria-haspopup="true" aria-expanded="false">记录视图<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/tmplt_based_ui/search?b_name=v_lab_planned_proj_menbers">实验室计划项目成员</a></li>
+                            <li><a href="#">实验室计划项目事件</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">One more separated link</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                           role="button" aria-haspopup="true" aria-expanded="false">综合视图<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">安防</a></li>
+                            <li><a href="#">安全规程</a></li>
+                            <li><a href="#">人员流动</a></li>
+                            <li><a href="#">项目甘特图</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
+                           role="button" aria-haspopup="true" aria-expanded="false">管理工具<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">应用设置</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">服务器状态</a></li>
+                            <li><a href="#">主机列表</a></li>
+                            <li><a href="#">物联设备</a></li>
+                            <li><a href="#">摄像头</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">数据日志</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            {% if session['logged_in'] == True%}
+                                {{session['username']}} 
+                            {% else %}
+                                {{'USER'}} 
+                            {% endif %}
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            {% if session['logged_in'] == True%}
+                            <li><a href="#">个人视图</a></li>
+                            <li><a href="#">个人信息</a></li>
+                            <li><a href="#">修改密码</a></a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/tmplt_based_ui/user_logout">登出</a></li>
+                            {% endif %}
+                            <li><a href="/tmplt_based_ui/user_login_form">登录</a></li>
+                            <li><a href="/tmplt_based_ui/user_register_form">注册</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="navbar-form navbar-right" action="/tmplt_based_ui/search" method="get">
+                    <div class="form-group">
+                      <input type="text" class="form-control" placeholder="Search">
+                    </div>
+                    <button type="submit" class="btn btn-default">Submit</button>
+                </form>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    
+    
+    
+    

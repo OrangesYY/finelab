@@ -1,0 +1,17 @@
+{% extends 'base/base.htm' %}
+{% block main %}
+
+<div class="container" style = "overflow-x:auto;">
+    
+    <div>{{bsns_table_dict['$DISP_name']['ZH']}}:</div>
+    <h1>Header</h1>
+    <hr>
+    {% set row = query_result[0] %}
+    {% for key,value in row.items() %}
+        <h2>{{bsns_table_dict['$COLU'][key]['$DISP_name']['ZH']}}</h2>
+        <p> {{value}} </p>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

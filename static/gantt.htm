@@ -1,0 +1,789 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="scripts/jquery-3.2.1.js"></script>
+    <script src="scripts/jquery.mousewheel.min.js"></script>
+    <style>
+    body{
+        /* background-color:#eef; */
+    }
+    table{
+        z-index:1;
+        table-layout:fixed;
+        border:1px solid;
+        width:100%;
+    }
+    table,td,th{
+        border-collapse:collapse;
+        padding:0px;
+    
+    
+    }
+    td{
+        z-index:1;
+        text-align:center;
+        background-color:#ccc;
+        vertical-align:middle;
+        /*overflow:hidden;*/            
+        border-width:0px;
+        padding:0px;
+    }
+    td:hover{
+        z-index:20;
+    }
+    th{
+        overflow:hidden;
+    
+    }
+    .gantt_container{
+        box-sizing:border-box;
+        border-left:10px solid gray;
+        border-right:10px solid gray;
+        border-top:1px solid white;
+        border-bottom:1px solid white;
+        z-index:2;
+        background-color:#ddd;
+        height:36;
+        width:100%;
+        position:relative;     /* !important! the inner objects are absolute, */
+        /* overflow:hidden;  */
+        vertical-align:middle;
+    }
+    .gantt_container:hover{
+        z-index:50;
+    
+    }
+    
+    .gantt_bar_obj{
+        overflow:hidden;
+        height:100%;
+        color:#aaa;
+        background-color:rgba(200,250,250,0.5);
+        /*width:100px;*/
+        text-align:center;
+        vertical-align:middle;
+        position:absolute;
+        /*left:200;*/
+        font-size:10px;
+    }
+    .gantt_bar_obj:hover{
+         background-color:rgba(200,250,250,1);;
+    }
+    .time_point_div{
+        height:100%;
+        color:#aaa;
+        width:1px;
+        text-align:center;
+        vertical-align:middle;
+        position:absolute;
+        border-style:solid;
+        border-width:0px;
+        border-color:gray;
+    }
+    .time_point_div:hover{
+        z-index:60;
+    
+    }
+    .time_now_div{
+
+        background-color:#faa;
+
+    }
+    .time_stamp_div{
+        z-index:5;
+        background-color:#5c5;
+
+    }
+    .hover_info_div{
+        padding:10px;
+        width:200px;
+        text-align:left;
+        background-color:rgba(0,0,0,0.85);
+        opacity:0.2;
+        color:white;
+        z-index:100;
+        display:none;
+    }
+    .hover_info_div:hover{
+        opacity:0.9;
+    
+    }
+    .gantt_obj_cut{
+        background-color:black;
+        /* linear-gradient(to right, white , blue); */
+    
+    }
+    #person_opt_div{
+        display:none;
+    
+    }
+    #debug_div{
+        display:none;
+    }
+    .time_div_div{
+        height:100%;
+        position:absolute;
+        /* background-color:#ddf; */
+        z-index:-5;
+    }
+    .gantt_container > .even_odd_unc:nth-child(odd){
+        background-color:#eef;
+    }
+    .gantt_container > .even_odd_unc:nth-child(even){
+        background-color:#ddf;
+    }
+    .time_div_div.odd{
+        background-color:#ddf;
+    
+    }
+    .time_div_div.even{
+    
+        background-color:#eef;
+    }
+    .down_cursor{
+        position:absolute;
+        bottom:0px;
+         width:0px;
+         border-top:10px solid red;
+         border-left:10px solid rgba(0,0,0,0);
+         border-right:10px solid rgba(0,0,0,0);
+     
+    
+    }
+    </style>
+    <script>
+
+        project_start_time = 1512302563; 
+        
+        Month_names = [ {simp_chs: "一月"    ,  en_short:"Jan"   , en_full:"January"      }, //0
+                        {simp_chs: "二月"    ,  en_short:"Feb"   , en_full:"February"     },
+                        {simp_chs: "三月"    ,  en_short:"Mar"   , en_full:"March"        },
+                        {simp_chs: "四月"    ,  en_short:"Apr"   , en_full:"April"        },
+                        {simp_chs: "五月"    ,  en_short:"May"   , en_full:"May"          },
+                        {simp_chs: "六月"    ,  en_short:"Jun"   , en_full:"June"         },
+                        {simp_chs: "七月"    ,  en_short:"Jul"   , en_full:"July"         },
+                        {simp_chs: "八月"    ,  en_short:"Aug"   , en_full:"August"       },
+                        {simp_chs: "九月"    ,  en_short:"Sep"   , en_full:"September"    },
+                        {simp_chs: "十月"    ,  en_short:"Oct"   , en_full:"October"      },
+                        {simp_chs: "十一月"  ,  en_short:"Nov"   , en_full:"November"     },
+                        {simp_chs: "十二月"  ,  en_short:"Dec"   , en_full:"December"     }
+        ];
+        Day_names =   [ {simp_chs: "周日"    ,  en_short:"Sun"   , en_full:"Sunday"       }, //0
+                        {simp_chs: "周一"    ,  en_short:"Mon"   , en_full:"Monday"       }, 
+                        {simp_chs: "周二"    ,  en_short:"Tue"   , en_full:"Tuesday"      },
+                        {simp_chs: "周三"    ,  en_short:"Wed"   , en_full:"Wednesday"    },
+                        {simp_chs: "周四"    ,  en_short:"Thu"   , en_full:"Thursday"     },
+                        {simp_chs: "周五"    ,  en_short:"Fri"   , en_full:"Friday"       },
+                        {simp_chs: "周六"    ,  en_short:"Sat"   , en_full:"Saturday"     },
+        ];
+       
+        
+        Ajax_Global = { 
+                        
+        };
+        
+        
+        Gantt_Global = {mouse_at_gantt_time_sec:0
+                        
+                        
+        };
+        
+        function register_container_mouse(){
+            $('.gantt_container').unbind("mousewheel mousemove");
+            $('.gantt_container').mousewheel(function(event,delta) {
+                event.preventDefault(); // 防止页面滚动
+                var current_opt = $("#pix_per_day_sel option:selected");
+                var pix_per_day_sel = $("#pix_per_day_sel");
+                
+                $("#ofst_input").val("0");
+                $("#time_center_sel").val("mpa");
+                $("#mouse_at_gantt_sec").val(gantt_start_time + $("#mouse_at_gantt_pix").val() / ($("#pix_per_day_sel").val() / 3600 / 24));
+                
+                target_val = current_opt.val();
+                if(delta>0){
+                    if (current_opt.next().length>0)
+                        target_val = current_opt.next().val();
+                    pix_per_day_sel.val(target_val);
+                    refresh_gantt_table();
+                }else{
+                    if (current_opt.prev().length>0)
+                        target_val = current_opt.prev().val();
+                    pix_per_day_sel.val(target_val);
+                    //$("#pix_per_day_sel option:selected").prev().attr("selected",true);
+                    refresh_gantt_table();
+                
+                }
+            });
+            $('.gantt_container').mousemove(function(e){
+                var positionX=e.pageX-$(this).offset().left - parseInt($(this).css("border-left-width")); //获取当前鼠标相对img的X坐标  
+                //$("#mouse_at_gantt_pix").val(positionX / ($("#pix_per_day_sel").val() / 3600 / 24));
+                $("#mouse_at_gantt_pix").val(positionX);
+                //console.log(positionX);  
+            
+            
+            
+            })
+        }
+        
+        
+        function add_obj_into_container(obj,container,left,width){
+            if(left<0){
+                width = width + left;
+                left = 0;
+                obj.addClass("gantt_obj_cut");
+            }
+            if(left + width > container.width()){ // bug: waiting to  replace width()
+                width = container.width()-left;
+                obj.addClass("gantt_obj_cut");
+            }
+            obj.css("left",left);
+            obj.css("width",width);
+            if(width>0)
+                return obj.appendTo(container);
+        }
+        
+        function get_div_param(g_start_time,p_per_day,g_total_pix,scale_div){
+            var ret_array = new Array(); 
+
+            p_per_sec = p_per_day/(24*3600);
+            p_per_hour = p_per_day/24;
+            //p_per_month = 
+            
+            var start_date_obj = new Date(g_start_time*1000);
+            //要用前一天最后一秒作为 LEFT
+            
+            start_year = start_date_obj.getFullYear();
+            start_month = start_date_obj.getMonth();
+            start_month_cn = start_month + 1;
+            start_date = start_date_obj.getDate();
+            start_day = start_date_obj.getDay();
+            start_hour = start_date_obj.getHours();
+            start_minute = start_date_obj.getMinutes();
+            start_second = start_date_obj.getSeconds();
+            
+            number_of_years = g_total_pix/(p_per_day * 365)+1;
+            number_of_months = g_total_pix/(p_per_day * 28)+1;
+            number_of_weeks = g_total_pix/(p_per_day * 7)+1;
+            number_of_days = g_total_pix/p_per_day +1;
+            number_of_hours = g_total_pix * 24/p_per_day +1;
+             
+            end_sec_first_day = new Date(start_year,start_month_cn-1,start_date ,23 ,59,59,999);
+            end_sec_first_day = end_sec_first_day.getTime()/1000;
+            
+            
+            if(scale_div == 'month'){
+                for(month_counter = 0; month_counter<number_of_months; month_counter++){
+                    end_of_last_month = new Date(start_year,start_month_cn + month_counter-1,0 ,23 ,59,59,999);
+                    end_of_this_month = new Date(start_year,start_month_cn + month_counter  ,0 ,23 ,59,59,999);
+                    end_of_next_month = new Date(start_year,start_month_cn + month_counter+1,0 ,23 ,59,59,999);
+                    end_sec_last_month = end_of_last_month.getTime()/1000;
+                    end_sec_this_month = end_of_this_month.getTime()/1000;
+                    end_sec_next_month = end_of_next_month.getTime()/1000;
+                    this_month_length_sec = end_sec_this_month - end_sec_last_month;
+                    next_month_length_sec = end_sec_next_month - end_sec_this_month;
+                    ret_array[month_counter] = {start_px:(end_sec_last_month-g_start_time)*p_per_sec,
+                                                length_px:this_month_length_sec*p_per_sec,
+                                                month_cn:end_of_this_month.getMonth()+1,
+                                                month_simp_chs:Month_names[end_of_this_month.getMonth()].simp_chs,
+                                                month_eng_short:Month_names[end_of_this_month.getMonth()].en_short,
+                                                month_eng_full:Month_names[end_of_this_month.getMonth()].en_full,
+                                                year:end_of_this_month.getFullYear(),
+                                                even:(end_of_this_month.getMonth()+1)%2 == 0? false:true
+                    };
+                }
+            }else if(scale_div == 'year'){
+                for(year_counter = 0; year_counter<number_of_years; year_counter++){
+                    end_of_last_year = new Date(start_year + year_counter -1,12,0 ,23 ,59,59,999);
+                    end_of_this_year = new Date(start_year + year_counter   ,12,0 ,23 ,59,59,999);
+                    end_of_next_year = new Date(start_year + year_counter +1,12,0 ,23 ,59,59,999);
+                    end_sec_last_year = end_of_last_year.getTime()/1000;
+                    end_sec_this_year = end_of_this_year.getTime()/1000;
+                    end_sec_next_year = end_of_next_year.getTime()/1000;
+                    this_year_length_sec = end_sec_this_year - end_sec_last_year;
+                    next_year_length_sec = end_sec_next_year - end_sec_this_year;
+                    ret_array[year_counter] = {start_px:(end_sec_last_year-g_start_time)*p_per_sec,
+                                                length_px:this_year_length_sec*p_per_sec,
+                                                month_cn:end_of_this_year.getMonth()+1,
+                                                year:end_of_this_year.getFullYear(),
+                                                even:(end_of_this_year.getFullYear())%2 == 0? false:true
+                    };
+                }
+            }else if(scale_div == 'week'){ // Starts at Sunday
+                for(week_counter = 0; week_counter<number_of_weeks; week_counter++){
+                    end_of_last_week = new Date(start_year,start_month,start_date -1  + 7*week_counter - start_day,23 ,59,59,999);
+                    end_of_this_week = new Date(start_year,start_month,start_date +6  + 7*week_counter - start_day,23 ,59,59,999);
+                    end_of_next_week = new Date(start_year,start_month,start_date +13 + 7*week_counter - start_day,23 ,59,59,999);
+                    end_sec_last_week = end_of_last_week.getTime()/1000;
+                    end_sec_this_week = end_of_this_week.getTime()/1000;
+                    end_sec_next_week = end_of_next_week.getTime()/1000;
+                    this_week_length_sec = end_sec_this_week - end_sec_last_week;
+                    next_week_length_sec = end_sec_next_week - end_sec_this_week;
+                    ret_array[week_counter] = {start_px:(end_sec_last_week-g_start_time)*p_per_sec,
+                                                length_px:this_week_length_sec*p_per_sec,
+                                                month_cn:end_of_this_week.getMonth()+1,
+                                                year:end_of_this_week.getFullYear(),
+                                                //even:month_cn%2 == 0? false:true
+                    };
+                }
+            }else if(scale_div == 'day' || scale_div == 'date'){
+                for(day_counter = 0; day_counter<number_of_days; day_counter++){
+                    end_of_last_day = new Date(start_year,start_month,start_date + day_counter -1,23 ,59,59,999);
+                    end_of_this_day = new Date(start_year,start_month,start_date + day_counter   ,23 ,59,59,999);
+                    //console.log(end_of_this_day);
+                    end_of_next_day = new Date(start_year,start_month,start_date + day_counter +1,23 ,59,59,999);
+                    end_sec_last_day = end_of_last_day.getTime()/1000;
+                    end_sec_this_day = end_of_this_day.getTime()/1000;
+                    console.log(end_sec_this_day);
+                    end_sec_next_day = end_of_next_day.getTime()/1000;
+                    this_day_length_sec = end_sec_this_day - end_sec_last_day;
+                    //console.log(Math.floor(end_sec_this_day));
+                    //console.log(Math.floor(end_sec_this_day/(24*3600)));
+                    ret_array[day_counter] = {start_px:(end_sec_last_day-g_start_time)*p_per_sec,
+                                                length_px:this_day_length_sec*p_per_sec,
+                                                month_cn:end_of_this_day.getMonth()+1,
+                                                year:end_of_this_day.getFullYear(),
+                                                date:end_of_this_day.getDate(),
+                                                day:end_of_this_day.getDay(),
+                                                even:(Math.floor(end_sec_this_day/(24*3600)))%2 == 0? false:true
+                    };
+                }
+            }else if(scale_div == 'hour'){
+                for(hour_counter = 0; hour_counter<number_of_hours; hour_counter++){
+                    end_of_last_hour = new Date(start_year,start_month,start_date,start_hour + hour_counter -1,59,59,999);
+                    end_of_this_hour = new Date(start_year,start_month,start_date,start_hour + hour_counter   ,59,59,999);
+                    end_of_next_hour = new Date(start_year,start_month,start_date,start_hour + hour_counter +1,59,59,999);
+                    end_sec_last_hour = end_of_last_hour.getTime()/1000;
+                    end_sec_this_hour = end_of_this_hour.getTime()/1000;
+                    end_sec_next_hour = end_of_next_hour.getTime()/1000;
+                    this_hour_length_sec = 3600;
+                    next_hour_length_sec = 3600;
+                    ret_array[hour_counter] = {start_px:(end_sec_last_hour-g_start_time)*p_per_sec,
+                                                length_px:3600*p_per_sec,
+                                                month_cn:end_of_this_hour.getMonth()+1,
+                                                year:end_of_this_hour.getFullYear(),
+                                                date:end_of_this_hour.getDate(),
+                                                day: end_of_this_hour.getDay(),
+                                                hour:end_of_this_hour.getHours(),
+                                                even:(end_of_this_hour.getHours())%2 == 0? false:true
+                    };
+                }
+            }
+            return ret_array;
+        }
+
+        
+        function refresh_gantt_table(){
+            if($("#week_row_check").prop("checked"))
+                $("#week_row").show();
+            else{
+                $("#week_row").hide();
+            }
+            
+            
+            var table_height = $("#gantt_table").height();
+            $("#gantt_table").attr("height", table_height); // 防止全页右侧出现滚动条导致div从右侧飞出
+            
+            
+            $("#status_div").empty();
+            current_timestamp = Date.parse(new Date())/1000;
+            gantt_total_width_pix = $("#gantt_width_indicator").width();
+            
+            //GET Param
+            pix_per_day=$("#pix_per_day_sel").val();
+            
+            pix_per_sec = pix_per_day/(24*3600);
+            if($("#time_center_sel").val() == 'tnc'){
+                total_time = (gantt_total_width_pix)/pix_per_sec;
+                gantt_start_time = current_timestamp-total_time/2;
+            }else if ($("#time_center_sel").val() == 'psa'){
+                gantt_start_time = project_start_time;
+            }else if($("#time_center_sel").val() == 'mpa'){
+                gantt_start_time = $("#mouse_at_gantt_sec").val() - $("#mouse_at_gantt_pix").val()/pix_per_sec;
+            
+            
+            }else{
+                alert("ERR21dc3");
+            }
+
+            if(!isNaN(parseInt($('#ofst_input').val()))){
+                gantt_start_time = gantt_start_time + parseInt($('#ofst_input').val());
+            }
+            time_now_start_pixel = (current_timestamp-gantt_start_time)*pix_per_day/(3600*24);
+
+            
+            //Debug
+            $("#debug_div").append("Window Visible Width: "+$(window).width()+"</br>");
+            $("#debug_div").append("Document Width: "+$(document).width()+"</br>");
+            
+            //Create Table Head Scale
+     //       div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'month');
+     //       $("#gantt_month_scale").empty();
+     //       $.each(div_param,function (index, div_obj){
+     //           time_div_div = $("<div></div>");
+     //           time_div_div.addClass("time_div_div");
+     //           add_obj_into_container(time_div_div,$("#gantt_month_scale"),div_obj.start_px,div_obj.length_px);
+     //           if(time_div_div.width()>20)
+     //               time_div_div.html(div_obj.month_cn);
+     //       });
+     //       
+     //       div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'year');
+     //       $("#gantt_year_scale").empty();
+     //       $.each(div_param,function (index, div_obj){
+     //           time_div_div = $("<div></div>");
+     //           time_div_div.addClass("time_div_div");
+     //           add_obj_into_container(time_div_div,$("#gantt_year_scale"),div_obj.start_px,div_obj.length_px);
+     //           if(time_div_div.width()>80)
+     //               time_div_div.html(div_obj.year);
+     //       });
+     //       
+            $("#gantt_week_scale").empty();
+            if(pix_per_day>2){
+                div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'week');
+                
+                $.each(div_param,function (index, div_obj){
+                    time_div_div = $("<div></div>");
+                    time_div_div.addClass("time_div_div");
+                    if(div_obj.even == true)
+                        time_div_div.addClass("even");
+                    else if(div_obj.even == false)
+                        time_div_div.addClass("odd");
+                    else
+                        time_div_div.addClass("even_odd_unc");
+                    add_obj_into_container(time_div_div,$("#gantt_week_scale"),div_obj.start_px,div_obj.length_px);
+                    if(time_div_div.width()>80)
+                        time_div_div.html("Week");
+                });
+            } 
+     //       else {
+     //           $("#gantt_week_scale").empty();
+     //       }
+     //       //console.time("day_scale");
+     //       if(pix_per_day>10){
+     //           div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'day');
+     //           $("#gantt_day_scale").empty();
+     //           
+     //           $.each(div_param,function (index, div_obj){
+     //               time_div_div = $("<div></div>");
+     //               time_div_div.addClass("time_div_div");
+     //               add_obj_into_container(time_div_div,$("#gantt_day_scale"),div_obj.start_px,div_obj.length_px);
+     //               if(time_div_div.width()>100)
+     //                   time_div_div.html('date:'+div_obj.date+' day:'+div_obj.day);
+     //           });
+     //       }else {
+     //           $("#gantt_day_scale").empty();
+     //       }
+     //       //console.timeEnd("day_scale");
+            $("#gantt_wide_scale").empty();
+            $("#gantt_narrow_scale").empty();
+            if(pix_per_day>=720){         // day,hour
+                div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'day');
+                $.each(div_param,function (index, div_obj){
+                    time_div_div = $("<div></div>");
+                    time_div_div.addClass("time_div_div");
+                    if(div_obj.even == true)
+                        time_div_div.addClass("even");
+                    else if(div_obj.even == false)
+                        time_div_div.addClass("odd");
+                    else
+                        time_div_div.addClass("even_odd_unc");
+                    add_obj_into_container(time_div_div,$("#gantt_wide_scale"),div_obj.start_px,div_obj.length_px);
+                    if(time_div_div.width()>100)
+                        time_div_div.html('date:'+div_obj.date+' day:'+div_obj.day);
+                });
+                
+                //$("#gantt_narrow_scale").empty();
+                div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'hour');
+                $.each(div_param,function (index, div_obj){
+                    time_div_div = $("<div></div>");
+                    time_div_div.addClass("time_div_div");
+                    if(div_obj.even == true)
+                        time_div_div.addClass("even");
+                    else if(div_obj.even == false)
+                        time_div_div.addClass("odd");
+                    else
+                        time_div_div.addClass("even_odd_unc");
+                    add_obj_into_container(time_div_div,$("#gantt_narrow_scale"),div_obj.start_px,div_obj.length_px);
+                    if(time_div_div.width()>20)
+                        time_div_div.html(div_obj.hour);
+                });
+                
+            }else if(pix_per_day>=20){    // month, day
+                div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'month');
+                $.each(div_param,function (index, div_obj){
+                    time_div_div = $("<div></div>");
+                    time_div_div.addClass("time_div_div");
+                    if(div_obj.even == true)
+                        time_div_div.addClass("even");
+                    else if(div_obj.even == false)
+                        time_div_div.addClass("odd");
+                    else
+                        time_div_div.addClass("even_odd_unc");
+                    add_obj_into_container(time_div_div,$("#gantt_wide_scale"),div_obj.start_px,div_obj.length_px);
+                    if(time_div_div.width()>20)
+                        time_div_div.html(div_obj.month_cn);
+                    if(time_div_div.width()>100)
+                        time_div_div.html(div_obj.month_simp_chs);
+                });
+                
+                div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'day');
+                $.each(div_param,function (index, div_obj){
+                    time_div_div = $("<div></div>");
+                    time_div_div.addClass("time_div_div");
+                    if(div_obj.even == true)
+                        time_div_div.addClass("even");
+                    else if(div_obj.even == false)
+                        time_div_div.addClass("odd");
+                    else
+                        time_div_div.addClass("even_odd_unc");
+                    add_obj_into_container(time_div_div,$("#gantt_narrow_scale"),div_obj.start_px,div_obj.length_px);
+                    if(time_div_div.width()>100)
+                        time_div_div.html('date:'+div_obj.date+' day:'+div_obj.day);
+                });
+                
+            }else{                        // year, month
+                div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'year');
+                $.each(div_param,function (index, div_obj){
+                    time_div_div = $("<div></div>");
+                    time_div_div.addClass("time_div_div");
+                    if(div_obj.even == true)
+                        time_div_div.addClass("even");
+                    else if(div_obj.even == false)
+                        time_div_div.addClass("odd");
+                    else
+                        time_div_div.addClass("even_odd_unc");
+                    add_obj_into_container(time_div_div,$("#gantt_wide_scale"),div_obj.start_px,div_obj.length_px);
+                    if(time_div_div.width()>80)
+                        time_div_div.html(div_obj.year);
+                });
+                
+                div_param = get_div_param(gantt_start_time,pix_per_day,gantt_total_width_pix,'month');
+                $.each(div_param,function (index, div_obj){
+                    time_div_div = $("<div></div>");
+                    time_div_div.addClass("time_div_div");
+                    if(div_obj.even == true)
+                        time_div_div.addClass("even");
+                    else if(div_obj.even == false)
+                        time_div_div.addClass("odd");
+                    else
+                        time_div_div.addClass("even_odd_unc");
+                    add_obj_into_container(time_div_div,$("#gantt_narrow_scale"),div_obj.start_px,div_obj.length_px);
+                    if(time_div_div.width()>20)
+                        time_div_div.html(div_obj.month_cn);
+                    if(time_div_div.width()>100)
+                        time_div_div.html(div_obj.month_simp_chs);
+                });
+            }
+            
+            //Create Task Rows
+            
+            $.getJSON("gantt_test.json?a1=2",function (result){
+                $("#main_gantt_tboady").empty();
+                $.each(result,function (index, itemobj){
+                    
+                    
+                    itemobj.time_lasts = itemobj.end_time - itemobj.start_time;
+                    task_width_pixel = itemobj.time_lasts*pix_per_day/(3600*24);
+                    task_start_pixel = (itemobj.start_time - gantt_start_time)*pix_per_day/(3600*24);
+                   
+                    gantt_targrt_tr = $("<tr></tr>").appendTo("#main_gantt_tboady");
+                    $("<td>01</td>").appendTo(gantt_targrt_tr).html(itemobj.task_id);           //TD1
+                    $("<td>02</td>").appendTo(gantt_targrt_tr).html(itemobj.task_name);         //TD2
+                    gantt_container_div = $("<div></div>").addClass("gantt_container").addClass('TID'+itemobj.task_id);
+
+                    
+                    gantt_container_td = $("<td>03</td>").addClass("gantt_container_td");
+                    gantt_container_td.empty();
+                    gantt_container_td.append(gantt_container_div);
+                    gantt_container_td.appendTo(gantt_targrt_tr);                               //TD3
+                    
+                    gantt_bar_obj = $("<div></div>").addClass("gantt_bar_obj").addClass('TID'+itemobj.task_id);
+                    start_time_str = new Date(itemobj.start_time*1000);
+                    end_time_str = new Date(itemobj.end_time*1000);
+                    
+                    //bug
+
+                    add_obj_into_container(gantt_bar_obj,gantt_container_div,task_start_pixel,task_width_pixel);
+                    
+                    
+                    
+                    
+
+                    
+                    
+                    time_str = gantt_bar_obj.width()>350 ? "Start:"+start_time_str + "</br>" + "End:"+end_time_str : 'Zoom To See...';
+                    time_str = gantt_bar_obj.width()>50 ? time_str : '';
+                    gantt_bar_obj.attr("time_str",time_str);
+                    gantt_bar_obj.mouseenter(function(){
+                        $(this).html(itemobj.task_name);
+                    });
+                    gantt_bar_obj.mouseleave(function(){
+                        //bug
+                        $(this).html($(this).attr("time_str"));
+                    });
+                    gantt_bar_obj.html(time_str);
+
+                    $.each(itemobj.timestamps,function (index, tsitemobj){
+                        time_stamp_div_left = (tsitemobj.timestamp-gantt_start_time)*pix_per_day/(3600*24);
+                        if(time_stamp_div_left>=0 && time_stamp_div_left<=gantt_total_width_pix){
+                            time_stamp_div = $("<div></div>").addClass("time_stamp_div").addClass("time_point_div");
+                            time_stamp_div.addClass("TSID"+tsitemobj.ts_id);
+                            time_stamp_div.css("left",time_stamp_div_left);
+                            
+                            ts_info_div = $("<div></div>").addClass("ts_info_div").addClass("hover_info_div");
+                            ts_info_div.addClass("TSID"+tsitemobj.ts_id);
+                            time_str = new Date(tsitemobj.timestamp*1000);
+                            ts_info_div.append("<b>Time Stamp:</b></br>"+time_str+"</br>");
+                            ts_info_div.append("<b>Content:</b></br>"+tsitemobj.content+"</br>");
+                            
+                            time_stamp_div.append(ts_info_div);
+                            
+                            gantt_container_div.append(time_stamp_div);
+                            
+                            
+                            time_stamp_div.mouseenter(function(){
+                                $('.ts_info_div.TSID'+tsitemobj.ts_id).stop(stopAll = true,goToEnd = true);
+                                $('.ts_info_div.TSID'+tsitemobj.ts_id).fadeIn();
+                            });
+                            time_stamp_div.mouseleave(function(){
+                                $('.ts_info_div.TSID'+tsitemobj.ts_id).stop(stopAll = true,goToEnd = true);
+                                $('.ts_info_div.TSID'+tsitemobj.ts_id).fadeOut();
+                            });
+                        }
+                    });
+                    
+                    //grid
+                    $.each(div_param,function (index, div_obj){
+                        time_div_div = $("<div></div>");
+                        time_div_div.addClass("time_div_div");
+                        if(div_obj.even == true)
+                            time_div_div.addClass("even");
+                        else if(div_obj.even == false)
+                            time_div_div.addClass("odd");
+                        else
+                            time_div_div.addClass("even_odd_unc");
+                        add_obj_into_container(time_div_div,gantt_container_div,div_obj.start_px,div_obj.length_px);
+                    });
+                    
+                    gantt_container_div.mouseenter(function(){
+                        $('.gantt_container.TID'+itemobj.task_id).children('.time_point_div').stop(stopAll = true,goToEnd = true);
+                        $('.gantt_container.TID'+itemobj.task_id).children('.time_point_div').animate({width:"5px",borderLeftWidth:"1px"});
+                    });
+                    gantt_container_div.mouseleave(function(){
+                        $('.gantt_container.TID'+itemobj.task_id).children('.time_point_div').stop(stopAll = true,goToEnd = true);
+                        $('.gantt_container.TID'+itemobj.task_id).children('.time_point_div').animate({width:"1px",borderLeftWidth:"0px"});
+                    });
+                    
+                    time_now_div=$("<div></div>").addClass("time_now_div").addClass("time_point_div");
+                    time_now_div.css("left",time_now_start_pixel);
+                    $("#now_indicator_div").css("left",time_now_start_pixel);
+                    if(time_now_start_pixel>=0&&time_now_start_pixel<=gantt_total_width_pix)
+                        gantt_container_div.append(time_now_div);
+                });
+                register_container_mouse();
+            });
+        }
+        
+        function DocRdy(){
+            $.ajaxSetup({cache: false});
+            
+            $('document').ready(function () {
+                $(window).resize(refresh_gantt_table);
+                $('#refresh_btn').click(refresh_gantt_table);
+                $('#left_ofst_btn').click(function (){
+                    var value = parseInt($('#ofst_input').val());
+                    if (isNaN($('#ofst_input').val() )){
+                        value = 0;
+                        //alert('nan');
+                    }
+                    $('#ofst_input').val(value +3600000/$("#pix_per_day_sel").val());
+                    refresh_gantt_table();
+                });
+                $('#right_ofst_btn').click(function (){
+                    var value = parseInt($('#ofst_input').val());
+                    if (isNaN($('#ofst_input').val() )){
+                        value = 0;
+                        //alert('nan');
+                    }
+                    $('#ofst_input').val(value -3600000/$("#pix_per_day_sel").val());
+                    refresh_gantt_table();
+                });
+                refresh_gantt_table();
+            });
+        }
+        $().ready(DocRdy());
+    </script>
+</head>
+<body>
+    Project Name: The VLC System <br/>
+    Time Starts:      <br/>
+    Time Ends:            <br/><br/>
+    <div>
+        Display Options:</br>
+        <select id = "display_sel">
+          <option value ="100">Time-Task Gantt View</option>
+          <option value ="100">Time-Task List View</option>
+          <option value ="200">Person View</option>
+          <option value ="300">Resource View</option>
+        </select>
+    </div><br/>
+    <div id = "gantt_opt_div">
+        Gantt Options:</br>
+        <select id = "pix_per_day_sel">
+            <option value ="0.5">0.5 Pixel/Day</option>
+            <option value ="1">1 Pixel/Day</option>
+            <option value ="2">2 Pixel/Day</option>
+            <option value ="5">5 Pixel/Day</option>
+            <option value ="10">10 Pixel/Day</option>
+            <option value ="20">20 Pixel/Day</option>
+            <option value ="50">50 Pixel/Day</option>
+            <option value ="100" selected>100 Pixel/Day</option>
+            <option value ="200">200 Pixel/Day</option>
+            <option value ="720">720 Pixel/Day</option>
+            <option value ="7200">7200 Pixel/Day</option>
+            <option value ="100000">72000 Pixel/Day</option>
+        </select>
+        <select id = "time_center_sel">
+          <option value ="tnc">Time Now Centered</option>
+          <option value ="psa">Project Start Aligned</option>
+          <option value ="mpa">Mouse Position Aligned</option>
+        </select>
+        <button id = "refresh_btn">Refresh</button>
+        <br/>
+        Offset:
+        <button id = "left_ofst_btn">《=</button>
+        <input type = "text" id = "ofst_input" value = '0'/>
+        <button id = "right_ofst_btn">=》</button>
+        
+        <br/><input type="checkbox" id="week_row_check" value="week" /> Show Week Row
+        <br/><input type = "text" id = "mouse_at_gantt_pix" value = '0'/>Updates when mousemove
+        <br/><input type = "text" id = "mouse_at_gantt_sec" value = '0'//>Updates when mousewheel
+    </div><br/>
+
+    <div id = "person_opt_div">
+        Persons Options:</br>
+        Persons Options:
+    </div><br/>
+
+    <table id = "gantt_table">
+        <thead>
+            <tr> <th style = "width:100px;">Width</th>  <th style = "width:200px;">Task Name</th>  <th><div class = "gantt_container" id = "gantt_width_indicator"><div class = "down_cursor">      </div></div></th></tr>
+
+            <tr id = "week_row"> <th>       </th>  <th>Week     </th>  <th><div class = "gantt_container" id = "gantt_week_scale"></div></th>        </tr>
+
+            <tr> <th>       </th>  <th id = "wide_scale_title_th">wide_scale</th>  <th><div class = "gantt_container" id = "gantt_wide_scale"></div></th>        </tr>
+            <tr> <th>       </th>  <th id = "narrow_scale_title_th">narrow_scale</th>  <th><div class = "gantt_container" id = "gantt_narrow_scale"></div></th>        </tr>
+            <tr> <th>Task ID</th>  <th>Task Name</th>  <th><div class = "gantt_container" id = "gantt_indicator_div">
+                                                               <div style = "position:absolute;  display:inline-block;width:60px;background-color:red;border-width:30px 30px 0;" id = "now_indicator_div">NOW</div>
+                                                           </div></th>     </tr>
+        </thead>
+        <tbody id = "main_gantt_tboady">
+        </tbody>
+
+    </table>
+    <div id = "status_div"></div>
+    <div id = "debug_div"></div>
+
+
+</body>
+</html>

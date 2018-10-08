@@ -1,0 +1,117 @@
+<html>
+<head>
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+
+</head>
+<body>
+<form onsubmit="" id = "great_form">
+
+<input type = "text" name = 'txt1' value = 'good_text'/>
+<input type = "text" name = 'txt2' value = 'bad_text'/>
+<input value = "submit" name = 'sbmt1'type = 'submit' name = 'the_sbmt'/>
+</form>
+
+
+
+
+
+
+<script>
+
+$('#great_form').on('submit',function(event){
+    console.log($('#great_form').serialize());
+    console.log($('#great_form').serializeArray());
+    
+    event.preventDefault();
+    $.ajax({ // bad request
+        type: "POST",
+        url:"/test/json_form",
+        data:$('#great_form').serializeArray(),
+        contentType:'application/json',
+        async:false,
+        dataType: "json",
+        error: function(request) {
+            //alert("login form submit Connection error");
+            //alert(this.data)
+        },
+        success: function(result_json) {
+            $("#login_message_div").text(result_json.text);
+            //update_user_info();
+            if(result_json.status == "succeeded"){
+            }else{
+            }
+        }
+    });
+    
+    $.ajax({
+        type: "POST",
+        url:"/test/json_form",
+        data: JSON.stringify($('#great_form').serializeArray()),
+        contentType:'application/json',
+        async:false,
+        dataType: "json",
+        error: function(request) {
+            //alert("login form submit Connection error");
+            //alert(this.data)
+        },
+        success: function(result_json) {
+            $("#login_message_div").text(result_json.text);
+            //update_user_info();
+            if(result_json.status == "succeeded"){
+            }else{
+            }
+        }
+    });
+    
+    $.ajax({
+        type: "POST",
+        url:"/test/json_form",
+        data:$('#great_form').serialize(),
+        //contentType:'application/json',
+        async:false,
+        dataType: "json",
+        error: function(request) {
+            //alert("login form submit Connection error");
+            //alert(this.data)
+        },
+        success: function(result_json) {
+            $("#login_message_div").text(result_json.text);
+            //update_user_info();
+            if(result_json.status == "succeeded"){
+            }else{
+            }
+        }
+    });
+    
+    
+    $.ajax({
+        type: "POST",
+        url:"/test/json_form",
+        data:$('#great_form').serializeArray(),
+        //contentType:'application/json',
+        async:false,
+        dataType: "json",
+        error: function(request) {
+            //alert("login form submit Connection error");
+            //alert(this.data)
+        },
+        success: function(result_json) {
+            $("#login_message_div").text(result_json.text);
+            //update_user_info();
+            if(result_json.status == "succeeded"){
+            }else{
+            }
+        }
+    });
+});
+
+
+
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+{% extends 'base/base.htm' %}
+{% block main %}
+
+<div class="container" style = "overflow-x:auto;">
+    
+    <h1>{{bsns_table_dict['$DISP_name']['ZH']}}</h1>
+    <table class = "table">
+    <thead>
+        <tr>
+        {% for column_name in query_result[0].keys() %}
+            <th>{{bsns_table_dict['$COLU'][column_name]['$DISP_name']['ZH']}}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in query_result %}
+        <tr >
+        {% for key,value in row.items() %}
+            <td>{{value}} </td>
+        {% endfor %}
+        </tr>
+    {% endfor %} 
+    </tbody>
+    </table>
+</div>
+
+{% endblock %}

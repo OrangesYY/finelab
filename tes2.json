@@ -1,0 +1,12 @@
+SELECT 
+	v_lab_planned_proj_menbers.proj_id AS 项目ID ,
+	v_lab_planned_proj_menbers.proj_name AS 中文名 ,
+	v_lab_planned_proj_menbers.menber_person_id AS 人员ID ,
+	v_lab_planned_proj_menbers.menber_card_number AS 校园卡号 ,
+	v_lab_planned_proj_menbers.act_type AS 类型 ,
+	v_lab_planned_proj_menbers.menber_role AS 人员角色 
+FROM 
+	v_lab_planned_proj_menbers 
+WHERE
+	person_id=:person_id
+;

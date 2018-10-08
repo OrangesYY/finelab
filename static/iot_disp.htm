@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="scripts/jquery-3.2.1.js"></script>
+    <script>
+
+        var time_out;
+        function DocRdy(){
+            $(document).dblclick(function(e){
+                if ($("html").css("cursor") == 'default')
+                    $("html").css("cursor","none");
+                else
+                    $("html").css("cursor","default");
+
+            });
+            $(document).mousemove(function(e){
+                $("html").css("cursor","default");
+                clearTimeout(time_out);          //Important! Avoid unexpected Setting-to-no-cursor
+                time_out = setTimeout(function(){
+                    $("html").css("cursor","none");
+                    console.log(time_out);
+                },2000);
+            });
+            //$(document).mousemove(function(e){
+            //    $("html").css("cursor","default");
+            //    $("html").oneTime('3s','Timer_Courser',function(){
+            //        
+            //        this.css("cursor","none");
+            //    });
+            //});
+        }
+        $().ready(DocRdy());
+        
+    </script>
+    <style>
+
+        div, header, nav, article, footer, aside, table {
+            box-sizing:border-box;
+        
+        }
+        body {
+            height:100vh;
+            box-sizing:border-box;
+            font: 30px Helvetica;
+            background-color: #000;
+            display:flex;
+            flex-direction:column;
+            margin:0;
+            color:white;
+            
+            scrollbar-arrow-color: #f4ae21; /*三角箭头的颜色*/
+            scrollbar-face-color: #333; /*立体滚动条的颜色*/
+            scrollbar-3dlight-color: #666; /*立体滚动条亮边的颜色*/
+            scrollbar-highlight-color: #666; /*滚动条空白部分的颜色*/
+            scrollbar-shadow-color: #999; /*立体滚动条阴影的颜色*/
+            scrollbar-darkshadow-color: #666; /*立体滚动条强阴影的颜色*/
+            scrollbar-track-color: #666; /*立体滚动条背景颜色*/
+            scrollbar-base-color:#f8f8f8; /*滚动条的基本颜色*/
+            
+            
+        }
+        header {
+            flex-grow:0;
+            background-color:#111;
+            height:10vh;
+            display:flex;
+            flex-direction:row;
+        }
+        header > #logo_div {
+            flex-grow:1;
+            text-align:center;
+        
+        }
+        header > #logo_div > #logo_img{
+            max-height:10vh;
+        
+        
+        }
+        header > #org_name_div {
+
+            font-size:40px;
+            flex-grow:5;
+
+
+        }
+
+        header > #date_div{
+            flex-grow:1;
+            text-align:center;
+        
+        }
+        header > #room_name_div{
+            flex-grow:1;
+            text-align:center;
+        
+        }
+        #main {
+            display:flex;
+            flex-direction:row;
+            flex-grow:1;
+            background-color:orange;
+            overflow:auto;
+            /* height:0;  if doctype is not added,  important! but don't know why */
+        }
+        #main > nav {
+            background-color:#224;
+            overflow:auto;
+            min-width:20vh;
+        }
+        #main > article {
+            background-color:#322;
+            overflow:auto;
+            flex-grow:5;
+        }
+        #main > aside {
+            background-color:#433;
+            overflow:auto;
+            flex-grow:1;
+            padding:10px;
+            font-size:25px;
+        }
+        #main > nav > #nave_div{
+            background-color:red;
+            height:300px;
+        
+        }
+        #main > nav > ul {
+            -webkit-padding-start:0;
+            padding-start:0;
+            
+        }
+        #main > nav > ul > li {
+            padding:10px;
+            padding-left:10px;
+            padding-right:10px;
+            text-align:center;
+        }
+        #main > nav > ul > li.selected {
+            background-color:#744;
+        }
+        #main > nav > ul > li:hover {
+            background-color:#866;
+        }
+        #main > nav > ul > li.main_selection {
+            margin-bottom:2vh;
+
+        }
+        footer {
+            
+            flex-grow:0;
+            height:5vh;
+            min-height:30px;
+            background-color:#111;
+        }
+        #info_div{
+            background-color:#222;
+            overflow:auto;
+        }
+        #message_div{
+            height:10vh;
+            background-color:#222;
+            overflow:auto;
+        }
+        #info_div, #message_div, footer, #main > aside, #main > article, #main > nav, header,body{
+            border:1px solid #555;
+        }
+        .header_v_mid_div{
+                        text-align:center;
+            display:table;
+                    padding-top:0.5vh;
+            padding-bottom:1vh;
+                        height:100%;
+        }
+                .header_v_mid_div > span {
+            display:table-cell;
+            vertical-align:middle;
+        }
+        article > div.info_item_div{
+            padding:10px;
+            margin:3px;
+            font-size: 35px;
+        }
+        article > div.info_item_div.info_good{
+            background: -webkit-linear-gradient(left, rgba(0,0,0,0.3) ,#272)
+        }
+        article > div.info_item_div.info_normal{
+            background: -webkit-linear-gradient(left, rgba(0,0,0,0.3) ,rgba(100,100,100,0.7))
+        }
+        article > div.info_item_div.info_attention{
+            background: -webkit-linear-gradient(left, rgba(0,0,0,0.3) ,#962)
+        }
+        article > div.info_item_div.info_warning{
+            background: -webkit-linear-gradient(left, rgba(0,0,0,0.3) ,#933)
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id = "logo_div"><img id = "logo_img"src = "images/logo.png"/></div>
+        <div class = "header_v_mid_div"id = "org_name_div">    <span>南昌大学电子设计竞赛实训基地</span></div>
+        <div class = "header_v_mid_div"id = "date_div">        <span>2018年1月1日<br/>16:20               </span></div>
+        <div class = "header_v_mid_div"id = "room_name_div">   <span>房间 A212    </span></div>
+        
+    </header>
+    <div id='main'>
+        <nav>
+            <ul>
+                <li class = " main_selection selected">综合信息</li>
+                <li >值日值班</li>
+                <li>近期活动</li>
+                <li>人员信息</li>
+                <li >设备信息</li>
+                <li>耗材库存</li>
+                <li>项目信息</li>
+                <li>通知公告</li>
+                <li>安防安规</li>
+            </ul>
+
+        </nav>
+        <article>
+            <div class = "info_item_div info_good"      >完成：项目XXX进度已更新。</div>
+            <div class = "info_item_div info_normal"    >信息：人员XXX进入房间XXX。</div>
+            <div class = "info_item_div info_attention" >注意：已经XX天未执行例行检查！已经XX天未执行例行检查！已经XX天未执行例行检查！已经XX天未执行例行检查！已经XX天未执行例行检查！已经XX天未执行例行检查！已经XX天未执行例行检查！</div>
+            <div class = "info_item_div info_warning"   >警告：设备XXX未被检测到！</div>
+
+        </article>
+       
+        <aside>
+            房间A212：<br/>
+            有常驻人员XXX人，目前在岗XXX人，昨晚驻留（或未带回工牌）XXX人，出差XXX人；<br/>
+            有仪表设备XXX台，目前在位XXX台，外借（或外出测试）XXX台，疑似遗失XXX台；<br/>
+            有UPS设备XXX台，在位XXX台；<br/>
+            有监控XXX部，正在运行XXX部；<br/>
+        </aside>
+    </div>
+    <div id = "info_div">
+        【当前机号：002】【开门请联系管理人员】
+    
+    </div>
+    <div id = "message_div">
+        message<br/>
+        message<br/>
+        message<br/>
+        message<br/>
+        message<br/>message<br/>
+        message<br/>
+        message<br/>
+        message<br/>
+        message<br/>
+        message<br/>
+        message<br/>
+        message<br/>
+        message<br/>
+        
+    </div>
+    <footer style = "text-align:center;">
+        Footer
+    
+    </footer>
+
+</body>
+</html>

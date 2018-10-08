@@ -1,0 +1,328 @@
+{
+    "$COMT_PersonsBusiness_Table" : {
+        "$KYNM_bsns"         : "b_persons"   ,
+        "$KYNM_indb"         : "o_persons"   ,
+        "$TYPE_data_type"         : "table"       ,
+        "$GENL_disp_name"      : {
+            "EN"    : "Persons", 
+            "ZH"    : "人员"
+        },
+
+        "$GENL_relevant_bsnses"   : [ ["",""],["",""] ]   ,
+        "$GENL_columns"           : {
+            "$FELD_ID_Column" : {
+                "$KYNM_bsns"         : "b_id"        ,
+                "$KYNM_indb"         : "person_id"   ,
+                "$TYPE_data_type"         : "column"      ,
+                
+                "$GENL_displacer"            : null          ,
+                
+                "$GENL_disp_name"  : {
+                    "EN"    : "Person ID", 
+                    "ZH"    : "人员ID"
+                },
+                "$GENL_input_type"        : null          ,
+                
+                "$AUTH_read" : {
+                    "tourist"     : true,
+                    "app_user"    : true,
+                    "owner_rspns" : true,
+                    "admin"       : true
+                },
+                "$AUTH_write" : {
+                    "tourist"     : false,
+                    "app_user"    : false,
+                    "owner_rspns" : false,
+                    "admin"       : false
+                },
+                "$GENL_is_link_id_of_which_table"  : null          ,
+                "$GENL_is_link_id_of_which_column" : null          ,
+                "$GENL_show_in_brief_view"         : true          
+            },
+            "$FELD_Username_Column" : {
+                "$KYNM_bsns"         : "b_username"        ,
+                "$KYNM_indb"         : "username"   ,
+                "$TYPE_data_type"         : "column"      ,
+                
+                "$GENL_displacer"            : null          ,
+                
+                "$GENL_disp_name"  : {
+                    "EN"    : "Username", 
+                    "ZH"    : "用户名"
+                },
+                "$GENL_input_type"        : null          ,
+                
+                "$AUTH_read" : {
+                    "tourist"     : true,
+                    "app_user"    : true,
+                    "owner_rspns" : true,
+                    "admin"       : true
+                },
+                "$AUTH_write" : {
+                    "tourist"     : false,
+                    "app_user"    : false,
+                    "owner_rspns" : false,
+                    "admin"       : false
+                },
+                "$GENL_is_link_id_of_which_table"  : null          ,
+                "$GENL_is_link_id_of_which_column" : null          ,
+                "$GENL_show_in_brief_view"         : true          
+            },
+            "$FELD_Type_Column" : {                              
+                "$KYNM_bsns"         : "b_type"      ,        
+                "$KYNM_indb"         : "type"        ,        
+                "$TYPE_data_type"         : "column"      ,   
+                                                                      
+                "$GENL_displacer"            : {                      
+                    "undergraduate"      : "在读本科生"  ,    
+                    "graduated"          : "已毕业"      ,    
+                    "master_candidate"   : "在读硕士生"  ,    
+                    "PhD_dandidate"      : "在读博士生"       
+                },                                            
+                                                                
+                "$GENL_disp_name" : {                            
+                    "EN" : "Person Type",                     
+                    "ZH" : "人员类型"                         
+                },                                             
+                "$GENL_input_type"        : "select"      ,      
+
+                "$AUTH_read" : {                                 
+                    "tourist"     : true,                     
+                    "app_user"    : true,                     
+                    "owner_rspns" : true,                     
+                    "admin"       : true                        
+                },                                            
+                "$AUTH_write" : {                                
+                    "tourist"     : false,       
+                    "app_user"    : false,      
+                    "owner_rspns" : false,      
+                    "admin"       : true       
+                },                
+                "$GENL_link_id_of_which_table"  : null          ,                          
+                "$GENL_link_id_of_which_column" : null          ,                          
+                "$GENL_show_in_brief_view": true                                           
+            },
+            "$FELD_Title_Column" : {
+                "$KYNM_bsns"         : "b_title"     ,
+                "$KYNM_indb"         : "title"       ,  
+                "$TYPE_data_type"         : "column"      ,   
+                                                                      
+                "$GENL_displacer"            : {                      
+                    "learner"       : "学生"  , 
+                    "lecturer"      : "授课人"  ,  
+                    "intendant"     : "管理人" ,              
+                    "tutor"         : "指导老师"      ,    
+                    "founder"       : "创始人"      
+                },                                            
+                                                                
+                "$GENL_disp_name" : {                            
+                    "EN" : "Person Title",                     
+                    "ZH" : "头衔"                         
+                },                                             
+                "$GENL_input_type" : "select"      ,      
+
+                "$AUTH_read" : {                                 
+                    "tourist"     : true,                     
+                    "app_user"    : true,                     
+                    "owner_rspns" : true,                     
+                    "admin"       : true                        
+                },                                            
+                "$AUTH_write" : {                                
+                    "tourist"     : false,       
+                    "app_user"    : false,      
+                    "owner_rspns" : false,      
+                    "admin"       : true       
+                },                
+                "$GENL_link_id_of_which_table"  : null          ,                          
+                "$GENL_link_id_of_which_column" : null          ,                          
+                "$GENL_show_in_brief_view": true                   
+            },
+            "$FELD_Name_Column" : {
+                "$KYNM_bsns"         : "b_name"     ,
+                "$KYNM_indb"         : "name"       ,  
+                "$TYPE_data_type"         : "column"      ,   
+                                                                 
+    
+                "$GENL_displacer"            : null,                                            
+                                                                
+                "$GENL_disp_name" : {                            
+                    "EN" : "Name",                     
+                    "ZH" : "姓名"                         
+                },                                             
+                "$GENL_input_type" : "text"      ,      
+
+                "$AUTH_read" : {                                 
+                    "tourist"     : true,                     
+                    "app_user"    : true,                     
+                    "owner_rspns" : true,                     
+                    "admin"       : true                        
+                },                                            
+                "$AUTH_write" : {                                
+                    "tourist"     : false,       
+                    "app_user"    : false,      
+                    "owner_rspns" : false,      
+                    "admin"       : true       
+                },                
+                "$GENL_link_id_of_which_table"  : null          ,                          
+                "$GENL_link_id_of_which_column" : null          ,                          
+                "$GENL_show_in_brief_view": true                   
+            },
+            "$FELD_SchoolCardNumber_Column" : {
+                "$KYNM_bsns"         : "b_sclcdnum"     ,
+                "$KYNM_indb"         : "school_card_number"       ,  
+                "$TYPE_data_type"         : "column"      ,   
+                                                                       
+                "$GENL_displacer"            : null         ,                                      
+                "$GENL_disp_name" : {                            
+                    "EN" : "Card Number",                     
+                    "ZH" : "校园卡号"                         
+                },                                             
+                "$GENL_input_type" : "text"      ,      
+
+                "$AUTH_read" : {                                 
+                    "tourist"     : true,                     
+                    "app_user"    : true,                     
+                    "owner_rspns" : true,                     
+                    "admin"       : true                        
+                },                                            
+                "$AUTH_write" : {                                
+                    "tourist"     : false,       
+                    "app_user"    : false,      
+                    "owner_rspns" : true,      
+                    "admin"       : true       
+                },                
+                "$GENL_link_id_of_which_table"  : null          ,
+                "$GENL_link_id_of_which_column" : null          ,
+                "$GENL_show_in_brief_view": true                   
+                
+            }
+        }
+    },
+    "$COMT_RoomsBusiness_Table"  :  {
+        "$KYNM_bsns"         : "b_rooms"    ,
+        "$KYNM_indb"         : "o_rooms"    ,
+        "$TYPE_data_type"         : "table"      ,
+        "$GENL_disp_name"      : {
+            "EN"    : "Rooms", 
+            "ZH"    : "房间"
+        },
+        "$GENL_relevant_bsnses"   : [ ["",""],["",""] ]   ,
+        "$GENL_columns"           : {
+            "$FELD_ID_Column" : {
+                "$KYNM_bsns"         : "b_id"     ,
+                "$KYNM_indb"         : "room_id"       ,  
+                "$TYPE_data_type"         : "column"      ,   
+                                                                           
+                "$GENL_displacer"            : null      ,                                         
+                "$GENL_disp_name" : {                            
+                    "EN" : "Room ID",                     
+                    "ZH" : "房间ID"                         
+                },                                             
+                "$GENL_input_type" : null      ,      
+
+                "$AUTH_read" : {                                 
+                    "tourist"     : true,                     
+                    "app_user"    : true,                     
+                    "owner_rspns" : true,                     
+                    "admin"       : true                        
+                },                                            
+                "$AUTH_write" : {                                
+                    "tourist"     : false,       
+                    "app_user"    : false,      
+                    "owner_rspns" : false,      
+                    "admin"       : false       
+                },                
+                "$GENL_link_id_of_which_table"  : null          ,
+                "$GENL_link_id_of_which_column" : null          ,
+                "$GENL_show_in_brief_view": true                   
+            },
+            "$FELD_Buliding_Column" : {
+                
+                
+                "$KYNM_bsns"         : "b_building"     ,
+                "$KYNM_indb"         : "building"       ,  
+                "$TYPE_data_type"         : "column"      ,   
+                                                                    
+    
+                "$GENL_displacer"            : null         ,                                      
+                "$GENL_disp_name" : {                            
+                    "EN" : "At Which Building",                     
+                    "ZH" : "位于何建筑"                         
+                },                                             
+                "$GENL_input_type" : "text"       ,      
+
+                "$AUTH_read" : {                                 
+                    "tourist"     : true,                     
+                    "app_user"    : true,                     
+                    "owner_rspns" : true,                     
+                    "admin"       : true                        
+                },                                            
+                "$AUTH_write" : {                                
+                    "tourist"     : false,       
+                    "app_user"    : false,      
+                    "owner_rspns" : true,      
+                    "admin"       : true       
+                },                
+                "$GENL_link_id_of_which_table"  : null          ,
+                "$GENL_link_id_of_which_column" : null          ,
+                "$GENL_show_in_brief_view": true
+            },
+            "$FELD_RoomCode_Column" : {
+                "$KYNM_bsns"         : "b_r_code"     ,
+                "$KYNM_indb"         : "room_code"       ,  
+                "$TYPE_data_type"         : "column"      ,   
+                                                                        
+                "$GENL_displacer"            : null        ,                                       
+                "$GENL_disp_name" : {                            
+                    "EN" : "Room Code",                     
+                    "ZH" : "房间号"                         
+                },                                             
+                "$GENL_input_type" : "text"       ,      
+
+                "$AUTH_read" : {                                 
+                    "tourist"     : true,                     
+                    "app_user"    : true,                     
+                    "owner_rspns" : true,                     
+                    "admin"       : true                        
+                },                                            
+                "$AUTH_write" : {                                
+                    "tourist"     : false,       
+                    "app_user"    : false,      
+                    "owner_rspns" : true,      
+                    "admin"       : true       
+                },                
+                "$GENL_link_id_of_which_table"  : null          ,
+                "$GENL_link_id_of_which_column" : null          ,
+                "$GENL_show_in_brief_view": true
+            },
+            "$FELD_Discription_Column" : {
+                "$KYNM_bsns"         : "b_dscpton"     ,
+                "$KYNM_indb"         : "discription"       ,  
+                "$TYPE_data_type"         : "column"      ,   
+                                                                        
+                "$GENL_displacer"            : null        ,                                       
+                "$GENL_disp_name" : {                            
+                    "EN" : "Discription",                     
+                    "ZH" : "描述"                         
+                },                                             
+                "$GENL_input_type" : "text"       ,      
+
+                "$AUTH_read" : {                                 
+                    "tourist"     : true,                     
+                    "app_user"    : true,                     
+                    "owner_rspns" : true,                     
+                    "admin"       : true                        
+                },                                            
+                "$AUTH_write" : {                                
+                    "tourist"     : false,       
+                    "app_user"    : false,      
+                    "owner_rspns" : true,      
+                    "admin"       : true       
+                },                
+                "$GENL_link_id_of_which_table"  : null          ,
+                "$GENL_link_id_of_which_column" : null          ,
+                "$GENL_show_in_brief_view": true
+            }
+        }
+    }
+}

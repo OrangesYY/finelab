@@ -1,0 +1,55 @@
+{% extends 'base/base.htm' %}
+{% block main %}
+<div class="container" style = "overflow-x:auto;">
+    <h1>新用户注册</h1>
+    <form id = "register_form" method = "post" >
+        <div class="form-group">
+            <input class="form-control" name = "username" type = "text" placeholder = "请输入用户名"/>         </br>
+        
+            <input class="form-control" name = "password" type = "password" placeholder = "请输入密码"/>       </br>
+            <input class="form-control" name = "password_2" type = "password" placeholder = "请再次输入密码"/>       </br>
+            <input class="form-control" name = "qq_num" type = "text" placeholder = "QQ号码"/>       </br>
+            <input class="form-control" name = "e_mail" type = "text" placeholder = "E-mail"/>       </br>
+            <input class="form-control" name = "cell_num" type = "text" placeholder = "手机号"/>       </br>
+            <input class="form-control" id = "register_submit_button" type = "button" value = "提交"/>
+            <div id = "register_message_div">&nbsp;</div>
+        </div>
+    </form>
+
+</div>
+<script>
+function submit_login_form(){
+    if($("#register_form").children("[name='password']").val() == $("#register_form").children("[name='password_2']").val()){
+        $("#register_message_div").text("Loading...");
+        $.ajax({
+            type: "POST",
+            url:"/user/json_api/register",
+            data:$('#register_form').serialize(),
+            dataType: "json",
+            error: function(request) {
+                alert("Register form submit Connection error");
+            },
+            success: function(result_json) {
+                $("#register_message_div").text(result_json.text);
+                //update_user_info();
+                if(result_json.status == "succeeded"){
+                    
+                    
+                    
+                }else{
+                    
+                    
+                    
+                    
+                }
+            }
+        });
+    }else{ 
+        $("#register_message_div").text("两次输入密码不一致！");
+    }
+}
+$('#register_submit_button').click(submit_login_form);
+
+
+</script>
+{% endblock %}

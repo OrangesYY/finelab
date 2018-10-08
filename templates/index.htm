@@ -1,0 +1,17 @@
+{% extends 'base/base.htm' %}
+{% block main %}
+<div class="jumbotron">
+    <div class="container">
+        <h1>{{config['G_AppName']}}</h1>
+        <br/>
+        <p>    
+            {{ config['G_ParentOrganizationName'] }}
+            {{ config['G_ChildOrganizationName'] }}
+        </p>
+        <p>
+            {{ config['G_AppDiscription'] }}
+        </p>
+            <p><a class="btn btn-primary btn-lg" href="/tmplt_based_ui/user_register_form" role="button">注册</a></p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'base/base.htm' %}
+{% block main %}
+
+<div class="container" style = "overflow-x:auto;">
+    <h1>Table Information</h1>
+    <table class = "table">
+    <thead>
+        <tr>
+        {% for column_head in table_info[0].keys() %}
+            <th>{{column_head}}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in table_info %}
+        <tr >
+        {% for key,value in row.items() %}
+        
+            <td>{{value}} </td>
+        
+        {% endfor %}
+        </tr>
+    {% endfor %} 
+    </tbody>
+    </table>
+
+    
+    <h1>Data</h1>
+    <table class = "table">
+    <thead>
+        <tr>
+        {% for column_head in query_result[0].keys() %}
+            <th>{{column_head}}</th>
+        {% endfor %}
+        </tr>
+    </thead>
+    <tbody>
+    {% for row in query_result %}
+        <tr >
+        {% for key,value in row.items() %}
+            <td>{{value}} </td>
+        {% endfor %}
+        </tr>
+    {% endfor %} 
+    </tbody>
+    </table>
+</div>
+
+{% endblock %}
