@@ -26,3 +26,13 @@ The management tool for labs
 
    
 # Changelog
+
+
+
+
+# How to write the Data Structure JSON File?
+## Dir structure
+
+## Using
+
+## File

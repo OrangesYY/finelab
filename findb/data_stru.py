@@ -20,6 +20,7 @@ class Business:
         self.formated_dict = self.raw_dict.copy()
         for t_name, t_content in self.raw_dict.items():
             for c_name, c_content in t_content['$COLU'].items():
+                # Before loop, set the origin to this column
                 origin_t_name = t_name
                 origin_c_name = c_name
                 origin_c_dict = self.formated_dict[t_name]['$COLU'][c_name].copy()
@@ -42,11 +43,13 @@ class Business:
                     #     not the cited section.
                     # If you do not want to change a parameters defined in the cited section, 
                     #     please do NOT include this paramrter in your citing section in JSON.
-                    origin_c_dict.update(temp_c_dict)  
-                if t_name != origin_t_name or c_name != origin_c_name :
+                    origin_c_dict.update(temp_c_dict)  # So the parameters defined in the citing section can flush the cited params.
+                if t_name != origin_t_name or c_name != origin_c_name :  # If this column is citing other columns
                     self.formated_dict[t_name]['$COLU'][c_name] = origin_c_dict
                     self.formated_dict[t_name]['$COLU'][c_name]['$STRU_real_origin_table'] = origin_t_name
                     self.formated_dict[t_name]['$COLU'][c_name]['$STRU_real_origin_column'] = origin_c_name
+                else: # If this column is not citing other columns
+                    pass
                 self.formated_dict[t_name]['$COLU'][c_name]['$CLNM'] = c_name
                 
             self.formated_dict[t_name]['$TBNM'] = t_name
