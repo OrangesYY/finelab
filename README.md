@@ -18,12 +18,17 @@ The management tool for labs
 7.  insert and edit page
 8.  Read authority
 9.  Write authority
-10. Data structure import csv
-11. Data structure export csv
+10. Data structure import form csv
+11. Data structure export to csv
 12. Data structure Regular expression check
 13. Use Data structure to generate nav bar
-14. Link from search page to target_scope
-
+14. Link from search page to target_scope 
+15. ADD column in each table: __owner_user_id              for auth
+16. ADD column in each table: __deleted_mark               for recording
+17. ADD column in each table: __random_key                 to prevent dumplicate inserting 
+18. ADD column in each table: __last_update_timestamp      
+19. ADD column in each table: __insert_timestamp 
+20. ADD column in each table: __delete_timestamp
    
 # Changelog
 

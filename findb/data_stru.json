@@ -18,13 +18,13 @@
         "$COLU":{
             "person_id":{
                 "$TYPE":"column_origin",
-                "$CONS_local":"",
+                "$ISPK":true,
                 "$DISP_displacer":null,
                 "$DISP_name":{
                     "EN":"Person ID",
                     "ZH":"人员ID"
                 },
-                "$DISP_show_in_brief_view":true,
+                "$DISP_show_in_br ief_view":true,
                 "$GENL_input_type":null,
                 "$AUTH_read":{
                     "tourist":true,
@@ -137,6 +137,31 @@
                     "admin":true
                 }
             },
+            "auth_role":{
+                "$TYPE":"column_origin",
+                "$DISP_displacer":{
+                    "app_user":"普通用户",
+                    "admin":"管理员"
+                },
+                "$DISP_name":{
+                    "EN":"Authority Role",
+                    "ZH":"权限角色"
+                },
+                "$DISP_show_in_brief_view":true,
+                "$GENL_input_type":"select",
+                "$AUTH_read":{
+                    "tourist":true,
+                    "app_user":true,
+                    "owner_rspns":true,
+                    "admin":true
+                },
+                "$AUTH_write":{
+                    "tourist":false,
+                    "app_user":false,
+                    "owner_rspns":false,
+                    "admin":true
+                }
+            },
             "name":{
                 "$TYPE":"column_origin",
                 "$DISP_displacer":null,
@@ -202,6 +227,7 @@
         "$COLU":{ 
             "room_id":{
                 "$TYPE":"column_origin",
+                "$ISPK":true,
                 "$DISP_displacer":null,
                 "$DISP_name":{
                     "EN":"Room ID",
@@ -309,6 +335,7 @@
         "$COLU":{
             "project_id":{
                 "$TYPE":"column_origin",
+                "$ISPK":true,
                 "$DISP_displacer":null,
                 "$DISP_name":{
                     "EN":"Project ID",

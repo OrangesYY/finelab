@@ -49,9 +49,11 @@ class Business:
                     self.formated_dict[t_name]['$COLU'][c_name]['$STRU_real_origin_table'] = origin_t_name
                     self.formated_dict[t_name]['$COLU'][c_name]['$STRU_real_origin_column'] = origin_c_name
                 else: # If this column is not citing other columns
-                    pass
+                    if self.formated_dict[t_name]['$COLU'][c_name].get('$ISPK') == True: # is Primary Key
+                        self.formated_dict[t_name]['$PMKY'] = c_name
+                # Copy column name inside the column dict for easier access
                 self.formated_dict[t_name]['$COLU'][c_name]['$CLNM'] = c_name
-                
+            # Copy table name inside the table dict for easier access
             self.formated_dict[t_name]['$TBNM'] = t_name
         return self.formated_dict
     def loadFromPath(self,f_path):
@@ -78,8 +80,8 @@ class Business:
                 column_str = '{data_type_str}{constraints_str}'
                 data_type_str = ''
                 constraints_str = ''
-                if c_content.get('$CONS_local'):
-                    constraints_str += c_content.get('$CONS_local')
+                # if c_content.get('$CONS_local'):
+                #     constraints_str += c_content.get('$CONS_local')
                 if c_content['$TYPE'] == "column_cite":
                     foreign_key_str = ' FOREIGN KEY REFERENCES {real_origin_table}({real_origin_column})'
                     foreign_key_str = foreign_key_str.format(
@@ -87,6 +89,12 @@ class Business:
                         real_origin_column = c_content['$STRU_real_origin_column']
                     )
                     constraints_str += foreign_key_str
+                if c_content.get('$ISPK') == True: # Is primary key
+                    if c_content['$TYPE'] == "column_cite":
+                        pass # ![Exception]
+                    else:
+                        primary_key_str = ' PRIMARY KEY'
+                        constraints_str += primary_key_str
                 column_str = column_str.format(data_type_str = data_type_str, constraints_str = constraints_str)
 
                 # ADD Column to columns str
@@ -120,7 +128,7 @@ class Business:
             # Generate film string
             if id != None:
                 # id specified
-                filters_str = "WHERE rowid = " + str(id)
+                filters_str = "WHERE " + t_content['$PMKY'] + " = " + str(id)
             else:
                 # id not specified
                 for filter in filters_list:
@@ -145,9 +153,9 @@ class Business:
             for c_name, c_content in t_content['$COLU'].items():
                 if c_content['$AUTH_write'][write_auth_role]:
                     if columns_str == '' :
-                        columns_str += ('\n\t'+t_name+'.'+c_name )
+                        columns_str += ('\n\t'+c_name )
                     else :
-                        columns_str += (' ,\n\t'+t_name+'.'+c_name )
+                        columns_str += (' ,\n\t'+c_name )
             # Generate Values Rows Set string
             for key, values_dict in enumerate(values_dicts_list):
                 if rows_str == '':
@@ -160,9 +168,9 @@ class Business:
                     if c_content['$AUTH_write'][write_auth_role]:
                         value_str = values_dict.get(c_name) if  values_dict.get(c_name) else ''
                         if values_str == '':
-                            values_str += (value_str)
+                            values_str += ('\"'+ value_str +'\"')
                         else:
-                            values_str += (','+value_str)
+                            values_str += (','+'\"'+value_str+'\"')
                 rows_str += row_str.format(values_str = values_str)
 
 
@@ -204,8 +212,8 @@ if __name__ == '__main__':
 
     # For Dumped JSON String
     Dumped_json_str = Business().loadFromPath(sys.argv[1]).getDmpdJsonStr()
-    #print('Dumped JSON String: \n',Dumped_json_str)
-
+    print('Dumped JSON String:')
+    print(Dumped_json_str)
 
     # For Creating Table
     Create_sql_str = Business().loadFromPath(sys.argv[1]).createTInitSQL(sys.argv[2])

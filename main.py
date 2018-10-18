@@ -41,6 +41,19 @@ def pass_hash(in_string):
     md5.update((in_string+"nice_day").encode('utf-8'))
     return  md5.hexdigest()
 
+
+def get_user_info_dict(user_id):
+        db = get_db()
+        cur = db.cursor()
+        query_result = cur.execute("SELECT password FROM o_persons "+
+                    "WHERE user_id = ?",
+                    (user_id, )
+                ).fetchall()
+        return query_result[0]
+
+
+
+
 # Database Auto Close 
 @app.teardown_appcontext
 def close_connection(exception):
@@ -69,7 +82,7 @@ def user_login():
         return_text = 'Failed'
         try:
             #print(type(input_list['password']))
-            query_result = cur.execute("SELECT password FROM o_persons "+
+            query_result = cur.execute("SELECT * FROM o_persons "+
                                 "WHERE username = ?",
                                 (input_list['username'], )
                             ).fetchall()
@@ -84,6 +97,8 @@ def user_login():
                     success = 1
                     return_text = 'Login Succeed!'
                     session['username'] = input_list['username']
+                    session['person_id'] = query_result[0]['person_id']
+                    session['auth_role']  = query_result[0]['auth_role']
                     session['logged_in'] = True
                 else:
                     return_text = 'Wrong Pass'
@@ -177,6 +192,43 @@ def ult_app_info():
     elif request.method == 'GET':    #Show Application Information
         return "APP Info"
 
+# [Request] General API
+@app.route('/general/json_api/target_insert', methods=['POST'])
+def gen_target_insert():
+    if request.method == 'POST':     
+        db = get_db()
+        cur = db.cursor()
+        input_list = request.form
+        values_dict = {}
+        b_name=input_list.get('INSERT_b_name')
+        bsns_table_dict = bsnses.getFomatdDict(b_name)
+        if bsns_table_dict is None:
+            return json.dumps({"status":"failed","text":"No such business: !" + b_name})
+        for in_key, in_val in input_list.items():
+            if in_key in bsns_table_dict['$COLU']:
+                values_dict[in_key] = in_val
+        values_dicts_list = [values_dict]     # Dangerous, debug only!
+        query_sql_str = bsnses.createInsertSQL(b_name,values_dicts_list,write_auth_role='admin')
+        success = 1
+        
+        try:
+            print(query_sql_str)
+            cur.execute(query_sql_str)
+            db.commit()
+        except Exception as e:
+            success = 0
+            raise e
+        cur.close()
+        if success:
+            return json.dumps({"status":"succeeded","text":"Insert Succeed!"})
+        else:
+            return json.dumps({"status":"failed","text":"Insert Failed!"})
+    elif request.method == 'GET':   
+        pass
+
+
+
+
         
 # [Request] Template Based UI
 @app.route('/tmplt_based_ui/', methods=['GET'])
@@ -206,20 +258,8 @@ def t_base_search():
     cur = db.cursor()
     b_name=request.args.get('b_name')
     bsns_table_dict = bsnses.getFomatdDict(b_name)
-    # bsns_table =  bsnses[b_name]
-    # bsns_colunms = bsnses[b_name]['$COLU']
-    # t_name = b_name
     query_sql_str = bsnses.createQuerySQL(b_name, read_auth_role = 'tourist', filters_list = [], id = None)
     
-    # column_list_string = ''
-    # for key, val in bsns_colunms.items():
-        # if type(val) == dict:
-            # if val.get('$GENL_show_in_brief_view') and key[0:6] == '$$BUK_':
-                # if column_list_string == '':
-                    # column_list_string += val.get('$KYNM_indb')
-                # else:
-                    # column_list_string += ",%s"%val.get('$KYNM_indb')
-                # #table_head['key'] = val.get('$KYNM_indb_name')
 
     query_result = cur.execute(query_sql_str).fetchall()
 
@@ -241,32 +281,36 @@ def t_base_target_scope():
     db = get_db()
     cur = db.cursor()
     b_name = request.args.get('b_name')  # business name
-    t_id   = request.args.get('id')      # target id
+    tar_id = request.args.get('id')      # target id
     bsns_table_dict = bsnses.getFomatdDict(b_name)
-    query_sql_str = bsnses.createQuerySQL(b_name, read_auth_role = 'tourist', filters_list = [], id = t_id)
+    query_sql_str = bsnses.createQuerySQL(b_name, read_auth_role = 'tourist', filters_list = [], id = tar_id)
     
-    # debug
-    query_sql_str = """
-        SELECT
-                v_lab_planned_proj_menbers.proj_id              ,
-                v_lab_planned_proj_menbers.proj_name            ,
-                v_lab_planned_proj_menbers.menber_person_id     ,
-                v_lab_planned_proj_menbers.menber_name          ,
-                v_lab_planned_proj_menbers.menber_card_number   ,
-                v_lab_planned_proj_menbers.act_type             ,
-                v_lab_planned_proj_menbers.menber_role
-        FROM
-                v_lab_planned_proj_menbers
-        WHERE 
-                proj_id = 1
-    """
+    # # debug
+    # query_sql_str = """
+    #     SELECT
+    #             v_lab_planned_proj_menbers.proj_id              ,
+    #             v_lab_planned_proj_menbers.proj_name            ,
+    #             v_lab_planned_proj_menbers.menber_person_id     ,
+    #             v_lab_planned_proj_menbers.menber_name          ,
+    #             v_lab_planned_proj_menbers.menber_card_number   ,
+    #             v_lab_planned_proj_menbers.act_type             ,
+    #             v_lab_planned_proj_menbers.menber_role
+    #     FROM
+    #             v_lab_planned_proj_menbers
+    #     WHERE 
+    #             proj_id = 1
+    # """
     query_result = cur.execute(query_sql_str).fetchall()
     print(query_sql_str)  # debug
     print(query_result)  # debug
     cur.close()
     return render_template('target_scope.htm',bsns_table_dict = bsns_table_dict, query_result = query_result)
     
-
+@app.route('/tmplt_based_ui/target_insert_form', methods=['GET'])
+def t_base_target_insert_form():
+    b_name = request.args.get('b_name')  # business name
+    bsns_table_dict = bsnses.getFomatdDict(b_name)
+    return render_template('target_insert_form.htm',bsns_table_dict = bsns_table_dict)
 @app.route('/tmplt_based_ui/debug/view_table', methods=['GET'])
 def t_base_debug_view_table():
     db = get_db()
