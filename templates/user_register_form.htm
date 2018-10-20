@@ -18,7 +18,7 @@
 
 </div>
 <script>
-function submit_login_form(){
+function submit_register_form(){
     if($("#register_form").children("[name='password']").val() == $("#register_form").children("[name='password_2']").val()){
         $("#register_message_div").text("Loading...");
         $.ajax({
@@ -48,7 +48,7 @@ function submit_login_form(){
         $("#register_message_div").text("两次输入密码不一致！");
     }
 }
-$('#register_submit_button').click(submit_login_form);
+$('#register_submit_button').click(submit_register_form);
 
 
 </script>

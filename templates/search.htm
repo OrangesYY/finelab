@@ -4,6 +4,13 @@
 <div class="container" style = "overflow-x:auto;">
     
     <h1>{{bsns_table_dict['$DISP_name']['ZH']}}</h1>
+    {% if bsns_table_dict['$TYPE'] == 'table' %}
+        您正在数据表中搜索。<a href = "/tmplt_based_ui/target_insert_form?b_name={{bsns_table_dict['$TBNM']}}" >Add New</a>
+    {% elif bsns_table_dict['$TYPE'] == 'view'%}
+        您正在视图中搜索。
+    {% else %}
+        Error!
+    {% endif %}
     <table class = "table">
     <thead>
         <tr>
@@ -16,7 +23,13 @@
     {% for row in query_result %}
         <tr >
         {% for key,value in row.items() %}
-            <td>{{value}} </td>
+            {% if bsns_table_dict['$PMKY'] == key %}
+                <td><a href = "target_scope?id={{value}}&b_name={{bsns_table_dict['$TBNM']}}">{{value}} </a></td>
+            {% else %}
+                <td>{{value}} </td>
+
+            {% endif %}
+            
         {% endfor %}
         </tr>
     {% endfor %} 

@@ -1,6 +1,4 @@
-import json
-import sys
-import _io
+import sys, os, json, copy
 
 pass
 pass
@@ -12,17 +10,33 @@ class Business:
         if type(arg) == dict:
             self.raw_dict = arg
             self.format_bussiness()
-        elif type(arg) == _io.TextIOWrapper:
-            self.raw_dict = json.load(arg)
-            self.format_bussiness()
             
         elif type(arg) == str:
-            self.raw_dict = json.loads(arg)
+            # Open root json for read
+            root_json_path = arg
+            fpr = open(root_json_path, 'r')
+            # Load dict from root json file
+            root_json_dict = json.load(fpr)
+            fpr.close()
+
+            # Initiate self.raw_dict
+            self.raw_dict = dict()
+            for _key in root_json_dict:
+                # Get root json directory firstly
+                root_json_dir = os.path.dirname(os.path.realpath(arg)).replace("\\", "/")
+                # Open the splited json file
+                fpr = open(root_json_dir + "/" + root_json_dict[_key], 'r',encoding='utf-8')
+                tmpDict = json.load(fpr)
+                # Merge dicts
+                self.raw_dict[_key] = tmpDict
+                fpr.close()
             self.format_bussiness()
+
     def format_bussiness(self):
-        self.formated_dict = self.raw_dict.copy()
+        self.formated_dict = copy.deepcopy(self.raw_dict)
         for t_name, t_content in self.raw_dict.items():
             for c_name, c_content in t_content['$COLU'].items():
+                # Before loop, set the origin to this column
                 origin_t_name = t_name
                 origin_c_name = c_name
                 origin_c_dict = self.formated_dict[t_name]['$COLU'][c_name].copy()
@@ -45,25 +59,30 @@ class Business:
                     #     not the cited section.
                     # If you do not want to change a parameters defined in the cited section, 
                     #     please do NOT include this paramrter in your citing section in JSON.
-                    origin_c_dict.update(temp_c_dict)  
-                if t_name != origin_t_name or c_name != origin_c_name :
+                    origin_c_dict.update(temp_c_dict)  # So the parameters defined in the citing section can flush the cited params.
+                if t_name != origin_t_name or c_name != origin_c_name :  # If this column is citing other columns
                     self.formated_dict[t_name]['$COLU'][c_name] = origin_c_dict
                     self.formated_dict[t_name]['$COLU'][c_name]['$STRU_real_origin_table'] = origin_t_name
                     self.formated_dict[t_name]['$COLU'][c_name]['$STRU_real_origin_column'] = origin_c_name
+                else: # If this column is not citing other columns
+                    if self.formated_dict[t_name]['$COLU'][c_name].get('$ISPK') == True: # is Primary Key
+                        self.formated_dict[t_name]['$PMKY'] = c_name
+                # Copy column name inside the column dict for easier access
                 self.formated_dict[t_name]['$COLU'][c_name]['$CLNM'] = c_name
-                
+            # Copy table name inside the table dict for easier access
             self.formated_dict[t_name]['$TBNM'] = t_name
         return self.formated_dict
+    
     def loadFromPath(self,f_path):
-        f = open(f_path, 'r',encoding='utf-8')
-        self.__init__(f)
-        f.close()
+        self.__init__(f_path)
         return self
+    
     def getFomatdDict(self, t_name = None):
         if t_name:
             return self.formated_dict[t_name]
         else:
             return self.formated_dict
+        
     def getDmpdJsonStr(self):
         return json.dumps(self.formated_dict,indent = 4)
         
@@ -78,8 +97,8 @@ class Business:
                 column_str = '{data_type_str}{constraints_str}'
                 data_type_str = ''
                 constraints_str = ''
-                if c_content.get('$CONS_local'):
-                    constraints_str += c_content.get('$CONS_local')
+                # if c_content.get('$CONS_local'):
+                #     constraints_str += c_content.get('$CONS_local')
                 if c_content['$TYPE'] == "column_cite":
                     foreign_key_str = ' FOREIGN KEY REFERENCES {real_origin_table}({real_origin_column})'
                     foreign_key_str = foreign_key_str.format(
@@ -87,6 +106,12 @@ class Business:
                         real_origin_column = c_content['$STRU_real_origin_column']
                     )
                     constraints_str += foreign_key_str
+                if c_content.get('$ISPK') == True: # Is primary key
+                    if c_content['$TYPE'] == "column_cite":
+                        pass # ![Exception]
+                    else:
+                        primary_key_str = ' PRIMARY KEY'
+                        constraints_str += primary_key_str
                 column_str = column_str.format(data_type_str = data_type_str, constraints_str = constraints_str)
 
                 # ADD Column to columns str
@@ -120,7 +145,7 @@ class Business:
             # Generate film string
             if id != None:
                 # id specified
-                filters_str = "WHERE rowid = " + str(id)
+                filters_str = "WHERE " + t_content['$PMKY'] + " = " + str(id)
             else:
                 # id not specified
                 for filter in filters_list:
@@ -145,9 +170,9 @@ class Business:
             for c_name, c_content in t_content['$COLU'].items():
                 if c_content['$AUTH_write'][write_auth_role]:
                     if columns_str == '' :
-                        columns_str += ('\n\t'+t_name+'.'+c_name )
+                        columns_str += ('\n\t'+c_name )
                     else :
-                        columns_str += (' ,\n\t'+t_name+'.'+c_name )
+                        columns_str += (' ,\n\t'+c_name )
             # Generate Values Rows Set string
             for key, values_dict in enumerate(values_dicts_list):
                 if rows_str == '':
@@ -160,9 +185,9 @@ class Business:
                     if c_content['$AUTH_write'][write_auth_role]:
                         value_str = values_dict.get(c_name) if  values_dict.get(c_name) else ''
                         if values_str == '':
-                            values_str += (value_str)
+                            values_str += ('\"'+ value_str +'\"')
                         else:
-                            values_str += (','+value_str)
+                            values_str += (','+'\"'+value_str+'\"')
                 rows_str += row_str.format(values_str = values_str)
 
 
@@ -204,48 +229,48 @@ if __name__ == '__main__':
 
     # For Dumped JSON String
     Dumped_json_str = Business().loadFromPath(sys.argv[1]).getDmpdJsonStr()
-    #print('Dumped JSON String: \n',Dumped_json_str)
+    print('Dumped JSON String:')
+    print(Dumped_json_str)
 
+    # # For Creating Table
+    # Create_sql_str = Business().loadFromPath(sys.argv[1]).createTInitSQL(sys.argv[2])
+    # print('\nCreate Table SQL String:')
+    # print(Create_sql_str)
 
-    # For Creating Table
-    Create_sql_str = Business().loadFromPath(sys.argv[1]).createTInitSQL(sys.argv[2])
-    print('\nCreate Table SQL String:')
-    print(Create_sql_str)
-
-    # For Query
-    filters_list = [
-        {
-            'left':'person_id',
-            'type':'=',
-            'right':':person_id'
-        }
-    ]
-    Query_sql_str = Business().loadFromPath(sys.argv[1]).createQuerySQL(
-        sys.argv[2],
-        filters_list = filters_list,
-        id = 3
-    )
-    print('\nQuery SQL String:')
-    print(Query_sql_str)
+    # # For Query
+    # filters_list = [
+    #     {
+    #         'left':'person_id',
+    #         'type':'=',
+    #         'right':':person_id'
+    #     }
+    # ]
+    # Query_sql_str = Business().loadFromPath(sys.argv[1]).createQuerySQL(
+    #     sys.argv[2],
+    #     filters_list = filters_list,
+    #     id = 3
+    # )
+    # print('\nQuery SQL String:')
+    # print(Query_sql_str)
     
-    # For Insert
-    values_dicts_list =[
-        {
-            "type":"21",
-            "person_role":"34"
-        },
-        {
-            "type":"45",
-            "admin_check":"56"
-        }
-    ]
-    Insert_sql_str = Business().loadFromPath(sys.argv[1]).createInsertSQL(
-        sys.argv[2],
-        values_dicts_list = values_dicts_list,
-        write_auth_role = 'admin'
-    )
-    print('\nInsert SQL String:')
-    print(Insert_sql_str)
+    # # For Insert
+    # values_dicts_list =[
+    #     {
+    #         "type":"21",
+    #         "person_role":"34"
+    #     },
+    #     {
+    #         "type":"45",
+    #         "admin_check":"56"
+    #     }
+    # ]
+    # Insert_sql_str = Business().loadFromPath(sys.argv[1]).createInsertSQL(
+    #     sys.argv[2],
+    #     values_dicts_list = values_dicts_list,
+    #     write_auth_role = 'admin'
+    # )
+    # print('\nInsert SQL String:')
+    # print(Insert_sql_str)
     
 
 
