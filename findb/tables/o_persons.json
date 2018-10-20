@@ -1,0 +1,209 @@
+{
+    "$COLU": {
+        "auth_role": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$DISP_displacer": {
+                "admin": "\u7ba1\u7406\u5458",
+                "app_user": "\u666e\u901a\u7528\u6237"
+            },
+            "$DISP_name": {
+                "EN": "Authority Role",
+                "ZH": "\u6743\u9650\u89d2\u8272"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "select",
+            "$TYPE": "column_origin"
+        },
+        "name": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Name",
+                "ZH": "\u59d3\u540d"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$TYPE": "column_origin"
+        },
+        "password": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$AUTH_write": {
+                "admin": false,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_name": null,
+            "$DISP_show_in_brief_view": false,
+            "$GENL_input_type": null,
+            "$TYPE": "column_origin"
+        },
+        "person_id": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": false,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Person ID",
+                "ZH": "\u4eba\u5458ID"
+            },
+            "$DISP_show_in_br ief_view": true,
+            "$GENL_input_type": null,
+            "$ISPK": true,
+            "$TYPE": "column_origin"
+        },
+        "school_card_number": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": true,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Card Number",
+                "ZH": "\u6821\u56ed\u5361\u53f7"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$TYPE": "column_origin"
+        },
+        "title": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$DISP_displacer": {
+                "founder": "\u521b\u59cb\u4eba",
+                "intendant": "\u7ba1\u7406\u4eba",
+                "learner": "\u5b66\u751f",
+                "lecturer": "\u6388\u8bfe\u4eba",
+                "tutor": "\u6307\u5bfc\u8001\u5e08"
+            },
+            "$DISP_name": {
+                "EN": "Person Title",
+                "ZH": "\u5934\u8854"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "select",
+            "$TYPE": "column_origin"
+        },
+        "type": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$DISP_displacer": {
+                "PhD_dandidate": "\u5728\u8bfb\u535a\u58eb\u751f",
+                "graduated": "\u5df2\u6bd5\u4e1a",
+                "master_candidate": "\u5728\u8bfb\u7855\u58eb\u751f",
+                "undergraduate": "\u5728\u8bfb\u672c\u79d1\u751f"
+            },
+            "$DISP_name": {
+                "EN": "Person Type",
+                "ZH": "\u4eba\u5458\u7c7b\u578b"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "select",
+            "$TYPE": "column_origin"
+        },
+        "username": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": false,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_link_ref": "person_id",
+            "$DISP_name": {
+                "EN": "Username",
+                "ZH": "\u7528\u6237\u540d"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$DISP_show_in_scope_head": true,
+            "$GENL_input_type": null,
+            "$TYPE": "column_origin"
+        }
+    },
+    "$DISP_name": {
+        "EN": "Persons",
+        "ZH": "\u4eba\u5458"
+    },
+    "$GENL_relevant_bsnses": [
+        [
+            "",
+            ""
+        ],
+        [
+            "",
+            ""
+        ]
+    ],
+    "$TYPE": "table"
+}

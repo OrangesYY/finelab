@@ -1,6 +1,4 @@
-import json
-import sys
-import _io
+import sys, os, json, copy
 
 pass
 class Business:
@@ -10,15 +8,30 @@ class Business:
         if type(arg) == dict:
             self.raw_dict = arg
             self.format_bussiness()
-        elif type(arg) == _io.TextIOWrapper:
-            self.raw_dict = json.load(arg)
-            self.format_bussiness()
             
         elif type(arg) == str:
-            self.raw_dict = json.loads(arg)
+            # Open root json for read
+            root_json_path = arg
+            fpr = open(root_json_path, 'r')
+            # Load dict from root json file
+            root_json_dict = json.load(fpr)
+            fpr.close()
+
+            # Initiate self.raw_dict
+            self.raw_dict = dict()
+            for _key in root_json_dict:
+                # Get root json directory firstly
+                root_json_dir = os.path.dirname(os.path.realpath(arg))
+                # Open the splited json file
+                fpr = open(root_json_dir + "/" + root_json_dict[_key], 'r')
+                tmpDict = json.load(fpr)
+                # Merge dicts
+                self.raw_dict[_key] = tmpDict
+                fpr.close()
             self.format_bussiness()
+
     def format_bussiness(self):
-        self.formated_dict = self.raw_dict.copy()
+        self.formated_dict = copy.deepcopy(self.raw_dict)
         for t_name, t_content in self.raw_dict.items():
             for c_name, c_content in t_content['$COLU'].items():
                 # Before loop, set the origin to this column
@@ -57,16 +70,17 @@ class Business:
             # Copy table name inside the table dict for easier access
             self.formated_dict[t_name]['$TBNM'] = t_name
         return self.formated_dict
+    
     def loadFromPath(self,f_path):
-        f = open(f_path, 'r',encoding='utf-8')
-        self.__init__(f)
-        f.close()
+        self.__init__(f_path)
         return self
+    
     def getFomatdDict(self, t_name = None):
         if t_name:
             return self.formated_dict[t_name]
         else:
             return self.formated_dict
+        
     def getDmpdJsonStr(self):
         return json.dumps(self.formated_dict,indent = 4)
         

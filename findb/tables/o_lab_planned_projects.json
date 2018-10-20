@@ -1,0 +1,108 @@
+{
+    "$COLU": {
+        "discription": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": true,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Discription",
+                "ZH": "\u63cf\u8ff0"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$TYPE": "column_origin"
+        },
+        "name_chs": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": true,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Name in Chiness",
+                "ZH": "\u4e2d\u6587\u540d"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$TYPE": "column_origin"
+        },
+        "name_eng": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": true,
+                "app_user": false,
+                "owner_rspns": true,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Name in English",
+                "ZH": "\u82f1\u6587\u540d"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$TYPE": "column_origin"
+        },
+        "project_id": {
+            "$AUTH_read": {
+                "admin": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "tourist": true
+            },
+            "$AUTH_write": {
+                "admin": false,
+                "app_user": false,
+                "owner_rspns": false,
+                "tourist": false
+            },
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Project ID",
+                "ZH": "\u9879\u76eeID"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": null,
+            "$ISPK": true,
+            "$TYPE": "column_origin"
+        }
+    },
+    "$DISP_name": {
+        "EN": "Lab-Panned Projects",
+        "ZH": "\u5b9e\u9a8c\u5ba4\u8ba1\u5212\u9879\u76ee"
+    },
+    "$GENL_relevant_bsnses": [
+        [
+            "",
+            ""
+        ],
+        [
+            "",
+            ""
+        ]
+    ],
+    "$TYPE": "table"
+}

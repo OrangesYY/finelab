@@ -31,9 +31,9 @@ The management tool for labs
 20. ADD column in each table: __delete_timestamp
    
 # Changelog
-
-
-
+**2018-10-20**
+- add .gitignore file.
+- spilt data_stru.json to separate json files
 
 # How to write the Data Structure JSON File?
 ## Dir structure
