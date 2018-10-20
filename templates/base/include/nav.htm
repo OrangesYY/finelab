@@ -75,15 +75,15 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            {% if session['logged_in'] == True%}
-                                {{session['username']}} 
+                            {% if user_info_dict['logined'] == True%}
+                                {{user_info_dict['username']}} 
                             {% else %}
-                                {{'USER'}} 
+                                未登录
                             {% endif %}
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            {% if session['logged_in'] == True%}
+                            {% if user_info_dict['logined'] == True%}
                             <li><a href="#">个人视图</a></li>
                             <li><a href="#">个人信息</a></li>
                             <li><a href="#">修改密码</a></a></li>
