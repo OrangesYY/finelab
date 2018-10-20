@@ -1,137 +1,10 @@
 {
-    "$COLU": {
-        "admin_check": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Admin Check",
-                "ZH": "\u7ba1\u7406\u5458\u786e\u8ba4"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "person_id": {
-            "$STRU_origin_column": "person_id",
-            "$STRU_origin_table": "o_persons",
-            "$TYPE": "column_cite"
-        },
-        "person_role": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Person Role",
-                "ZH": "\u4eba\u5458\u89d2\u8272"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "project_id": {
-            "$STRU_origin_column": "project_id",
-            "$STRU_origin_table": "o_lab_planned_projects",
-            "$TYPE": "column_cite"
-        },
-        "record_id": {
-            "$AUTH_insert": {
-                "admin": false,
-                "app_user": false,
-                "owner_rspns": false,
-                "tourist": true
-            },
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": false,
-                "app_user": false,
-                "owner_rspns": false,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Record ID",
-                "ZH": "\u8bb0\u5f55ID"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": null,
-            "$TYPE": "column_origin"
-        },
-        "time": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Time",
-                "ZH": "\u65f6\u95f4"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "type": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Type",
-                "ZH": "\u7c7b\u578b"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        }
+    "$TYPE":"table",
+    "$DISP_name":{
+        "EN":"Record - Lab-Planned Project Members",
+        "ZH":"记录-实验室计划项目成员"
     },
-    "$DISP_name": {
-        "EN": "Record - Lab-Planned Project Members",
-        "ZH": "\u8bb0\u5f55-\u5b9e\u9a8c\u5ba4\u8ba1\u5212\u9879\u76ee\u6210\u5458"
-    },
-    "$GENL_relevant_bsnses": [
+    "$GENL_relevant_bsnses":[
         [
             "",
             ""
@@ -141,5 +14,132 @@
             ""
         ]
     ],
-    "$TYPE": "table"
+    "$COLU":{
+        "record_id":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Record ID",
+                "ZH":"记录ID"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":null,
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":false,
+                "admin":false
+            },
+            "$AUTH_insert":{
+                "tourist":true,
+                "app_user":false,
+                "owner_rspns":false,
+                "admin":false
+            }
+        },
+        "type":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Type",
+                "ZH":"类型"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        },
+        "person_id":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"o_persons",
+            "$STRU_origin_column":"person_id"
+        },
+        "project_id":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"o_lab_planned_projects",
+            "$STRU_origin_column":"project_id"
+        },
+        "person_role":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Person Role",
+                "ZH":"人员角色"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        },
+        "time":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Time",
+                "ZH":"时间"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        },
+        "admin_check":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Admin Check",
+                "ZH":"管理员确认"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        }
+    }
 }

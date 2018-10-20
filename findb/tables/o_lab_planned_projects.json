@@ -1,100 +1,10 @@
 {
-    "$COLU": {
-        "discription": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Discription",
-                "ZH": "\u63cf\u8ff0"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "name_chs": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Name in Chiness",
-                "ZH": "\u4e2d\u6587\u540d"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "name_eng": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Name in English",
-                "ZH": "\u82f1\u6587\u540d"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "project_id": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": false,
-                "app_user": false,
-                "owner_rspns": false,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Project ID",
-                "ZH": "\u9879\u76eeID"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": null,
-            "$ISPK": true,
-            "$TYPE": "column_origin"
-        }
+    "$TYPE":"table",
+    "$DISP_name":{
+        "EN":"Lab-Panned Projects",
+        "ZH":"实验室计划项目"
     },
-    "$DISP_name": {
-        "EN": "Lab-Panned Projects",
-        "ZH": "\u5b9e\u9a8c\u5ba4\u8ba1\u5212\u9879\u76ee"
-    },
-    "$GENL_relevant_bsnses": [
+    "$GENL_relevant_bsnses":[
         [
             "",
             ""
@@ -104,5 +14,95 @@
             ""
         ]
     ],
-    "$TYPE": "table"
+    "$COLU":{
+        "project_id":{
+            "$TYPE":"column_origin",
+            "$ISPK":true,
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Project ID",
+                "ZH":"项目ID"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":null,
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":false,
+                "admin":false
+            }
+        },
+        "name_chs":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Name in Chiness",
+                "ZH":"中文名"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        },
+        "name_eng":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Name in English",
+                "ZH":"英文名"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        },
+        "discription":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Discription",
+                "ZH":"描述"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        }
+    }
 }

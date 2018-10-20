@@ -22,7 +22,7 @@ class Business:
                 # Get root json directory firstly
                 root_json_dir = os.path.dirname(os.path.realpath(arg)).replace("\\", "/")
                 # Open the splited json file
-                fpr = open(root_json_dir + "/" + root_json_dict[_key], 'r')
+                fpr = open(root_json_dir + "/" + root_json_dict[_key], 'r',encoding='utf-8')
                 tmpDict = json.load(fpr)
                 # Merge dicts
                 self.raw_dict[_key] = tmpDict
@@ -229,45 +229,45 @@ if __name__ == '__main__':
     print('Dumped JSON String:')
     print(Dumped_json_str)
 
-    # For Creating Table
-    Create_sql_str = Business().loadFromPath(sys.argv[1]).createTInitSQL(sys.argv[2])
-    print('\nCreate Table SQL String:')
-    print(Create_sql_str)
+    # # For Creating Table
+    # Create_sql_str = Business().loadFromPath(sys.argv[1]).createTInitSQL(sys.argv[2])
+    # print('\nCreate Table SQL String:')
+    # print(Create_sql_str)
 
-    # For Query
-    filters_list = [
-        {
-            'left':'person_id',
-            'type':'=',
-            'right':':person_id'
-        }
-    ]
-    Query_sql_str = Business().loadFromPath(sys.argv[1]).createQuerySQL(
-        sys.argv[2],
-        filters_list = filters_list,
-        id = 3
-    )
-    print('\nQuery SQL String:')
-    print(Query_sql_str)
+    # # For Query
+    # filters_list = [
+    #     {
+    #         'left':'person_id',
+    #         'type':'=',
+    #         'right':':person_id'
+    #     }
+    # ]
+    # Query_sql_str = Business().loadFromPath(sys.argv[1]).createQuerySQL(
+    #     sys.argv[2],
+    #     filters_list = filters_list,
+    #     id = 3
+    # )
+    # print('\nQuery SQL String:')
+    # print(Query_sql_str)
     
-    # For Insert
-    values_dicts_list =[
-        {
-            "type":"21",
-            "person_role":"34"
-        },
-        {
-            "type":"45",
-            "admin_check":"56"
-        }
-    ]
-    Insert_sql_str = Business().loadFromPath(sys.argv[1]).createInsertSQL(
-        sys.argv[2],
-        values_dicts_list = values_dicts_list,
-        write_auth_role = 'admin'
-    )
-    print('\nInsert SQL String:')
-    print(Insert_sql_str)
+    # # For Insert
+    # values_dicts_list =[
+    #     {
+    #         "type":"21",
+    #         "person_role":"34"
+    #     },
+    #     {
+    #         "type":"45",
+    #         "admin_check":"56"
+    #     }
+    # ]
+    # Insert_sql_str = Business().loadFromPath(sys.argv[1]).createInsertSQL(
+    #     sys.argv[2],
+    #     values_dicts_list = values_dicts_list,
+    #     write_auth_role = 'admin'
+    # )
+    # print('\nInsert SQL String:')
+    # print(Insert_sql_str)
     
 
 

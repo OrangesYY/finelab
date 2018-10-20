@@ -1,46 +1,10 @@
 {
-    "$COLU": {
-        "act_type": {
-            "$STRU_origin_column": "type",
-            "$STRU_origin_table": "r_lab_planned_proj_menbers",
-            "$TYPE": "column_cite"
-        },
-        "menber_card_number": {
-            "$STRU_origin_column": "school_card_number",
-            "$STRU_origin_table": "o_persons",
-            "$TYPE": "column_cite"
-        },
-        "menber_name": {
-            "$STRU_origin_column": "name",
-            "$STRU_origin_table": "o_persons",
-            "$TYPE": "column_cite"
-        },
-        "menber_person_id": {
-            "$STRU_origin_column": "person_id",
-            "$STRU_origin_table": "o_persons",
-            "$TYPE": "column_cite"
-        },
-        "menber_role": {
-            "$STRU_origin_column": "person_role",
-            "$STRU_origin_table": "r_lab_planned_proj_menbers",
-            "$TYPE": "column_cite"
-        },
-        "proj_id": {
-            "$STRU_origin_column": "project_id",
-            "$STRU_origin_table": "r_lab_planned_proj_menbers",
-            "$TYPE": "column_cite"
-        },
-        "proj_name": {
-            "$STRU_origin_column": "name_chs",
-            "$STRU_origin_table": "o_lab_planned_projects",
-            "$TYPE": "column_cite"
-        }
+    "$TYPE":"view",
+    "$DISP_name":{
+        "EN":"View - Members In Lab-Panned Projects",
+        "ZH":"视图-实验室计划项目成员"
     },
-    "$DISP_name": {
-        "EN": "View - Members In Lab-Panned Projects",
-        "ZH": "\u89c6\u56fe-\u5b9e\u9a8c\u5ba4\u8ba1\u5212\u9879\u76ee\u6210\u5458"
-    },
-    "$GENL_relevant_bsnses": [
+    "$GENL_relevant_bsnses":[
         [
             "",
             ""
@@ -50,31 +14,67 @@
             ""
         ]
     ],
-    "$STRU_join": {
-        "$JOIN_left": {
-            "$JOIN_left": {
-                "$STRU_origin_column": "project_id",
-                "$STRU_origin_table": "o_lab_planned_projects",
-                "type": "column_cite"
-            },
-            "$JOIN_return": {
-                "$STRU_origin_column": "person_id",
-                "$STRU_origin_table": "r_lab_planned_proj_menbers",
-                "type": "column_cite"
-            },
-            "$JOIN_right": {
-                "$STRU_origin_column": "project_id",
-                "$STRU_origin_table": "r_lab_planned_proj_menbers",
-                "type": "column_cite"
-            },
-            "$TYPE": "left_outer_join"
+    "$COLU":{
+        "proj_id":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"r_lab_planned_proj_menbers",
+            "$STRU_origin_column":"project_id"
         },
-        "$JOIN_right": {
-            "$STRU_origin_column": "person_id",
-            "$STRU_origin_table": "r_lab_planned_proj_menbers",
-            "type": "column_cite"
+        "proj_name":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"o_lab_planned_projects",
+            "$STRU_origin_column":"name_chs"
         },
-        "$TYPE": "left_outer_join"
+        "menber_person_id":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"o_persons",
+            "$STRU_origin_column":"person_id"
+        },
+        "menber_name":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"o_persons",
+            "$STRU_origin_column":"name"
+        },
+        "menber_card_number":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"o_persons",
+            "$STRU_origin_column":"school_card_number"
+        },
+        "act_type":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"r_lab_planned_proj_menbers",
+            "$STRU_origin_column":"type"
+        },
+        "menber_role":{
+            "$TYPE":"column_cite",
+            "$STRU_origin_table":"r_lab_planned_proj_menbers",
+            "$STRU_origin_column":"person_role"
+        }
     },
-    "$TYPE": "view"
+    "$STRU_join":{
+        "$TYPE":"left_outer_join",
+        "$JOIN_left":{
+            "$TYPE":"left_outer_join",
+            "$JOIN_left":{
+                "type":"column_cite",
+                "$STRU_origin_table":"o_lab_planned_projects",
+                "$STRU_origin_column":"project_id"
+            },
+            "$JOIN_right":{
+                "type":"column_cite",
+                "$STRU_origin_table":"r_lab_planned_proj_menbers",
+                "$STRU_origin_column":"project_id"
+            },
+            "$JOIN_return":{
+                "type":"column_cite",
+                "$STRU_origin_table":"r_lab_planned_proj_menbers",
+                "$STRU_origin_column":"person_id"
+            }
+        },
+        "$JOIN_right":{
+            "type":"column_cite",
+            "$STRU_origin_table":"r_lab_planned_proj_menbers",
+            "$STRU_origin_column":"person_id"
+        }
+    }
 }

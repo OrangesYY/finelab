@@ -1,100 +1,10 @@
 {
-    "$COLU": {
-        "building": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "At Which Building",
-                "ZH": "\u4f4d\u4e8e\u4f55\u5efa\u7b51"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "discription": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Discription",
-                "ZH": "\u63cf\u8ff0"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "room_code": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": true,
-                "app_user": false,
-                "owner_rspns": true,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Room Code",
-                "ZH": "\u623f\u95f4\u53f7"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$TYPE": "column_origin"
-        },
-        "room_id": {
-            "$AUTH_read": {
-                "admin": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "tourist": true
-            },
-            "$AUTH_write": {
-                "admin": false,
-                "app_user": false,
-                "owner_rspns": false,
-                "tourist": false
-            },
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Room ID",
-                "ZH": "\u623f\u95f4ID"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": null,
-            "$ISPK": true,
-            "$TYPE": "column_origin"
-        }
+    "$TYPE":"table",
+    "$DISP_name":{
+        "EN":"Rooms",
+        "ZH":"房间"
     },
-    "$DISP_name": {
-        "EN": "Rooms",
-        "ZH": "\u623f\u95f4"
-    },
-    "$GENL_relevant_bsnses": [
+    "$GENL_relevant_bsnses":[
         [
             "",
             ""
@@ -104,5 +14,95 @@
             ""
         ]
     ],
-    "$TYPE": "table"
+    "$COLU":{ 
+        "room_id":{
+            "$TYPE":"column_origin",
+            "$ISPK":true,
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Room ID",
+                "ZH":"房间ID"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":null,
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":false,
+                "admin":false
+            }
+        },
+        "building":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"At Which Building",
+                "ZH":"位于何建筑"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        },
+        "room_code":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Room Code",
+                "ZH":"房间号"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        },
+        "discription":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Discription",
+                "ZH":"描述"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"text",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        }
+    }
 }
