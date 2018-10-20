@@ -2,6 +2,7 @@ import json
 import sys
 import _io
 
+
 class Business:
     raw_dict = {}
     formated_dict = {}
