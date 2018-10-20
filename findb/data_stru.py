@@ -1,6 +1,5 @@
 import sys, os, json, copy
 
-pass
 class Business:
     raw_dict = {}
     formated_dict = {}
@@ -21,7 +20,7 @@ class Business:
             self.raw_dict = dict()
             for _key in root_json_dict:
                 # Get root json directory firstly
-                root_json_dir = os.path.dirname(os.path.realpath(arg))
+                root_json_dir = os.path.dirname(os.path.realpath(arg)).replace("\\", "/")
                 # Open the splited json file
                 fpr = open(root_json_dir + "/" + root_json_dict[_key], 'r')
                 tmpDict = json.load(fpr)

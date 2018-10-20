@@ -1,7 +1,7 @@
 {
-    "o_lab_planned_projects": "./tables/o_lab_planned_projects",
-    "o_persons": "./tables/o_persons",
-    "o_rooms": "./tables/o_rooms",
-    "r_lab_planned_proj_menbers": "./tables/r_lab_planned_proj_menbers",
-    "v_lab_planned_proj_menbers": "./tables/v_lab_planned_proj_menbers"
+    "o_lab_planned_projects": "tables/o_lab_planned_projects.json",
+    "o_persons": "tables/o_persons.json",
+    "o_rooms": "tables/o_rooms.json",
+    "r_lab_planned_proj_menbers": "tables/r_lab_planned_proj_menbers.json",
+    "v_lab_planned_proj_menbers": "tables/v_lab_planned_proj_menbers.json"
 }
