@@ -5,6 +5,8 @@ The management tool for labs
 # Dependencies： 
 * python3: Downlad and install
 * flask: pip install flask
+* requests: pip install requests
+* qqbot: pip install qqbot
 
 
 

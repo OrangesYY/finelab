@@ -130,10 +130,6 @@ def user_register():
         input_list = request.form
         
 
-            
-
-
-
 
 
         success = 1
@@ -203,6 +199,9 @@ def ult_app_info():
 # [Request] General API
 @app.route('/general/json_api/target_insert', methods=['POST'])
 def gen_target_insert():
+
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
     if request.method == 'POST':     
         db = get_db()
         cur = db.cursor()
