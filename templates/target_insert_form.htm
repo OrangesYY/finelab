@@ -3,9 +3,10 @@
 
 <div class="container" style = "overflow-x:auto;">
     
-    <div>{{bsns_table_dict['$DISP_name']['ZH']}}:</div>
+    
     <h1>添加项目</h1>
     <hr>
+    <div>{{bsns_table_dict['$DISP_name']['ZH']}}:</div>
     <form class="form-horizontal"  role="form" id = "target_insert_form">
         <input type="hidden" value ="{{bsns_table_dict['$TBNM']}}" name = "INSERT_b_name">
         {% for key, val in bsns_table_dict['$COLU'].items() %}

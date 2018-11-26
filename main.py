@@ -1,8 +1,8 @@
-from flask import Flask , g,current_app
+from flask import Flask , g,current_app, send_from_directory
 from flask import request, session , render_template
 import sqlite3
 import time ,hashlib
-import datetime
+import datetime, os
 import configparser
 from flask import json,jsonify
 import codecs
@@ -156,6 +156,22 @@ def user_info():
         return 'Change user info'
     elif request.method == 'GET':   #Get User info
         return 'Get user info'  
+
+
+
+# [Request] Download  FILE API
+
+@app.route("/download/tag_pdf", methods=['POST', 'GET'])
+def download_file():
+    if request.method == 'POST':     #Fetch Device Data
+        # 需要知道2个参数, 第1个参数是本地目录的path, 第2个参数是文件名(带扩展名)
+        pass
+    directory = os.getcwd()  # 假设在当前目录
+    return send_from_directory(directory, "out_2x3.pdf", as_attachment=True)
+
+
+
+
 
 # [Request] IOT Applications API
 @app.route('/iot/json_api/active_tag_reader', methods=['POST'])
@@ -311,6 +327,14 @@ def t_base_target_insert_form():
     b_name = request.args.get('b_name')  # business name
     bsns_table_dict = bsnses.getFomatdDict(b_name)
     return render_template('target_insert_form.htm',bsns_table_dict = bsns_table_dict)
+
+
+
+@app.route('/tmplt_based_ui/pdf_tag_gen_form', methods=['GET'])
+def t_base_pdf_tag_gen_form():
+    return render_template('pdf_tag_gen_form.htm')
+
+
 @app.route('/tmplt_based_ui/debug/view_table', methods=['GET'])
 def t_base_debug_view_table():
     db = get_db()
@@ -322,6 +346,10 @@ def t_base_debug_view_table():
     query_result = cur.execute("SELECT * FROM '%s'"%(t_name,)).fetchall()
     cur.close()
     return render_template('debug_view_table.htm',table_info = table_info, query_result = query_result)
+
+
+
+
         
 # [Request] Single-Page UI
 @app.route('/sigl_page_ui/', methods=['GET'])
