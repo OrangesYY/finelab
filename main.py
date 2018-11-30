@@ -8,11 +8,13 @@ from flask import json,jsonify
 import codecs
 from findb.data_stru import Business
 
-bsnses = Business().loadFromPath('findb/data_stru.json')
+# Read Business Logic
+bsnses = Business().loadFromPath('data/data_stru.json')
 
 app = Flask(__name__)
 app.secret_key = "6089372-Stupid#Enough"
 
+# Read Configuration from app_config.ini
 config = configparser.ConfigParser()    # 注意大小写
 config.read('app_config.ini',encoding="utf-8")
 
@@ -23,8 +25,11 @@ with app.app_context():    # To be visited in templates
     current_app.config['G_AppDiscription'] = config.get(G_LANG,'AppDiscription')
     current_app.config['G_ParentOrganizationName'] = config.get(G_LANG,'ParentOrganizationName')
     current_app.config['G_ChildOrganizationName'] = config.get(G_LANG,'ChildOrganizationName')
+    
+    current_app.config['G_bsnses_dict'] = bsnses.getFomatdDict()
+
 # Database Settings
-DATABASE = 'management_sqlite3.db'
+DATABASE = 'data/finelab.sqlite3.db'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -216,7 +221,7 @@ def gen_target_insert():
         cur = db.cursor()
         input_list = request.form
         values_dict = {}
-        b_name=input_list.get('INSERT_b_name')
+        b_name=input_list.get('HIDDEN_b_name')
         bsns_table_dict = bsnses.getFomatdDict(b_name)
         if bsns_table_dict is None:
             return json.dumps({"status":"failed","text":"No such business: !" + b_name})
@@ -228,6 +233,7 @@ def gen_target_insert():
         success = 1
         
         try:
+            print("Insert SQL String:")
             print(query_sql_str)
             cur.execute(query_sql_str)
             db.commit()
@@ -242,8 +248,78 @@ def gen_target_insert():
     elif request.method == 'GET':   
         pass
 
+@app.route('/general/json_api/target_update', methods=['POST'])
+def gen_target_update():
+    if request.method == 'POST':     
+        db = get_db()
+        cur = db.cursor()
+        input_list = request.form
+        values_dict = {}
+        b_name = input_list.get('HIDDEN_b_name')
+        tar_id = input_list.get('HIDDEN_tar_id')
+        bsns_table_dict = bsnses.getFomatdDict(b_name)
+        if bsns_table_dict is None:
+            return json.dumps({"status":"failed","text":"No such business: !" + b_name})
+        for in_key, in_val in input_list.items():
+            if in_key in bsns_table_dict['$COLU']:
+                values_dict[in_key] = in_val
+        # values_dicts_list = [values_dict]     # Dangerous, debug only!
+        # query_sql_str = bsnses.createInsertSQL(b_name,values_dicts_list,write_auth_role='admin')
+        query_sql_str = bsnses.createUpdateSQL(b_name, values_dict, filters_list = [], write_auth_role = 'admin', id = tar_id )
+        success = 1
+        
+        try:
+            print("Update SQL String:")
+            print(query_sql_str)
+            cur.execute(query_sql_str)
+            db.commit()
+        except Exception as e:
+            success = 0
+            raise e
+        cur.close()
+        if success:
+            return json.dumps({"status":"succeeded","text":"Update Succeed!"})
+        else:
+            return json.dumps({"status":"failed","text":"Update Failed!"})
+    elif request.method == 'GET':   
+        pass
+
+@app.route('/general/json_api/target_delete', methods=['POST'])
+def gen_target_delete():
+    if request.method == 'POST':     
+        db = get_db()
+        cur = db.cursor()
+        input_list = request.form
 
 
+        b_name = input_list.get('VAR_b_name')
+        tar_id = input_list.get('VAR_tar_id')
+        bsns_table_dict = bsnses.getFomatdDict(b_name)
+        if bsns_table_dict is None:
+            return json.dumps({"status":"failed","text":"No such business: !" + b_name})
+ 
+        query_sql_str = bsnses.createDeleteSQL(b_name,  filters_list = [], write_auth_role = 'admin', id = tar_id )
+ 
+ 
+ 
+        success = 1
+        
+        try:
+            print("Update SQL String:")
+            print(query_sql_str)
+            cur.execute(query_sql_str)
+            db.commit()
+        except Exception as e:
+            success = 0
+            raise e
+        cur.close()
+        if success:
+            return json.dumps({"status":"succeeded","text":"Delete Succeed!"})
+        else:
+            return json.dumps({"status":"failed","text":"Delete Failed!"})
+        # return json.dumps({"status":"failed","text":b_name + tar_id})
+    elif request.method == 'GET':   
+        pass
 
         
 # [Request] Template Based UI
@@ -328,7 +404,19 @@ def t_base_target_insert_form():
     bsns_table_dict = bsnses.getFomatdDict(b_name)
     return render_template('target_insert_form.htm',bsns_table_dict = bsns_table_dict)
 
-
+@app.route('/tmplt_based_ui/target_update_form', methods=['GET'])
+def t_base_target_update_form():
+    db = get_db()
+    cur = db.cursor()
+    b_name = request.args.get('b_name')  # business name
+    tar_id = request.args.get('id')      # target id
+    bsns_table_dict = bsnses.getFomatdDict(b_name)
+    query_sql_str = bsnses.createQuerySQL(b_name, read_auth_role = 'tourist', filters_list = [], id = tar_id)
+    query_result = cur.execute(query_sql_str).fetchall()
+    # print(query_sql_str)  # debug
+    # print(query_result)  # debug
+    cur.close()
+    return render_template('target_update_form.htm',bsns_table_dict = bsns_table_dict, query_result = query_result)
 
 @app.route('/tmplt_based_ui/pdf_tag_gen_form', methods=['GET'])
 def t_base_pdf_tag_gen_form():

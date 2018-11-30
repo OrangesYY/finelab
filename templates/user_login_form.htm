@@ -2,34 +2,38 @@
 {% block main %}
 <div class="container" style = "overflow-x:auto;">
     <h1>用户登录</h1>
-    <form id = "login_form" method = "post" >
+    <form id = "main_form" method = "post" >
         <div class="form-group">
             <input class="form-control" name = "username" type = "text" placeholder = "请输入用户名"/>         </br>
             <input class="form-control" name = "password" type = "password" placeholder = "请输入密码"/>       </br>
-            <input class="form-control" id = "register_submit_button" type = "button" value = "提交"/>
-            <div id = "login_message_div">&nbsp;</div>
+            <input class="form-control" id = "submit_button" type = "button" value = "提交"/>
+            <div id = "message_div">&nbsp;</div>
         </div>
     </form>
 
 </div>
 <script>
-function submit_login_form(){
-    if($("#login_form").children("[name='password']").val() != ''){
-        $("#login_message_div").text("Loading...");
+submit_url = "/user/json_api/login"
+message_div = $("#main_form").find("#message_div");
+password_text = $("#main_form").find("[name ='password']")
+function submit_main_form(){
+    
+    if(password_text.val() != ''){
+        message_div.text("Loading...");
         $.ajax({
             type: "POST",
-            url:"/user/json_api/login",
-            data:$('#login_form').serialize(),
+            url: submit_url,
+            data: $('#main_form').serialize(),
             dataType: "json",
             error: function(request) {
-                alert("login form submit Connection error");
-                alert(this.data)
+                message_div.text("Submit Connection error");
+                // alert(this.data)
             },
             success: function(result_json) {
-                $("#login_message_div").text(result_json.text);
+                message_div.text(result_json.text);
                 //update_user_info();
                 if(result_json.status == "succeeded"){
-                    
+                    location.href = "/"
                 
                 
                 }else{
@@ -41,10 +45,21 @@ function submit_login_form(){
             }
         });
     }else{ 
-        alert("密码！");
+        message_div.text("密码不能为空！");
     }
 }
-$('#register_submit_button').click(submit_login_form);
+$("#main_form").find('#submit_button').click(submit_main_form);
+
+password_text.keypress(function(event){  
+    var keynum = (event.keyCode ? event.keyCode : event.which);  
+    if(keynum == '13'){  
+        submit_main_form();   
+    }  
+}); 
+
+
+
+
 
 </script>
 {% endblock %}

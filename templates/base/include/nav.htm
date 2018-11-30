@@ -16,15 +16,17 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
-                            role="button" aria-haspopup="true" aria-expanded="false">对象视图<span class="caret"></span></a>
+                            role="button" aria-haspopup="true" aria-expanded="false">对象记录<span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/tmplt_based_ui/search?b_name=o_persons">人员</a></li>
-                            <li><a href="/tmplt_based_ui/search?b_name=o_rooms">房间</a></li>
+                            {%  for key, val in config['G_bsnses_dict'].items() %}
+                                <li><a href="/tmplt_based_ui/search?b_name={{key}}">{{val['$DISP_name']['ZH']}}</a></li>
+                            {% endfor %}
+
+                            <li role="separator" class="divider"></li>
+
                             <li><a href="#">事件活动</a></li>
-                            <li><a href="/tmplt_based_ui/search?b_name=o_lab_planned_projects">计划项目</a></li>
                             <li><a href="#">名义项目</a></li>
                             <li><a href="#">文件</a></li>
-                            <li role="separator" class="divider"></li>
                             <li><a href="#">设备</a></li>
                             <li><a href="#">配件</a></li>
                             <li><a href="#">耗材</a></li>
@@ -35,24 +37,13 @@
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
-                           role="button" aria-haspopup="true" aria-expanded="false">记录视图<span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="/tmplt_based_ui/search?b_name=v_lab_planned_proj_menbers">实验室计划项目成员</a></li>
-                            <li><a href="#">实验室计划项目事件</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="/tmplt_based_ui/pdf_tag_gen_form">标签生成器</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">One more separated link</a></li>
-                        </ul>
-                    </li>
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" 
                            role="button" aria-haspopup="true" aria-expanded="false">综合视图<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">安防</a></li>
                             <li><a href="#">安全规程</a></li>
                             <li><a href="#">人员流动</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="/tmplt_based_ui/pdf_tag_gen_form">标签生成器</a></li>
                             <li><a href="#">项目甘特图</a></li>
                         </ul>
                     </li>
@@ -83,7 +74,7 @@
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            {% if session['logged_in'] == True%}
+                            {% if session['logged_in'] == True %}
                             <li><a href="#">个人视图</a></li>
                             <li><a href="#">个人信息</a></li>
                             <li><a href="#">修改密码</a></a></li>
@@ -98,15 +89,12 @@
                 <form class="navbar-form navbar-right" action="/tmplt_based_ui/search" method="get">
                     
                             <select class = "form-control" name = b_name>
-                                <option value = "o_persons">人员</option>
-                                <option value = "o_lab_planned_projects">计划项目</option>
+                                {%  for key, val in config['G_bsnses_dict'].items() %}
+                                    <option value = "{{key}}">{{val['$DISP_name']['ZH']}}</option>
+                                {% endfor %}
                             </select>
-                            <input type="text" class="form-control">
-
+                            <input type="text" class="form-control" name = "search_key_word">
                             <button class="btn btn-default" >搜索</button>
-
-                 
-
                 </form>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->

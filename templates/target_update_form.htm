@@ -1,0 +1,89 @@
+{% extends 'base/base.htm' %}
+{% block main %}
+
+<div class="container" style = "overflow-x:auto;">
+    
+
+    <h1>更新项目</h1>
+    <hr>
+    <div>{{bsns_table_dict['$DISP_name']['ZH']}}:</div>
+    {% set row = query_result[0] %}
+
+    <form class="form-horizontal"  role="form" id = "main_form">
+            <input type="hidden" value ="{{bsns_table_dict['$TBNM']}}" name = "HIDDEN_b_name">
+            {{row[bsns_table_dict['$PMKY']]}}
+            <input type="hidden" value ="{{row[bsns_table_dict['$PMKY']]}}" name = "HIDDEN_tar_id">
+            {% for key, val in bsns_table_dict['$COLU'].items() %}
+            <div class="form-group">
+                
+                <label class="control-label col-sm-12 col-md-3" >
+                    {{ val['$DISP_name']['ZH'] }}
+                </label>
+                <div class="controls col-sm-12 col-md-6">
+                    {% if val['$AUTH_write'][session['auth_role']] %}
+                        {% if val.get("$DISP_displacer") %}
+                        <select class="form-control" name = "{{ val['$CLNM'] }}" >
+                            {% for disp_key, disp_val in val['$DISP_displacer'].items() %}
+                                {% if disp_key == row[key] %}
+                                <option value = "{{disp_key}}" selected >{{disp_val}}</option>
+                                {% else %}
+                                <option value = "{{disp_key}}" >{{disp_val}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
+                        {% else %}
+                        <input type="text" placeholder="" class="form-control" name = "{{ val['$CLNM'] }}" value = "{{row[key]}}">
+                        {% endif %}
+                    {% else %}
+                        无权限填写
+                    {% endif %}
+                </div>
+                <p class = "help-block col-sm-12 col-md-3">
+                    discription
+                </p>
+                
+            </div>
+            {% endfor %}
+            <div class="col-md-9 col-md-offset-3">
+                <button type="button" class="btn btn-default" id = "submit_button" class="form-control">提交</button>
+            </div>
+            <div id = "message_div">&nbsp;</div>
+        </form>
+
+</div>
+
+<script>
+        function submit_main_form(){
+                $("#message_div").text("Loading...");
+                $.ajax({
+                    type: "POST",
+                    url:"/general/json_api/target_update",
+                    data:$('#main_form').serialize(),
+                    // return data type
+                    dataType: "json",
+                    error: function(request) {
+                        alert("Submit Connection Error");
+                        alert($('#main_form').serialize());
+                    },
+                    success: function(result_json) {
+                        $("#message_div").text(result_json.text);
+                        //update_user_info();
+                        if(result_json.status == "succeeded"){
+                            
+                            
+                            
+                        }else{
+                            
+                            
+                            
+                            
+                        }
+                    }
+                });
+        }
+        $('#submit_button').click(submit_main_form);
+        
+        
+</script>
+
+{% endblock %}

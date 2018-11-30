@@ -3,9 +3,10 @@
 
 <div class="container" style = "overflow-x:auto;">
     
-    <div>{{bsns_table_dict['$DISP_name']['ZH']}}:</div>
-    <h1>Header</h1>
+
+    <h1>查看项目</h1>
     <hr>
+    <div>{{bsns_table_dict['$DISP_name']['ZH']}}:</div>
     {% set row = query_result[0] %}
     {% for key,value in row.items() %}
         <h2>{{bsns_table_dict['$COLU'][key]['$DISP_name']['ZH']}}</h2>

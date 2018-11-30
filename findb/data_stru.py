@@ -34,8 +34,8 @@ class Business:
 
     def format_bussiness(self):
         self.formated_dict = copy.deepcopy(self.raw_dict)
-        for t_name, t_content in self.raw_dict.items():
-            for c_name, c_content in t_content['$COLU'].items():
+        for t_name, t_stru in self.raw_dict.items():
+            for c_name, c_stru in t_stru['$COLU'].items():
                 # Before loop, set the origin to this column
                 origin_t_name = t_name
                 origin_c_name = c_name
@@ -88,26 +88,26 @@ class Business:
         
     # Table Init
     def createTInitSQL(self,t_name):
-        t_content = self.formated_dict[t_name]
-        if t_content['$TYPE'] == 'table':
+        t_stru = self.formated_dict[t_name]
+        if t_stru['$TYPE'] == 'table':
             init_str = "CREATE TABLE {t_name} (\n{columns_str}\n)\n;"
             columns_str = ''
             
-            for c_name, c_content in t_content['$COLU'].items():
+            for c_name, c_stru in t_stru['$COLU'].items():
                 column_str = '{data_type_str}{constraints_str}'
                 data_type_str = ''
                 constraints_str = ''
-                # if c_content.get('$CONS_local'):
-                #     constraints_str += c_content.get('$CONS_local')
-                if c_content['$TYPE'] == "column_cite":
+                # if c_stru.get('$CONS_local'):
+                #     constraints_str += c_stru.get('$CONS_local')
+                if c_stru['$TYPE'] == "column_cite":
                     foreign_key_str = ' FOREIGN KEY REFERENCES {real_origin_table}({real_origin_column})'
                     foreign_key_str = foreign_key_str.format(
-                        real_origin_table = c_content['$STRU_real_origin_table'],
-                        real_origin_column = c_content['$STRU_real_origin_column']
+                        real_origin_table = c_stru['$STRU_real_origin_table'],
+                        real_origin_column = c_stru['$STRU_real_origin_column']
                     )
                     constraints_str += foreign_key_str
-                if c_content.get('$ISPK') == True: # Is primary key
-                    if c_content['$TYPE'] == "column_cite":
+                if c_stru.get('$ISPK') == True: # Is primary key
+                    if c_stru['$TYPE'] == "column_cite":
                         pass # ![Exception]
                     else:
                         primary_key_str = ' PRIMARY KEY'
@@ -128,24 +128,24 @@ class Business:
     def createVInitSQL(self,v_name):
         pass
     
-    # Only can be used when initializing, for safety reasons
+    # Only can be used when initializing, for safety reasons (SQL INJECT)
     def createQuerySQL(self, t_name, filters_list = [], read_auth_role = 'tourist', id = None):
-        t_content = self.formated_dict[t_name]
-        if t_content['$TYPE'] == 'table' or  t_content['$TYPE'] == 'view' :
+        t_stru = self.formated_dict[t_name]
+        if t_stru['$TYPE'] == 'table' or  t_stru['$TYPE'] == 'view' :
             query_str = "SELECT \n{columns_str} \nFROM \n\t{t_name} \n{filters_str}\n;"
             columns_str = ''
             filters_str = ''
             # Generate columns string
-            for c_name, c_content in t_content['$COLU'].items():
-                if c_content['$AUTH_read'][read_auth_role]:
+            for c_name, c_stru in t_stru['$COLU'].items():
+                if c_stru['$AUTH_read'][read_auth_role]:
                     if columns_str == '':
                         columns_str += ('\t'+t_name+'.'+c_name )
                     else :
                         columns_str += (' ,\n\t'+t_name+'.'+c_name )
-            # Generate film string
+            # Generate filter string
             if id != None:
                 # id specified
-                filters_str = "WHERE " + t_content['$PMKY'] + " = " + str(id)
+                filters_str = "WHERE " + t_stru['$PMKY'] + " = " + str(id)
             else:
                 # id not specified
                 for filter in filters_list:
@@ -161,14 +161,14 @@ class Business:
         
     # Only can be used when initializing, for safety reasons
     def createInsertSQL(self,t_name, values_dicts_list, write_auth_role = 'tourist'):
-        t_content = self.formated_dict[t_name]
-        if t_content['$TYPE'] == 'table':
+        t_stru = self.formated_dict[t_name]
+        if t_stru['$TYPE'] == 'table':
             insert_str = "INSERT INTO {t_name}({columns_str}\n) \nVALUES{rows_str}\n;"
             columns_str = ''
             rows_str = ''
             # Generate columns string
-            for c_name, c_content in t_content['$COLU'].items():
-                if c_content['$AUTH_write'][write_auth_role]:
+            for c_name, c_stru in t_stru['$COLU'].items():
+                if c_stru['$AUTH_write'][write_auth_role]:
                     if columns_str == '' :
                         columns_str += ('\n\t'+c_name )
                     else :
@@ -181,8 +181,8 @@ class Business:
                     row_str = ',\n\t({values_str})'
 
                 values_str = ''
-                for c_name, c_content in t_content['$COLU'].items():
-                    if c_content['$AUTH_write'][write_auth_role]:
+                for c_name, c_stru in t_stru['$COLU'].items():
+                    if c_stru['$AUTH_write'][write_auth_role]:
                         value_str = values_dict.get(c_name) if  values_dict.get(c_name) else ''
                         if values_str == '':
                             values_str += ('\"'+ value_str +'\"')
@@ -197,12 +197,60 @@ class Business:
             pass # ![Exception]
         
     # Only can be used when initializing, for safety reasons
-    def createDeleteSQL(self,t_name):
-        pass
+    def createDeleteSQL(self, t_name, filters_list = [], write_auth_role = 'tourist', id = None):
+        t_stru = self.formated_dict[t_name]
+        if t_stru['$TYPE'] == 'table':
+            delete_str = "DELETE FROM {t_name} \n {filters_str}\n;"
+            
+            # Generate filter string
+            if id != None:
+                # id specified
+                filters_str = "WHERE " + t_stru['$PMKY'] + " = " + str(id)
+            else:
+                # id not specified
+                for filter in filters_list:
+                    if filters_list != None:
+                        if filters_str == '':
+                            filters_str += ('WHERE\n\t' + filter['left'] + filter['type'] + filter['right'])
+                        else:
+                            filters_str += (',\n\tAND ' + filter['left'] + filter['type'] + filter['right'])
+            delete_str = delete_str.format(t_name = t_name,  filters_str = filters_str)
+            return delete_str
+        else:
+            pass # ![Exception]
         
     # Only can be used when initializing, for safety reasons
-    def createUpdateSQL(self,t_name):
-        pass
+    def createUpdateSQL(self, t_name, values_dict, filters_list = [], write_auth_role = 'tourist', id = None):
+        t_stru = self.formated_dict[t_name]
+        if t_stru['$TYPE'] == 'table':
+            update_str = "UPDATE {t_name} SET\n {values_str} \n{filters_str}\n;"
+            values_str = ''
+            filters_str = ''
+            # Generate values string
+            for key, val in values_dict.items():
+                c_stru = t_stru['$COLU'][key]
+                if c_stru['$AUTH_write'][write_auth_role]:
+                    if values_str == '' :
+                        values_str += ('\t'+key + '=' + "\"" + val + "\"")
+                    else :
+                        values_str += (' ,\n\t'+key + '=' + "\"" + val + "\"")
+
+            # Generate filter string
+            if id != None:
+                # id specified
+                filters_str = "WHERE " + t_stru['$PMKY'] + " = " + str(id)
+            else:
+                # id not specified
+                for filter in filters_list:
+                    if filters_list != None:
+                        if filters_str == '':
+                            filters_str += ('WHERE\n\t' + filter['left'] + filter['type'] + filter['right'])
+                        else:
+                            filters_str += (',\n\tAND ' + filter['left'] + filter['type'] + filter['right'])
+            update_str = update_str.format(t_name = t_name, values_str = values_str, filters_str = filters_str)
+            return update_str
+        else:
+            pass # ![Exception]
 
 
 

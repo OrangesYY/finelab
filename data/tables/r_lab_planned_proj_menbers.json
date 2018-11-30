@@ -17,6 +17,7 @@
     "$COLU":{
         "record_id":{
             "$TYPE":"column_origin",
+            "$ISPK":true,
             "$DISP_displacer":null,
             "$DISP_name":{
                 "EN":"Record ID",
@@ -45,13 +46,17 @@
         },
         "type":{
             "$TYPE":"column_origin",
-            "$DISP_displacer":null,
+            "$DISP_displacer":{
+                "join":"加入",
+                "quit":"退出",
+                "unknown":"未知"
+            },
             "$DISP_name":{
                 "EN":"Type",
                 "ZH":"类型"
             },
             "$DISP_show_in_brief_view":true,
-            "$GENL_input_type":"text",
+            "$GENL_input_type":"select",
             "$AUTH_read":{
                 "tourist":true,
                 "app_user":true,
@@ -77,13 +82,17 @@
         },
         "person_role":{
             "$TYPE":"column_origin",
-            "$DISP_displacer":null,
+            "$DISP_displacer":{
+                "initiator":"发起人",
+                "menber":"成员",
+                "tutor":"指导老师"
+            },
             "$DISP_name":{
                 "EN":"Person Role",
                 "ZH":"人员角色"
             },
             "$DISP_show_in_brief_view":true,
-            "$GENL_input_type":"text",
+            "$GENL_input_type":"select",
             "$AUTH_read":{
                 "tourist":true,
                 "app_user":true,

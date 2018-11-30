@@ -7,53 +7,57 @@
     <h1>添加项目</h1>
     <hr>
     <div>{{bsns_table_dict['$DISP_name']['ZH']}}:</div>
-    <form class="form-horizontal"  role="form" id = "target_insert_form">
-        <input type="hidden" value ="{{bsns_table_dict['$TBNM']}}" name = "INSERT_b_name">
+    <form class="form-horizontal"  role="form" id = "main_form">
+        <input type="hidden" value ="{{bsns_table_dict['$TBNM']}}" name = "HIDDEN_b_name">
         {% for key, val in bsns_table_dict['$COLU'].items() %}
         <div class="form-group">
-            {% if val['$AUTH_write'][session['auth_role']] %}
+            
             <label class="control-label col-sm-12 col-md-3" >
                 {{ val['$DISP_name']['ZH'] }}
             </label>
             <div class="controls col-sm-12 col-md-6">
-                {% if val.get("$DISP_displacer") %}
-                <select class="form-control" name = "{{ val['$CLNM'] }}">
-                    {% for disp_key, disp_val in val['$DISP_displacer'].items() %}
-                    <option value = "{{disp_key}}"><img src = "/static/images/logo.png">{{disp_val}}</option>
+                {% if val['$AUTH_write'][session['auth_role']] %}
+                    {% if val.get("$DISP_displacer") %}
+                    <select class="form-control" name = "{{ val['$CLNM'] }}">
+                        {% for disp_key, disp_val in val['$DISP_displacer'].items() %}
+                        <option value = "{{disp_key}}">{{disp_val}}</option>
 
-                    {% endfor %}
-                </select>
+                        {% endfor %}
+                    </select>
+                    {% else %}
+                    <input type="text" placeholder="" class="form-control" name = "{{ val['$CLNM'] }}">
+                    {% endif %}
                 {% else %}
-                <input type="text" placeholder="" class="form-control" name = "{{ val['$CLNM'] }}">
+                    无权限填写
                 {% endif %}
             </div>
             <p class = "help-block col-sm-12 col-md-3">
                 discription
             </p>
-            {% endif %}
+            
         </div>
         {% endfor %}
         <div class="col-md-9 col-md-offset-3">
-            <button type="button" class="btn btn-default" id = "target_insert_submit_button" class="form-control">提交</button>
+            <button type="button" class="btn btn-default" id = "submit_button" class="form-control">提交</button>
         </div>
-        <div id = "insert_message_div">&nbsp;</div>
+        <div id = "message_div">&nbsp;</div>
     </form>
 </div>
 
 <script>
-        function submit_target_insert_form(){
-                $("#insert_message_div").text("Loading...");
+        function submit_main_form(){
+                $("#message_div").text("Loading...");
                 $.ajax({
                     type: "POST",
                     url:"/general/json_api/target_insert",
-                    data:$('#target_insert_form').serialize(),
+                    data:$('#main_form').serialize(),
                     dataType: "json",
                     error: function(request) {
-                        alert("Target Insert Form Submit Connection Error");
-                        alert($('#target_insert_form').serialize());
+                        alert("Submit Connection Error");
+                        alert($('#mian_form').serialize());
                     },
                     success: function(result_json) {
-                        $("#insert_message_div").text(result_json.text);
+                        $("#message_div").text(result_json.text);
                         //update_user_info();
                         if(result_json.status == "succeeded"){
                             
@@ -68,7 +72,7 @@
                     }
                 });
         }
-        $('#target_insert_submit_button').click(submit_target_insert_form);
+        $('#submit_button').click(submit_main_form);
         
         
 </script>
