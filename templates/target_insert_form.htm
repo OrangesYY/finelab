@@ -11,7 +11,7 @@
         <input type="hidden" value ="{{bsns_table_dict['$TBNM']}}" name = "HIDDEN_b_name">
         {% for key, val in bsns_table_dict['$COLU'].items() %}
         <div class="form-group">
-            
+            {% if val['$AUTH_write'][user_info_dict['auth_role']] %}
             <label class="control-label col-sm-12 col-md-3" >
                 {{ val['$DISP_name']['ZH'] }}
             </label>

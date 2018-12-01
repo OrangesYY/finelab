@@ -1,10 +1,10 @@
 {
-    "$TYPE":"table",
-    "$DISP_name":{
-        "EN":"Record - Lab-Planned Project Members",
-        "ZH":"记录-实验室计划项目成员"
+    "$TYPE": "table",
+    "$DISP_name": {
+        "EN": "Record - Lab-Planned Project Members",
+        "ZH": "记录-实验室计划项目成员"
     },
-    "$GENL_relevant_bsnses":[
+    "$GENL_relevant_bsnses": [
         [
             "",
             ""
@@ -23,25 +23,25 @@
                 "EN":"Record ID",
                 "ZH":"记录ID"
             },
-            "$DISP_show_in_brief_view":true,
-            "$GENL_input_type":null,
-            "$AUTH_read":{
-                "tourist":true,
-                "app_user":true,
-                "owner_rspns":true,
-                "admin":true
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": null,
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
             },
-            "$AUTH_write":{
-                "tourist":false,
-                "app_user":false,
-                "owner_rspns":false,
-                "admin":false
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": false,
+                "admin": false
             },
-            "$AUTH_insert":{
-                "tourist":true,
-                "app_user":false,
-                "owner_rspns":false,
-                "admin":false
+            "$AUTH_insert": {
+                "tourist": true,
+                "app_user": false,
+                "owner_rspns": false,
+                "admin": false
             }
         },
         "type":{
@@ -63,22 +63,22 @@
                 "owner_rspns":true,
                 "admin":true
             },
-            "$AUTH_write":{
-                "tourist":false,
-                "app_user":false,
-                "owner_rspns":true,
-                "admin":true
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
             }
         },
-        "person_id":{
-            "$TYPE":"column_cite",
-            "$STRU_origin_table":"o_persons",
-            "$STRU_origin_column":"person_id"
+        "person_id": {
+            "$TYPE": "column_cite",
+            "$STRU_origin_table": "o_persons",
+            "$STRU_origin_column": "person_id"
         },
-        "project_id":{
-            "$TYPE":"column_cite",
-            "$STRU_origin_table":"o_lab_planned_projects",
-            "$STRU_origin_column":"project_id"
+        "project_id": {
+            "$TYPE": "column_cite",
+            "$STRU_origin_table": "o_lab_planned_projects",
+            "$STRU_origin_column": "project_id"
         },
         "person_role":{
             "$TYPE":"column_origin",
@@ -99,55 +99,55 @@
                 "owner_rspns":true,
                 "admin":true
             },
-            "$AUTH_write":{
-                "tourist":false,
-                "app_user":false,
-                "owner_rspns":true,
-                "admin":true
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
             }
         },
-        "time":{
-            "$TYPE":"column_origin",
-            "$DISP_displacer":null,
-            "$DISP_name":{
-                "EN":"Time",
-                "ZH":"时间"
+        "time": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Time",
+                "ZH": "时间"
             },
-            "$DISP_show_in_brief_view":true,
-            "$GENL_input_type":"text",
-            "$AUTH_read":{
-                "tourist":true,
-                "app_user":true,
-                "owner_rspns":true,
-                "admin":true
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
             },
-            "$AUTH_write":{
-                "tourist":false,
-                "app_user":false,
-                "owner_rspns":true,
-                "admin":true
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
             }
         },
-        "admin_check":{
-            "$TYPE":"column_origin",
-            "$DISP_displacer":null,
-            "$DISP_name":{
-                "EN":"Admin Check",
-                "ZH":"管理员确认"
+        "admin_check": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Admin Check",
+                "ZH": "管理员确认"
             },
-            "$DISP_show_in_brief_view":true,
-            "$GENL_input_type":"text",
-            "$AUTH_read":{
-                "tourist":true,
-                "app_user":true,
-                "owner_rspns":true,
-                "admin":true
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
             },
-            "$AUTH_write":{
-                "tourist":false,
-                "app_user":false,
-                "owner_rspns":true,
-                "admin":true
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
             }
         }
     }

@@ -8,8 +8,7 @@ from flask import json,jsonify
 import codecs
 from findb.data_stru import Business
 
-# Read Business Logic
-bsnses = Business().loadFromPath('data/data_stru.json')
+bsnses = Business('findb/data_stru.json')
 
 app = Flask(__name__)
 app.secret_key = "6089372-Stupid#Enough"
@@ -29,7 +28,7 @@ with app.app_context():    # To be visited in templates
     current_app.config['G_bsnses_dict'] = bsnses.getFomatdDict()
 
 # Database Settings
-DATABASE = 'data/finelab.sqlite3.db'
+DATABASE = 'finelab.sqlite3.db'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -47,13 +46,16 @@ def pass_hash(in_string):
     return  md5.hexdigest()
 
 
-def get_user_info_dict(user_id):
+def get_user_info_dict(person_id):
+    if person_id == 0:
+        return { 'logined' : False}
+    else:
         db = get_db()
         cur = db.cursor()
-        query_result = cur.execute("SELECT password FROM o_persons "+
-                    "WHERE user_id = ?",
-                    (user_id, )
-                ).fetchall()
+        query_sql_str = bsnses.createQuerySQL('o_persons', read_auth_role = 'admin', filters_list = [], id = person_id)
+        query_result = cur.execute(query_sql_str).fetchall()
+        cur.close()
+        query_result[0]['logined'] = True
         return query_result[0]
 
 
@@ -72,8 +74,9 @@ def close_connection(exception):
 @app.route('/')
 @app.route('/index')
 def index():
-    
-    return render_template('index.htm' )
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+    return render_template('index.htm',user_info_dict = user_info_dict )
 
 # [Request] User System API   
 @app.route('/user/json_api/login', methods=['POST', 'GET'])
@@ -101,10 +104,7 @@ def user_login():
                 if query_result[0]['password'] == pass_hash(input_list.get('password')):
                     success = 1
                     return_text = 'Login Succeed!'
-                    session['username'] = input_list['username']
-                    session['person_id'] = query_result[0]['person_id']
-                    session['auth_role']  = query_result[0]['auth_role']
-                    session['logged_in'] = True
+                    session['logined_person_id'] = query_result[0]['person_id']
                 else:
                     return_text = 'Wrong Pass'
         except Exception as e:
@@ -124,6 +124,7 @@ def user_logout():
     if request.method == 'POST':    #Nothing to do
         pass
     elif request.method == 'GET':   #Log Out
+        session['logined_person_id'] = False
         return 'Get Logout'
         
 @app.route('/user/json_api/register', methods=['POST', 'GET'])
@@ -132,16 +133,19 @@ def user_register():
         db = get_db()
         cur = db.cursor()
         input_list = request.form
-        # print input_list['username']
+        
+
+
+
         success = 1
         
         try:
             print(type(input_list['password']))
-            cur.execute("INSERT INTO o_persons "+
+            cur.execute(    "INSERT INTO o_persons "+
                                 "( username,    password       ) VALUES "+
                                 "( ?,    ?       )",
-                                (input_list['username'], pass_hash(input_list['password']))
-                            )
+                            (input_list['username'], pass_hash(input_list['password']))
+                        )
             db.commit()
             #print(pass_hash('luoyusang2007'))
         except Exception as e:
@@ -216,6 +220,9 @@ def ult_app_info():
 # [Request] General API
 @app.route('/general/json_api/target_insert', methods=['POST'])
 def gen_target_insert():
+
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
     if request.method == 'POST':     
         db = get_db()
         cur = db.cursor()
@@ -229,7 +236,7 @@ def gen_target_insert():
             if in_key in bsns_table_dict['$COLU']:
                 values_dict[in_key] = in_val
         values_dicts_list = [values_dict]     # Dangerous, debug only!
-        query_sql_str = bsnses.createInsertSQL(b_name,values_dicts_list,write_auth_role='admin')
+        query_sql_str = bsnses.createInsertSQL(b_name,values_dicts_list,write_auth_role = user_info_dict.get('auth_role'))
         success = 1
         
         try:
@@ -333,24 +340,32 @@ def t_base_index():
 
 @app.route('/tmplt_based_ui/user_register_form', methods=['GET'])
 def t_base_register_form():
-    return render_template('user_register_form.htm')
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+    return render_template('user_register_form.htm',user_info_dict = user_info_dict)
         
 @app.route('/tmplt_based_ui/user_login_form', methods=['GET'])
 def t_base_login_form():
-    return render_template('user_login_form.htm')
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+    return render_template('user_login_form.htm',user_info_dict = user_info_dict)
 @app.route('/tmplt_based_ui/user_logout', methods=['GET'])
 def t_base_logout():
-    session['logged_in'] = False
-    session['username'] = ''
-    return render_template('user_logout.htm')
+    session['logined_person_id'] = False
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+    return render_template('user_logout.htm',user_info_dict = user_info_dict)
         
 @app.route('/tmplt_based_ui/search', methods=['GET'])
 def t_base_search():
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+
     db = get_db()
     cur = db.cursor()
     b_name=request.args.get('b_name')
     bsns_table_dict = bsnses.getFomatdDict(b_name)
-    query_sql_str = bsnses.createQuerySQL(b_name, read_auth_role = 'tourist', filters_list = [], id = None)
+    query_sql_str = bsnses.createQuerySQL(b_name, read_auth_role = user_info_dict.get('auth_role'), filters_list = [], id = None)
     
 
     query_result = cur.execute(query_sql_str).fetchall()
@@ -359,23 +374,26 @@ def t_base_search():
     for row_index in range(len(query_result)):
         for key, val in query_result[row_index].items():
             content_displacer = bsns_table_dict['$COLU'][key]['$DISP_displacer']
-            if type(content_displacer) == dict:
+            if type(content_displacer) == dict: # if there is a displacer
                 origin_result= query_result[row_index][key]
                 if content_displacer. __contains__(origin_result):
                     query_result[row_index][key] = content_displacer[origin_result]
             if query_result[row_index][key] == None:
                 query_result[row_index][key] = ''
     cur.close()
-    return render_template('search.htm',bsns_table_dict = bsns_table_dict, query_result = query_result)
+    return render_template('search.htm',user_info_dict = user_info_dict,bsns_table_dict = bsns_table_dict, query_result = query_result)
 
 @app.route('/tmplt_based_ui/target_scope', methods=['GET'])
 def t_base_target_scope():
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+
     db = get_db()
     cur = db.cursor()
     b_name = request.args.get('b_name')  # business name
     tar_id = request.args.get('id')      # target id
     bsns_table_dict = bsnses.getFomatdDict(b_name)
-    query_sql_str = bsnses.createQuerySQL(b_name, read_auth_role = 'tourist', filters_list = [], id = tar_id)
+    query_sql_str = bsnses.createQuerySQL(b_name, read_auth_role = user_info_dict.get('auth_role'), filters_list = [], id = tar_id)
     
     # # debug
     # query_sql_str = """
@@ -396,13 +414,15 @@ def t_base_target_scope():
     print(query_sql_str)  # debug
     print(query_result)  # debug
     cur.close()
-    return render_template('target_scope.htm',bsns_table_dict = bsns_table_dict, query_result = query_result)
+    return render_template('target_scope.htm',user_info_dict = user_info_dict,bsns_table_dict = bsns_table_dict, query_result = query_result)
     
 @app.route('/tmplt_based_ui/target_insert_form', methods=['GET'])
 def t_base_target_insert_form():
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
     b_name = request.args.get('b_name')  # business name
     bsns_table_dict = bsnses.getFomatdDict(b_name)
-    return render_template('target_insert_form.htm',bsns_table_dict = bsns_table_dict)
+    return render_template('target_insert_form.htm',user_info_dict = user_info_dict,bsns_table_dict = bsns_table_dict)
 
 @app.route('/tmplt_based_ui/target_update_form', methods=['GET'])
 def t_base_target_update_form():
@@ -425,6 +445,8 @@ def t_base_pdf_tag_gen_form():
 
 @app.route('/tmplt_based_ui/debug/view_table', methods=['GET'])
 def t_base_debug_view_table():
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
     db = get_db()
     cur = db.cursor()
     
@@ -433,7 +455,7 @@ def t_base_debug_view_table():
     
     query_result = cur.execute("SELECT * FROM '%s'"%(t_name,)).fetchall()
     cur.close()
-    return render_template('debug_view_table.htm',table_info = table_info, query_result = query_result)
+    return render_template('debug_view_table.htm',user_info_dict = user_info_dict,table_info = table_info, query_result = query_result)
 
 
 

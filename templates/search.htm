@@ -37,16 +37,19 @@
         Error!
     {% endif %}
     <div id = "message_div">&nbsp;</div>
-    <table class = "table">
-    <thead>
-        <tr>
-        {% for column_name in query_result[0].keys() %}
-            <th>{{bsns_table_dict['$COLU'][column_name]['$DISP_name']['ZH']}}</th>
-        {% endfor %}
+    {% if query_result|length > 0 %}
+        <table class = "table">
+        <thead>
+            <tr>
+            {% for column_name in query_result[0].keys() %}
+                <th>{{bsns_table_dict['$COLU'][column_name]['$DISP_name']['ZH']}}</th>
+            {% endfor %}
             <th>操作</th>
-        </tr>
-    </thead>
-    <tbody>
+            </tr>
+
+        </thead>
+        <tbody>
+
     {% for row in query_result %}
         <tr >
         {% set ns = namespace(id_val = 0) %}
@@ -71,6 +74,11 @@
     {% endfor %} 
     </tbody>
     </table>
+
+
+    {% else %}
+        <p>查找结果为空。</p>
+    {% endif %}
 </div>
 <script>
     id_to_del = 0;
