@@ -8,7 +8,7 @@ from flask import json,jsonify
 import codecs
 from findb.data_stru import Business
 
-bsnses = Business('findb/data_stru.json')
+bsnses = Business('data/data_stru.json')
 
 app = Flask(__name__)
 app.secret_key = "6089372-Stupid#Enough"
@@ -28,7 +28,7 @@ with app.app_context():    # To be visited in templates
     current_app.config['G_bsnses_dict'] = bsnses.getFomatdDict()
 
 # Database Settings
-DATABASE = 'finelab.sqlite3.db'
+DATABASE = 'data/finelab.sqlite3.db'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
@@ -85,7 +85,7 @@ def user_login():
         db = get_db()
         cur = db.cursor()
         input_list = request.form
-        # print input_list['username']
+
         success = 0
         return_text = 'Failed'
         try:
@@ -147,7 +147,6 @@ def user_register():
                             (input_list['username'], pass_hash(input_list['password']))
                         )
             db.commit()
-            #print(pass_hash('luoyusang2007'))
         except Exception as e:
             success = 0
             raise e
@@ -257,6 +256,9 @@ def gen_target_insert():
 
 @app.route('/general/json_api/target_update', methods=['POST'])
 def gen_target_update():
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+
     if request.method == 'POST':     
         db = get_db()
         cur = db.cursor()
@@ -272,7 +274,7 @@ def gen_target_update():
                 values_dict[in_key] = in_val
         # values_dicts_list = [values_dict]     # Dangerous, debug only!
         # query_sql_str = bsnses.createInsertSQL(b_name,values_dicts_list,write_auth_role='admin')
-        query_sql_str = bsnses.createUpdateSQL(b_name, values_dict, filters_list = [], write_auth_role = 'admin', id = tar_id )
+        query_sql_str = bsnses.createUpdateSQL(b_name, values_dict, filters_list = [],write_auth_role = user_info_dict.get('auth_role'), id = tar_id )
         success = 1
         
         try:
@@ -305,7 +307,7 @@ def gen_target_delete():
         if bsns_table_dict is None:
             return json.dumps({"status":"failed","text":"No such business: !" + b_name})
  
-        query_sql_str = bsnses.createDeleteSQL(b_name,  filters_list = [], write_auth_role = 'admin', id = tar_id )
+        query_sql_str = bsnses.createDeleteSQL(b_name,  filters_list = [],write_auth_role = user_info_dict.get('auth_role'), id = tar_id )
  
  
  
@@ -426,6 +428,10 @@ def t_base_target_insert_form():
 
 @app.route('/tmplt_based_ui/target_update_form', methods=['GET'])
 def t_base_target_update_form():
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+
+
     db = get_db()
     cur = db.cursor()
     b_name = request.args.get('b_name')  # business name
@@ -436,11 +442,13 @@ def t_base_target_update_form():
     # print(query_sql_str)  # debug
     # print(query_result)  # debug
     cur.close()
-    return render_template('target_update_form.htm',bsns_table_dict = bsns_table_dict, query_result = query_result)
+    return render_template('target_update_form.htm',user_info_dict = user_info_dict, bsns_table_dict = bsns_table_dict, query_result = query_result)
 
 @app.route('/tmplt_based_ui/pdf_tag_gen_form', methods=['GET'])
 def t_base_pdf_tag_gen_form():
-    return render_template('pdf_tag_gen_form.htm')
+    logined_person_id = session.get('logined_person_id')
+    user_info_dict = get_user_info_dict(logined_person_id)
+    return render_template('pdf_tag_gen_form.htm',user_info_dict = user_info_dict)
 
 
 @app.route('/tmplt_based_ui/debug/view_table', methods=['GET'])

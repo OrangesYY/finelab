@@ -4,7 +4,6 @@ import sys, os, json, copy
 class Business:
     raw_dict = {}
     formatted_dict = {}
-    formatted_dict = {}
     def __init__(self,arg = None):
         # Code for testing paths
         # print("__file__=%s" % __file__)
@@ -42,15 +41,9 @@ class Business:
 
     def format_bussiness(self):
         self.formatted_dict = copy.deepcopy(self.raw_dict)
-        self.formatted_dict = copy.deepcopy(self.raw_dict)
-        for t_name, t_stru in self.raw_dict.items():
-            for c_name, c_stru in t_stru['$COLU'].items():
-                origin_c_dict = self.formatted_dict[t_name]['$COLU'][c_name].copy()
         for t_name, t_stru in self.raw_dict.items():
             for c_name in t_stru['$COLU']:
 
-                while self.formatted_dict[origin_t_name]['$COLU'][origin_c_name]['$TYPE'] == "column_cite":
-                    citing_c_dict = self.formatted_dict[origin_t_name]['$COLU'][origin_c_name]
                 c_stru = t_stru['$COLU'][c_name]
                 # Find origin
                 if c_stru['$TYPE'] == "column_cite":
@@ -62,8 +55,7 @@ class Business:
                     origin_t_name = c_stru['$STRU_origin_table']
                     origin_c_name = c_stru['$STRU_origin_column']
                     
-                    # Temporary storage of origin_c_dict
-                    origin_c_dict.update(self.formatted_dict[origin_t_name]['$COLU'][origin_c_name].copy())
+                    # Temporary storage of Citing dict
                     temp_c_dict = copy.deepcopy(c_stru)
                     self.formatted_dict[t_name]['$COLU'][c_name].update(copy.deepcopy(self.formatted_dict[origin_t_name]['$COLU'][origin_c_name]))
                     if self.formatted_dict[t_name]['$COLU'][c_name]['$TYPE'] == "column_cite":
@@ -74,21 +66,13 @@ class Business:
                     #     not the cited section.
                     # If you do not want to change a parameters defined in the cited section, 
                     #     please do NOT include this paramrter in your citing section in JSON.
-                    self.formatted_dict[t_name]['$COLU'][c_name] = origin_c_dict
-                    self.formatted_dict[t_name]['$COLU'][c_name]['$STRU_real_origin_table'] = origin_t_name
-                    self.formatted_dict[t_name]['$COLU'][c_name]['$STRU_real_origin_column'] = origin_c_name
                     self.formatted_dict[t_name]['$COLU'][c_name].update(temp_c_dict)  # So the parameters defined in the citing section can flush the cited params.
                 else: # If this column is not citing other columns
                     if self.formatted_dict[t_name]['$COLU'][c_name].get('$ISPK') == True: # is Primary Key
                         self.formatted_dict[t_name]['$PMKY'] = c_name
-                    if self.formatted_dict[t_name]['$COLU'][c_name].get('$ISPK') == True: # is Primary Key
-                        self.formatted_dict[t_name]['$PMKY'] = c_name
                 # Copy column name inside the column dict for easier access
                 self.formatted_dict[t_name]['$COLU'][c_name]['$CLNM'] = c_name
-                self.formatted_dict[t_name]['$COLU'][c_name]['$CLNM'] = c_name
             # Copy table name inside the table dict for easier access
-            self.formatted_dict[t_name]['$TBNM'] = t_name
-        return self.formatted_dict
             self.formatted_dict[t_name]['$TBNM'] = t_name
         return self.formatted_dict
     
@@ -96,45 +80,31 @@ class Business:
     def getFomatdDict(self, t_name = None):
         if t_name:
             return self.formatted_dict[t_name]
-            return self.formatted_dict[t_name]
         else:
             return self.formatted_dict
-            return self.formatted_dict
-        
+
     def getDmpdJsonStr(self):
         return json.dumps(self.formatted_dict,indent = 4)
-        return json.dumps(self.formatted_dict,indent = 4)
-        
+
     # Table Init
     def createTInitSQL(self,t_name):
-        t_stru = self.formatted_dict[t_name]
-        if t_stru['$TYPE'] == 'table':
         t_stru = self.formatted_dict[t_name]
         if t_stru['$TYPE'] == 'table':
             init_str = "CREATE TABLE {t_name} (\n{columns_str}\n)\n;"
             columns_str = ''
             
             for c_name, c_stru in t_stru['$COLU'].items():
-            for c_name, c_stru in t_stru['$COLU'].items():
                 column_str = '{data_type_str}{constraints_str}'
                 data_type_str = ''
                 constraints_str = ''
-                # if c_stru.get('$CONS_local'):
-                #     constraints_str += c_stru.get('$CONS_local')
-                if c_stru['$TYPE'] == "column_cite":
-                # if c_stru.get('$CONS_local'):
-                #     constraints_str += c_stru.get('$CONS_local')
+
                 if c_stru['$TYPE'] == "column_cite":
                     foreign_key_str = ' FOREIGN KEY REFERENCES {real_origin_table}({real_origin_column})'
                     foreign_key_str = foreign_key_str.format(
                         real_origin_table = c_stru['$STRU_real_origin_table'],
                         real_origin_column = c_stru['$STRU_real_origin_column']
-                        real_origin_table = c_stru['$STRU_real_origin_table'],
-                        real_origin_column = c_stru['$STRU_real_origin_column']
                     )
                     constraints_str += foreign_key_str
-                if c_stru.get('$ISPK') == True: # Is primary key
-                    if c_stru['$TYPE'] == "column_cite":
                 if c_stru.get('$ISPK') == True: # Is primary key
                     if c_stru['$TYPE'] == "column_cite":
                         pass # ![Exception]
@@ -159,8 +129,6 @@ class Business:
     
     # Only can be used when initializing, for safety reasons (SQL INJECT)
     def createQuerySQL(self, t_name, filters_list = [], read_auth_role = 'tourist', id = None):
-        t_stru = self.formatted_dict[t_name]
-        if t_stru['$TYPE'] == 'table' or  t_stru['$TYPE'] == 'view' :
         if read_auth_role is None:
             read_auth_role = 'tourist'
         t_stru = self.formatted_dict[t_name]
@@ -171,8 +139,6 @@ class Business:
             # Generate columns string
             for c_name, c_stru in t_stru['$COLU'].items():
                 if c_stru['$AUTH_read'][read_auth_role]:
-            for c_name, c_stru in t_stru['$COLU'].items():
-                if c_stru['$AUTH_read'][read_auth_role]:
                     if columns_str == '':
                         columns_str += ('\t'+t_name+'.'+c_name )
                     else :
@@ -180,7 +146,6 @@ class Business:
             # Generate filter string
             if id != None:
                 # id specified
-                filters_str = "WHERE " + t_stru['$PMKY'] + " = " + str(id)
                 filters_str = "WHERE " + t_stru['$PMKY'] + " = " + str(id)
             else:
                 # id not specified
@@ -197,8 +162,6 @@ class Business:
         
     # Only can be used when initializing, for safety reasons
     def createInsertSQL(self,t_name, values_dicts_list, write_auth_role = 'tourist'):
-        t_stru = self.formatted_dict[t_name]
-        if t_stru['$TYPE'] == 'table':
         if write_auth_role is None:
             write_auth_role = 'tourist'
         t_stru = self.formatted_dict[t_name]
@@ -207,8 +170,6 @@ class Business:
             columns_str = ''
             rows_str = ''
             # Generate columns string
-            for c_name, c_stru in t_stru['$COLU'].items():
-                if c_stru['$AUTH_write'][write_auth_role]:
             for c_name, c_stru in t_stru['$COLU'].items():
                 if c_stru['$AUTH_write'][write_auth_role]:
                     if columns_str == '' :
@@ -223,8 +184,6 @@ class Business:
                     row_str = ',\n\t({values_str})'
 
                 values_str = ''
-                for c_name, c_stru in t_stru['$COLU'].items():
-                    if c_stru['$AUTH_write'][write_auth_role]:
                 for c_name, c_stru in t_stru['$COLU'].items():
                     if c_stru['$AUTH_write'][write_auth_role]:
                         value_str = values_dict.get(c_name) if  values_dict.get(c_name) else ''
@@ -364,5 +323,4 @@ if __name__ == '__main__':
     # print('\nInsert SQL String:')
     # print(Insert_sql_str)
     
-
 

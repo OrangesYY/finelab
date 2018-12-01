@@ -16,7 +16,7 @@
                 {{ val['$DISP_name']['ZH'] }}
             </label>
             <div class="controls col-sm-12 col-md-6">
-                {% if val['$AUTH_write'][session['auth_role']] %}
+                {% if val['$AUTH_write'][user_info_dict['auth_role']] %}
                     {% if val.get("$DISP_displacer") %}
                     <select class="form-control" name = "{{ val['$CLNM'] }}">
                         {% for disp_key, disp_val in val['$DISP_displacer'].items() %}
@@ -34,7 +34,7 @@
             <p class = "help-block col-sm-12 col-md-3">
                 discription
             </p>
-            
+            {% endif %}
         </div>
         {% endfor %}
         <div class="col-md-9 col-md-offset-3">
