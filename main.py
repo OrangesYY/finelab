@@ -372,6 +372,12 @@ def t_base_search():
 
     query_result = cur.execute(query_sql_str).fetchall()
 
+    # Delete Columns which should not be displayed in brief view
+    for row_index in range(len(query_result)):
+        for key in list(query_result[row_index].keys()):
+            if bsns_table_dict['$COLU'][key].get('$DISP_show_in_brief_view') == False :
+                query_result[row_index].pop(key)
+
     # Displacing Table Row Contents
     for row_index in range(len(query_result)):
         for key, val in query_result[row_index].items():

@@ -3,6 +3,7 @@
     "o_lab_planned_projects": "tables/o_lab_planned_projects.json",
     "o_persons": "tables/o_persons.json",
     "o_door_keys": "tables/o_door_keys.json",
+    "o_third_parties": "tables/o_third_parties.json",
     "r_lab_planned_proj_menbers": "tables/r_lab_planned_proj_menbers.json",
     "v_lab_planned_proj_menbers": "tables/v_lab_planned_proj_menbers.json"
 }
