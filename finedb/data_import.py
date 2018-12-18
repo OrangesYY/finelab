@@ -1,5 +1,5 @@
 import csv
-from findb.data_stru import Business
+from finedb.data_stru import Business
 import sqlite3
 
 def importTableFromCSV(bsns_json_path, from_csv_path, target_db_path):

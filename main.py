@@ -6,7 +6,7 @@ import datetime, os
 import configparser
 from flask import json,jsonify
 import codecs
-from findb.data_stru import Business
+from finedb.data_stru import Business
 
 bsnses = Business('data/data_stru.json')
 
