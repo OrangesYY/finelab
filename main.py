@@ -179,7 +179,7 @@ def user_info():
 
 
 @app.route("/download/tag_pdf", methods=["POST", "GET"])
-def download_file():
+def gen_pdf_and_download():
     if request.method == "POST":  # Fetch Device Data
         # 需要知道2个参数, 第1个参数是本地目录的path, 第2个参数是文件名(带扩展名)
         pass

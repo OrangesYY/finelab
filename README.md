@@ -42,8 +42,11 @@ The management tool for labs
 **2018-10-20**
 - add .gitignore file.
 - spilt data_stru.json to separate json files
+
 **2018-12-18**
 - For types of inputs are supported: text, select, textarea, radio
+- Used [**black**](https://github.com/ambv/black) (The uncompromising Python code formatter) reformatted the whole codes
+- Add run_server.sh
 
 # How to write the Data Structure JSON File?
 ## Dir structure
