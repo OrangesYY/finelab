@@ -7,6 +7,7 @@ import configparser
 from flask import json, jsonify
 import codecs
 from finedb.data_stru import Business
+from finepdf import TagPDFGenerator
 
 bsnses = Business("data/data_stru.json")
 
@@ -177,14 +178,36 @@ def user_info():
     elif request.method == "GET":  # Get User info
         return "Get user info"
 
-
+# Debugging
 @app.route("/download/tag_pdf", methods=["POST", "GET"])
 def gen_pdf_and_download():
-    if request.method == "POST":  # Fetch Device Data
+    if request.method == "POST":  
+        db = get_db()
+        cur = db.cursor()
+        input_list = request.form
+        
+        # cur.
+
+        json_string = input_list['template']
+        directory = os.getcwd()  # 假设在当前目录
+        pdf_gen = TagPDFGenerator()
+        pdf_gen.setTemplateFromJsonString(directory, json_string)
+        pdf_gen.setDataFromList(
+            directory,
+            [
+                ['Title','2','3','4','1','2','3','4'],
+                ['Title','2','3','4','1','2','3','4'],
+                ['Title','2','3','4','1','2','3','4'],
+                ['Title','6','7','8','1','2','3','4']
+            ]
+        )
+
         # 需要知道2个参数, 第1个参数是本地目录的path, 第2个参数是文件名(带扩展名)
-        pass
-    directory = os.getcwd()  # 假设在当前目录
-    return send_from_directory(directory, "out_2x3.pdf", as_attachment=True)
+        t = time.time()
+        nowTime = str((lambda:int(round(t * 1000)))())
+        fn = nowTime+".pdf"
+        pdf_gen.savePDF(fn)
+        return send_from_directory(directory, fn, as_attachment=True)
 
 
 # [Request] IOT Applications API
@@ -322,6 +345,8 @@ def gen_target_update():
 
 @app.route("/general/json_api/target_delete", methods=["POST"])
 def gen_target_delete():
+    logined_person_id = session.get("logined_person_id")
+    user_info_dict = get_user_info_dict(logined_person_id)
     if request.method == "POST":
         db = get_db()
         cur = db.cursor()

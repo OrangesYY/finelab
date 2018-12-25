@@ -41,10 +41,10 @@
         <table class = "table">
         <thead>
             <tr>
-            {% for column_name in query_result[0].keys() %}
+                {% for column_name in query_result[0].keys() %}
                 <th>{{bsns_table_dict['$COLU'][column_name]['$DISP_name']['ZH']}}</th>
-            {% endfor %}
-            <th>操作</th>
+                {% endfor %}
+                <th>操作</th>
             </tr>
 
         </thead>
@@ -54,11 +54,12 @@
         <tr >
         {% set ns = namespace(id_val = 0) %}
         {% for key,value in row.items() %}
-
-            
             {% if bsns_table_dict['$PMKY'] == key %}
                 {% set ns.id_val = value %}
-            <td><a href = "target_scope?id={{value}}&b_name={{bsns_table_dict['$TBNM']}}">{{value}} </a></td>
+            <td>
+                <input type="checkbox" value ="{{value}}" name = "CHECK_{{value}}">
+                <a href = "target_scope?id={{value}}&b_name={{bsns_table_dict['$TBNM']}}">{{value}} </a>
+            </td>
             {% else %}
             <td>{{value}} </td>
 

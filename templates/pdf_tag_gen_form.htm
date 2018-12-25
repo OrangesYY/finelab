@@ -6,14 +6,15 @@
     
     <h1>生成PDF标签</h1>
     <hr>
-    <form class="form-horizontal"  role="form" id = "main_form" action="/download/tag_pdf">
+    <form class="form-horizontal"  role="form" id = "main_form" action="/download/tag_pdf" method="POST">
 
         <div class="form-group">
             <label class="control-label col-sm-12 col-md-3" >
                 模板
             </label>
             <div class="controls col-sm-12 col-md-6">
-                <input type="text" placeholder="" class="form-control" name = "aa">
+                
+                <textarea class="form-control" rows="20" name = "template"></textarea>
             </div>
             <p class = "help-block col-sm-12 col-md-3">
                 discription
@@ -25,7 +26,7 @@
                 </label>
                 <div class="controls col-sm-12 col-md-6">
     
-                        <textarea class="form-control" rows="20" ></textarea>
+                        <textarea class="form-control" rows="20" name = "data"></textarea>
     
                 </div>
                 <p class = "help-block col-sm-12 col-md-3">
