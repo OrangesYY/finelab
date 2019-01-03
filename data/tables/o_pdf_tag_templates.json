@@ -1,0 +1,86 @@
+{
+    "$TYPE": "table",
+    "$DISP_name": {
+        "EN": "PDF Tag Templates",
+        "ZH": "PDF标签模板"
+    },
+    "$GENL_relevant_bsnses": [
+        [
+            "",
+            ""
+        ],
+        [
+            "",
+            ""
+        ]
+    ],
+    "$COLU": {
+        "template_id": {
+            "$TYPE": "column_origin",
+            "$ISPK": true,
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Template ID",
+                "ZH": "模板ID"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": null,
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": false,
+                "admin": false
+            }
+        },
+        "name": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Name",
+                "ZH": "名称"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        },
+        "json_content": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Json String",
+                "ZH": "Json字符串"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "textarea",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        }
+    }
+}

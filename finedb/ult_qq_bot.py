@@ -1,6 +1,13 @@
 from qqbot import _bot as bot
 
-bot.Login(["-q", "3423392178"])
-groups = bot.List("group", "NCU电赛基地2018招新群")
-group = groups[0]
-bot.SendTo(group, "bot_sent")
+
+class qqGroupSender:
+    def init(self, qq_number):
+        bot.Login(["-q", "3423392178"])
+    def search_group_by_name(self, group_name):
+        groups = bot.List("group", "NCU电赛基地2018招新群")
+        self.group = groups[0]
+
+    def send_message(self, message):
+        bot.SendTo(self.group, message)
+

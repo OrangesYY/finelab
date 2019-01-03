@@ -545,7 +545,24 @@ def t_base_target_update_form():
 def t_base_pdf_tag_gen_form():
     logined_person_id = session.get("logined_person_id")
     user_info_dict = get_user_info_dict(logined_person_id)
-    return render_template("pdf_tag_gen_form.htm", user_info_dict=user_info_dict)
+
+    db = get_db()
+    cur = db.cursor()
+    b_name = request.args.get("b_name")  # business name
+    tmpl_id = request.args.get("tmpl_id")
+
+    data_query_sql_str = bsnses.createQuerySQL(
+        b_name, read_auth_role="tourist", filters_list=[]
+    )
+    data_query_result = cur.execute(data_query_sql_str).fetchall()
+
+
+    template_query_sql_str = "SELECT * FROM 'o_pdf_tag_templates' WHERE template_id = %s"%(tmpl_id,)
+
+    template_query_result = cur.execute(template_query_sql_str).fetchall()
+    tmpl_str = template_query_result[0]['json_content']
+
+    return render_template("pdf_tag_gen_form.htm", user_info_dict=user_info_dict, tmpl_str = tmpl_str)
 
 
 @app.route("/tmplt_based_ui/debug/view_table", methods=["GET"])
