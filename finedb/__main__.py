@@ -1,4 +1,4 @@
-from .data_stru import Business
+from .data_frame import DataFrame
 import sys, os
 
 
@@ -12,7 +12,7 @@ def createQueryFilterDict(left, condition_type, righ):
 if __name__ == "__main__":
 
     # For Dumped JSON String
-    Dumped_json_str = Business(sys.argv[1]).getDmpdJsonStr()
+    Dumped_json_str = DataFrame(sys.argv[1]).getDmpdJsonStr()
     print("Dumped JSON String:")
     print(Dumped_json_str)
 

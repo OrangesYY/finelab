@@ -1,7 +1,7 @@
 import os, json, copy
 
 
-class Business:
+class DataFrame:
     raw_dict = {}
     formatted_dict = {}
 

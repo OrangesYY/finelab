@@ -6,7 +6,8 @@ This file offer Table-level data import/export interface
 """
 
 import csv
-from finedb.data_stru import Business
+from .data_frame import DataFrame
+from .data_handler import DataHandler
 import sqlite3
 
 

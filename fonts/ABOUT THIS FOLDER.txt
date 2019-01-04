@@ -1,0 +1,4 @@
+This Folder is to store fonts,
+To get fonts,
+Please Run 
+../download_fonts.py
