@@ -59,7 +59,6 @@ def search():
 
 
 
-
 @tmplt_based_ui.route("/user_register_form", methods=["GET"])
 def t_base_register_form():
     logined_person_id = session.get("logined_person_id")
