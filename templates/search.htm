@@ -12,7 +12,7 @@
                     你确定要删除吗？
                 </h4>
             </div>
-            <div class="modal-body">
+            <div class="modal-body" id="delModalInfoBody">
                 按下 ESC 按钮退出。
             </div>
             <div class="modal-footer">
@@ -75,7 +75,7 @@
             <td>
                 <a href = "target_scope?id={{ns.id_val}}&b_name={{bsns_table_dict['$TBNM']}}"> 查看 </a> 
                 <a href = "target_update_form?id={{ns.id_val}}&b_name={{bsns_table_dict['$TBNM']}}"> 修改 </a> 
-                <a href = "#" data-toggle="modal" data-target="#delModal"   onclick = "id_to_del = {{ns.id_val}}"> 删除 </a>
+                <a href = "#" data-toggle="modal" data-target="#delModal" class="delBtn"> 删除 </a>
             </td>
         </tr>
     {% endfor %} 
@@ -88,34 +88,57 @@
     {% endif %}
 </div>
 <script>
-    id_to_del = 0;
-    b_name = "{{bsns_table_dict['$TBNM']}}";
+  id_to_del = 0;
+  b_name = "{{bsns_table_dict['$TBNM']}}";
 
-    function submit_del_info(){
-        $("#message_div").text("Loading...");
-                $.ajax({
-                    type: "POST",
-                    url:"/general/json_api/target_delete",
-                    data:"VAR_b_name="+b_name + "&VAR_tar_id=" +id_to_del ,
-                    // return data type
-                    dataType: "json",
-                    error: function(request) {
-                        alert("Submit Connection Error");
-                    },
-                    success: function(result_json) {
-                        $("#message_div").text(result_json.text);
-                        //update_user_info();
-                        if(result_json.status == "succeeded"){
-                            // refresh page after a successful delete operation
-                            location.reload();
-                        }else{
-                            
-                        }
-                    }
-                });
-    }
+  function submit_del_info(){
+      $("#message_div").text("Loading...");
+      $.ajax({
+          type: "POST",
+          url:"/general/json_api/target_delete",
+          data:"VAR_b_name="+b_name + "&VAR_tar_id=" +id_to_del ,
+          // return data type
+          dataType: "json",
+          error: function(request) {
+              alert("Submit Connection Error");
+          },
+          success: function(result_json) {
+              $("#message_div").text(result_json.text);
+              //update_user_info();
+              if(result_json.status == "succeeded"){
+                  // refresh page after a successful delete operation
+                  location.reload();
+              }else{
+                  
+              }
+          }
+      });
+  }
+  
+  $(".delBtn").click(function() {
+      // Find the row
+      var $row = $(this).closest("tr");
+      // Set corresponding id_to_del
+      id_to_del = parseInt($row.find("td:nth-child(1)").text());
+      // Get contents
+      var $contentListToBeDel = []
+      var $tds = $row.find("td");
+      $.each($tds, function() {
+          $contentListToBeDel.push($(this).text());
+      });
+      // Discard the first and the last elements in content list (one is "id string", the other is "operation string"
+      $contentListToBeDel.pop();
+      $contentListToBeDel.shift();
+      // Construct the content string from list
+      var $contentString = ""
+      for (i=0;i<$contentListToBeDel.length;i++) {
+	  $contentString += $contentListToBeDel[i] + "<br>";
+      }
+      // Set text in the modal
+      $("#delModalInfoBody").html($contentString)
+  });
 
-    $('#del_btn').click(submit_del_info);
+  $('#del_btn').click(submit_del_info);
 
 </script>
 {% endblock %}
