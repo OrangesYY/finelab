@@ -45,18 +45,18 @@ class DataFrame:
             self.format_bussiness()
 
     def format_bussiness(self):
+        
         self.formatted_dict = copy.deepcopy(self.raw_dict)
+        
         for t_name, t_stru in self.raw_dict.items():
+            self.formatted_dict[t_name]["$SFLD"] = []
             for c_name in t_stru["$COLU"]:
 
                 c_stru = t_stru["$COLU"][c_name]
                 # Find origin
                 if c_stru["$TYPE"] == "column_cite":
 
-                    # citing_t_name = t_name
-                    # citing_c_name = c_name
-
-                    # Get The elder origin, and update the loop variables
+                    # Get Origin
                     origin_t_name = c_stru["$STRU_origin_table"]
                     origin_c_name = c_stru["$STRU_origin_column"]
 
@@ -73,6 +73,7 @@ class DataFrame:
                     ):
                         pass  # exception
                         print("Citng from ", t_name, c_name, "Error!")
+                    # Attention!
                     # If citing sections has re-defined the parameters,
                     #     the final param is subject to the parameters defined in the citing section,
                     #     not the cited section.
@@ -81,12 +82,22 @@ class DataFrame:
                     self.formatted_dict[t_name]["$COLU"][c_name].update(
                         temp_c_dict
                     )  # So the parameters defined in the citing section can flush the cited params.
+                elif c_stru["$TYPE"] == "cite_display": # Virtual column, cite other columns.
+                    # Display only
+                    # Cite a column from another table, but will not appear in current table.
+                    pass
                 else:  # If this column is not citing other columns
-                    if (
-                        self.formatted_dict[t_name]["$COLU"][c_name].get("$ISPK")
-                        == True
-                    ):  # is Primary Key
-                        self.formatted_dict[t_name]["$PMKY"] = c_name
+                    
+                    if self.formatted_dict[t_name]["$COLU"][c_name].get("$ISPK") == True :  # is Primary Key
+                        self.formatted_dict[t_name]["$PMKY"] = c_name                       # Primary Key of a table
+                    
+                    if self.formatted_dict[t_name]["$COLU"][c_name].get("$ISNM") == True :  # is major diaplay name (of a row)
+                        self.formatted_dict[t_name]["$DNCL"] = c_name                       # Diaplay name column
+                    
+                    
+                    if self.formatted_dict[t_name]["$COLU"][c_name].get("$ISSF") == True :  # is in search field (of a row)
+                        self.formatted_dict[t_name]["$SFLD"].append(c_name)                 # Search Field
+
                 # Copy column name inside the column dict for easier access
                 self.formatted_dict[t_name]["$COLU"][c_name]["$CLNM"] = c_name
             # Copy table name inside the table dict for easier access
@@ -174,16 +185,16 @@ class DataFrame:
                         if filters_str == "":
                             filters_str += (
                                 "WHERE\n\t"
-                                + filter["left"]
-                                + filter["type"]
-                                + filter["right"]
+                                + t_name + "."+ filter["left"] + ' '
+                                + filter["type"] + ' '
+                                + '\''+ filter["right"]+ '\''
                             )
                         else:
                             filters_str += (
-                                ",\n\tAND "
-                                + filter["left"]
-                                + filter["type"]
-                                + filter["right"]
+                                "\n\tOR "
+                                + t_name + "."+ filter["left"] + ' '
+                                + filter["type"] + ' '
+                                + '\''+ filter["right"]+ '\''
                             )
             query_str = query_str.format(
                 t_name=t_name, columns_str=columns_str, filters_str=filters_str

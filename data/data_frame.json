@@ -4,6 +4,8 @@
     "o_persons": "tables/o_persons.json",
     "o_keys": "tables/o_keys.json",
     "o_third_parties": "tables/o_third_parties.json",
+    "o_equipments": "tables/o_equipments.json",
+    "o_containers": "tables/o_containers.json",
     "o_pdf_tag_templates":"tables/o_pdf_tag_templates.json",
     "r_lab_planned_proj_menbers": "tables/r_lab_planned_proj_menbers.json",
     "v_lab_planned_proj_menbers": "tables/v_lab_planned_proj_menbers.json"

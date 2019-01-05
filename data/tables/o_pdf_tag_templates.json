@@ -40,6 +40,7 @@
         },
         "name": {
             "$TYPE": "column_origin",
+            "$ISNM":true,
             "$DISP_displacer": null,
             "$DISP_name": {
                 "EN": "Name",

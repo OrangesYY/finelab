@@ -40,6 +40,8 @@
         },
         "name_chs": {
             "$TYPE": "column_origin",
+            "$ISNM":true,
+            "$ISSF":true,
             "$DISP_displacer": null,
             "$DISP_name": {
                 "EN": "Name in Chiness",
@@ -62,6 +64,7 @@
         },
         "name_eng": {
             "$TYPE": "column_origin",
+            "$ISSF":true,
             "$DISP_displacer": null,
             "$DISP_name": {
                 "EN": "Name in English",

@@ -36,6 +36,12 @@
     {% else %}
         Error!
     {% endif %}
+    <form class="form-inline" action="" method="get">
+                    
+        <input type = "hidden" name = b_name value = "{{bsns_table_dict['$TBNM']}}">
+        <input type="text" class="form-control" name = "search_key_word">
+        <button class="btn btn-default" >搜索</button>
+    </form>
     <div id = "message_div">&nbsp;</div>
     {% if query_result|length > 0 %}
         <table class = "table">

@@ -5,7 +5,7 @@ from app_globals import bsnses, get_db, get_user_info_dict
 tmplt_based_ui = Blueprint('tmplt_based_ui',__name__) 
 
 
-
+# [Request] Template Based UI
 @tmplt_based_ui.route('/search', methods=["GET"])
 def search():
     logined_person_id = session.get("logined_person_id")
@@ -14,11 +14,22 @@ def search():
     db = get_db()
     cur = db.cursor()
     b_name = request.args.get("b_name")
+    key_words = request.args.get("search_key_word")
     bsns_table_dict = bsnses.getFomatdDict(b_name)
-    query_sql_str = bsnses.createQuerySQL(
-        b_name, read_auth_role=user_info_dict.get("auth_role"), filters_list=[], id=None
-    )
+    filters_list = []
+    if key_words != None:
+        for item in bsns_table_dict['$SFLD']:
+            _filter = {}
+            _filter['left'] = item
+            _filter['type'] = 'LIKE'
+            _filter['right'] = '%'+key_words+'%'
+            filters_list.append(_filter.copy())
 
+    query_sql_str = bsnses.createQuerySQL(
+        b_name, 
+        read_auth_role=user_info_dict.get("auth_role"), 
+        filters_list=filters_list
+    )
     query_result = cur.execute(query_sql_str).fetchall()
 
     # Delete Columns which should not be displayed in brief view
@@ -46,15 +57,6 @@ def search():
     )
 
 
-
-# [Request] Template Based UI
-@tmplt_based_ui.route("/", methods=["GET"])
-@tmplt_based_ui.route("/index", methods=["GET"])
-def t_base_index():
-    if request.method == "POST":  # Nothing to do
-        pass
-    elif request.method == "GET":  # Show page
-        return "Template Based UI"
 
 
 @tmplt_based_ui.route("/user_register_form", methods=["GET"])

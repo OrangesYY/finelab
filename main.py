@@ -54,7 +54,7 @@ def index():
 
 
 # [Request] Tag PDF Generator: Debugging
-@app.route("/download/tag_pdf", methods=["POST", "GET"])
+@app.route("/download/tag_pdf", methods=["POST"])
 def gen_pdf_and_download():
     if request.method == "POST":  
         db = get_db()
@@ -64,7 +64,8 @@ def gen_pdf_and_download():
         # cur.
 
         json_string = input_list['template']
-        directory = os.getcwd()  # 假设在当前目录
+        # directory = os.getcwd()  # 假设在当前目录
+        directory = "./pdf_tag_gen"
         pdf_gen = TagPDFGenerator()
         pdf_gen.setTemplateFromJsonString(directory, json_string)
         pdf_gen.setDataFromList(
@@ -80,9 +81,12 @@ def gen_pdf_and_download():
         # 需要知道2个参数, 第1个参数是本地目录的path, 第2个参数是文件名(带扩展名)
         t = time.time()
         nowTime = str((lambda:int(round(t * 1000)))())
-        fn = nowTime+".pdf"
-        pdf_gen.savePDF(fn)
-        return send_from_directory(directory, fn, as_attachment=True)
+        pdf_filename = nowTime+".pdf"
+        pdf_gen.savePDF(directory+'/'+pdf_filename)
+
+        
+        return send_from_directory(directory, pdf_filename, as_attachment=True)
+
 
 
 # [Request] IOT Applications API

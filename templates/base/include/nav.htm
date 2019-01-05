@@ -19,7 +19,7 @@
                             role="button" aria-haspopup="true" aria-expanded="false">对象记录<span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             {%  for key, val in config['G_bsnses_dict'].items() %}
-                                <li><a href="/tmplt_based_ui/search?b_name={{key}}">{{val['$DISP_name']['ZH']}}</a></li>
+                                <li><a href="{{url_for('tmplt_based_ui.search')}}?b_name={{key}}">{{val['$DISP_name']['ZH']}}</a></li>
                             {% endfor %}
 
                             <li role="separator" class="divider"></li>
