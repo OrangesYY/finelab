@@ -6,14 +6,42 @@
     
     <h1>生成PDF标签</h1>
     <hr>
-    <form class="form-horizontal"  role="form" id = "main_form" action="/download/tag_pdf">
+    <form class="form-inline"  role="form" id = "main_form" method="GET">
+        模板：
+        <select class="form-control" name = 'tmpl_id'>
+            {% for row in templates_query_result %}
+                {% if row['template_id'] == request.args.get("tmpl_id") %}
+                <option value = "{{row['template_id']}}" selected >{{row['name']}}</option>
+                {% else %}
+                <option value = "{{row['template_id']}}" >{{row['name']}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        ，数据：
+        <select class="form-control" name = 'b_name'>
+            {%  for key, val in config['G_bsnses_dict'].items() %}
+                {% if key == request.args.get("b_name") %}
+                <option value = {{key}} selected>{{val['$DISP_name']['ZH']}}</option>
+                {% else %}
+                <option value = {{key}}>{{val['$DISP_name']['ZH']}}</option>
+                {% endif %}
+            {% endfor %}
+
+        </select>
+        <input type = "submit"class="form-control" value="加载模板">
+
+    </form>
+
+<hr>
+    <form class="form-horizontal"  role="form" id = "main_form" action="/download/tag_pdf" method="POST">
 
         <div class="form-group">
             <label class="control-label col-sm-12 col-md-3" >
                 模板
             </label>
             <div class="controls col-sm-12 col-md-6">
-                <input type="text" placeholder="" class="form-control" name = "aa">
+                
+                <textarea class="form-control" rows="20" name = "template">{{tmpl_str}}</textarea>
             </div>
             <p class = "help-block col-sm-12 col-md-3">
                 discription
@@ -25,7 +53,7 @@
                 </label>
                 <div class="controls col-sm-12 col-md-6">
     
-                        <textarea class="form-control" rows="20" ></textarea>
+                        <textarea class="form-control" rows="20" name = "data">{{data_json_string}}</textarea>
     
                 </div>
                 <p class = "help-block col-sm-12 col-md-3">

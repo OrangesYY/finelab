@@ -1,8 +1,8 @@
 {
     "$TYPE":"table",
     "$DISP_name":{
-        "EN":"Third Parties",
-        "ZH":"第三方"
+        "EN":"Containers",
+        "ZH":"箱/盒/柜/架"
     },
     "$GENL_relevant_bsnses":[
         [
@@ -15,13 +15,13 @@
         ]
     ],
     "$COLU":{ 
-        "third_party_id":{
+        "container_id":{
             "$TYPE":"column_origin",
             "$ISPK":true,
             "$DISP_displacer":null,
             "$DISP_name":{
-                "EN":"Third Party ID",
-                "ZH":"第三方ID"
+                "EN":"container_id",
+                "ZH":"容器ID"
             },
             "$DISP_show_in_brief_view":true,
             "$GENL_input_type":null,
@@ -40,17 +40,18 @@
         },
         "type":{
             "$TYPE":"column_origin",
-            "$DISP_displacer": {
-                "Manufacturer": "制造商",
-                "Cooperator": "合作方",
-                "Dealer": "经销商"
+            "$DISP_displacer":{
+                "carton":"纸箱",
+                "plastic_box":"塑料盒",
+                "shelf":"架子/书柜",
+                "machine_rack":"机架"
             },
             "$DISP_name":{
                 "EN":"Type",
                 "ZH":"类型"
             },
             "$DISP_show_in_brief_view":true,
-            "$GENL_input_type":"radio",
+            "$GENL_input_type":"select",
             "$AUTH_read":{
                 "tourist":true,
                 "app_user":true,
@@ -64,37 +65,14 @@
                 "admin":true
             }
         },
-        "name_eng":{
-            "$TYPE":"column_origin",
-            "$ISSF":true,
-            "$DISP_displacer": null,
-            "$DISP_name":{
-                "EN":"English Name",
-                "ZH":"英文名"
-            },
-            "$DISP_show_in_brief_view":true,
-            "$GENL_input_type":"text",
-            "$AUTH_read":{
-                "tourist":true,
-                "app_user":true,
-                "owner_rspns":true,
-                "admin":true
-            },
-            "$AUTH_write":{
-                "tourist":false,
-                "app_user":false,
-                "owner_rspns":true,
-                "admin":true
-            }
-        },
-        "name_chn":{
+        "name":{
             "$TYPE":"column_origin",
             "$ISNM":true,
             "$ISSF":true,
-            "$DISP_displacer": null,
+            "$DISP_displacer":null,
             "$DISP_name":{
-                "EN":"Chinese Name",
-                "ZH":"中文名"
+                "EN":"Name",
+                "ZH":"名称"
             },
             "$DISP_show_in_brief_view":true,
             "$GENL_input_type":"text",
@@ -111,39 +89,16 @@
                 "admin":true
             }
         },
-        "main_business":{
+        "content_list":{
             "$TYPE":"column_origin",
             "$ISSF":true,
-            "$DISP_displacer": null,
+            "$DISP_displacer":null,
             "$DISP_name":{
-                "EN":"Main Business",
-                "ZH":"主营业务"
+                "EN":"Content List",
+                "ZH":"内容物列表"
             },
             "$DISP_show_in_brief_view":true,
             "$GENL_input_type":"text",
-            "$AUTH_read":{
-                "tourist":true,
-                "app_user":true,
-                "owner_rspns":true,
-                "admin":true
-            },
-            "$AUTH_write":{
-                "tourist":false,
-                "app_user":false,
-                "owner_rspns":true,
-                "admin":true
-            }
-        },
-        "remarks":{
-            "$TYPE":"column_origin",
-            "$ISSF":true,
-            "$DISP_displacer": null,
-            "$DISP_name":{
-                "EN":"Remarks",
-                "ZH":"备注"
-            },
-            "$DISP_show_in_brief_view":false,
-            "$GENL_input_type":"textarea",
             "$AUTH_read":{
                 "tourist":true,
                 "app_user":true,

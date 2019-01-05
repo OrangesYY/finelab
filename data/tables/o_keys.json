@@ -1,8 +1,8 @@
 {
     "$TYPE": "table",
     "$DISP_name": {
-        "EN": "Door Keys",
-        "ZH": "房间钥匙"
+        "EN": "Keys",
+        "ZH": "钥匙"
     },
     "$GENL_relevant_bsnses": [
         [
@@ -15,13 +15,13 @@
         ]
     ],
     "$COLU": {
-        "door_key_id": {
+        "key_id": {
             "$TYPE": "column_origin",
             "$ISPK": true,
             "$DISP_displacer": null,
             "$DISP_name": {
-                "EN": "Door Key ID",
-                "ZH": "房间钥匙ID"
+                "EN": "Key ID",
+                "ZH": "钥匙ID"
             },
             "$DISP_show_in_brief_view": true,
             "$GENL_input_type": null,
@@ -70,14 +70,16 @@
                 "yellow": "黄色",
                 "green": "绿色",
                 "blue": "蓝色",
-                "no_color_transparent": "无色全透明"
+                "no_color_transparent": "无色全透明",
+                "no_tag": "无标签",
+                "virtual": "虚拟"
             },
             "$DISP_name": {
                 "EN": "Tag Color",
                 "ZH": "标签颜色"
             },
             "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
+            "$GENL_input_type": "select",
             "$AUTH_read": {
                 "tourist": true,
                 "app_user": true,
@@ -91,10 +93,69 @@
                 "admin": true
             }
         },
-        "room_id": {
-            "$TYPE": "column_cite",
-            "$STRU_origin_table": "o_rooms",
-            "$STRU_origin_column": "room_id",
+        "key_type": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": {
+                "ic_card": "IC卡",
+                "metal":"金属钥匙",
+                "plastic":"塑料钥匙",
+                "password":"密码"
+            },
+            "$DISP_name": {
+                "EN": "Key Type",
+                "ZH": "钥匙类型"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "select",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        },
+        "tar_type": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": {
+                "o_rooms": "房间",
+                "o_equipments": "设备",
+
+                "framework": "机架",
+                "locker": "储物柜"
+            },
+            "$DISP_name": {
+                "EN": "Target Type",
+                "ZH": "对象类型"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "select",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        },
+
+        "tar_id": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Target ID",
+                "ZH": "对象ID"
+            },
             "$DISP_show_in_brief_view": true,
             "$GENL_input_type": "text",
             "$AUTH_read": {

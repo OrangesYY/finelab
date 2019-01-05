@@ -40,6 +40,8 @@
         },
         "username": {
             "$TYPE": "column_origin",
+            "$ISNM":true,
+            "$ISSF":true,
             "$DISP_displacer": null,
             "$DISP_name": {
                 "EN": "Username",
@@ -83,6 +85,7 @@
         },
         "name": {
             "$TYPE": "column_origin",
+            "$ISSF":true,
             "$DISP_displacer": null,
             "$DISP_name": {
                 "EN": "Name",
@@ -105,6 +108,7 @@
         },
         "school_card_number": {
             "$TYPE": "column_origin",
+            "$ISSF":true,
             "$DISP_displacer": null,
             "$DISP_name": {
                 "EN": "Card Number",
@@ -131,7 +135,8 @@
                 "undergraduate": "在读本科生",
                 "graduated": "已毕业",
                 "master_candidate": "在读硕士生",
-                "PhD_dandidate": "在读博士生"
+                "PhD_dandidate": "在读博士生",
+                "virtual_person": "组织或虚拟人"
             },
             "$DISP_name": {
                 "EN": "Person Type",

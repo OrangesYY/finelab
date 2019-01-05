@@ -1,0 +1,208 @@
+{
+    "$TYPE":"table",
+    "$DISP_name":{
+        "EN":"Equipments",
+        "ZH":"设备"
+    },
+    "$GENL_relevant_bsnses":[
+        [
+            "",
+            ""
+        ],
+        [
+            "",
+            ""
+        ]
+    ],
+    "$COLU":{ 
+        "equipment_id":{
+            "$TYPE":"column_origin",
+            "$ISPK":true,
+            "$DISP_displacer":null,
+            "$DISP_name":{
+                "EN":"Equipment ID",
+                "ZH":"设备ID"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":null,
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":false,
+                "admin":false
+            }
+        },
+        "type":{
+            "$TYPE":"column_origin",
+            "$DISP_displacer":{
+                "fixed_asset":"固定资产",
+                "org_managed":"组织自管",
+                "low_value":"低值设备",
+                "borrowed":"借用设备",
+                "individual":"个人财产"
+            },
+            "$DISP_name":{
+                "EN":"Type",
+                "ZH":"类型"
+            },
+            "$DISP_show_in_brief_view":true,
+            "$GENL_input_type":"select",
+            "$AUTH_read":{
+                "tourist":true,
+                "app_user":true,
+                "owner_rspns":true,
+                "admin":true
+            },
+            "$AUTH_write":{
+                "tourist":false,
+                "app_user":false,
+                "owner_rspns":true,
+                "admin":true
+            }
+        },
+        "owner_id":{
+            "$TYPE": "column_cite",
+            "$STRU_origin_table": "o_persons",
+            "$STRU_origin_column": "person_id",
+            "$DISP_name":{
+                "EN":"Owner ID",
+                "ZH":"所有人ID"
+            }
+        },
+        "manufactor_id":{
+            "$TYPE": "column_cite",
+            "$STRU_origin_table": "o_persons",
+            "$STRU_origin_column": "person_id",
+            "$DISP_name":{
+                "EN":"Manufactor ID",
+                "ZH":"生产商ID"
+            }
+
+        },
+        "discription": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Discription",
+                "ZH": "描述"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        },
+        "model_number": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "Model Number",
+                "ZH": "型号"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        },
+        "school_asset_code": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "School Asset Code",
+                "ZH": "学校资产号"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        },
+        "manufactor_sn_code": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "SN",
+                "ZH": "出厂序列号"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        },
+        "scho_dsn_resp_p_id":{
+            "$TYPE": "column_cite",
+            "$STRU_origin_table": "o_persons",
+            "$STRU_origin_column": "person_id",
+            "$DISP_name":{
+                "EN":"Responsible Person ID in School Sys",
+                "ZH":"校资产责任人ID"
+            }
+        },
+        "status": {
+            "$TYPE": "column_origin",
+            "$DISP_displacer": null,
+            "$DISP_name": {
+                "EN": "status",
+                "ZH": "状态"
+            },
+            "$DISP_show_in_brief_view": true,
+            "$GENL_input_type": "text",
+            "$AUTH_read": {
+                "tourist": true,
+                "app_user": true,
+                "owner_rspns": true,
+                "admin": true
+            },
+            "$AUTH_write": {
+                "tourist": false,
+                "app_user": false,
+                "owner_rspns": true,
+                "admin": true
+            }
+        }
+    }
+}

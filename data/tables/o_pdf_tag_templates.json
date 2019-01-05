@@ -1,8 +1,8 @@
 {
     "$TYPE": "table",
     "$DISP_name": {
-        "EN": "Lab-Panned Projects",
-        "ZH": "实验室计划项目"
+        "EN": "PDF Tag Templates",
+        "ZH": "PDF标签模板"
     },
     "$GENL_relevant_bsnses": [
         [
@@ -15,13 +15,13 @@
         ]
     ],
     "$COLU": {
-        "project_id": {
+        "template_id": {
             "$TYPE": "column_origin",
             "$ISPK": true,
             "$DISP_displacer": null,
             "$DISP_name": {
-                "EN": "Project ID",
-                "ZH": "项目ID"
+                "EN": "Template ID",
+                "ZH": "模板ID"
             },
             "$DISP_show_in_brief_view": true,
             "$GENL_input_type": null,
@@ -38,14 +38,13 @@
                 "admin": false
             }
         },
-        "name_chs": {
+        "name": {
             "$TYPE": "column_origin",
             "$ISNM":true,
-            "$ISSF":true,
             "$DISP_displacer": null,
             "$DISP_name": {
-                "EN": "Name in Chiness",
-                "ZH": "中文名"
+                "EN": "Name",
+                "ZH": "名称"
             },
             "$DISP_show_in_brief_view": true,
             "$GENL_input_type": "text",
@@ -62,38 +61,15 @@
                 "admin": true
             }
         },
-        "name_eng": {
-            "$TYPE": "column_origin",
-            "$ISSF":true,
-            "$DISP_displacer": null,
-            "$DISP_name": {
-                "EN": "Name in English",
-                "ZH": "英文名"
-            },
-            "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
-            "$AUTH_read": {
-                "tourist": true,
-                "app_user": true,
-                "owner_rspns": true,
-                "admin": true
-            },
-            "$AUTH_write": {
-                "tourist": false,
-                "app_user": false,
-                "owner_rspns": true,
-                "admin": true
-            }
-        },
-        "discription": {
+        "json_content": {
             "$TYPE": "column_origin",
             "$DISP_displacer": null,
             "$DISP_name": {
-                "EN": "Discription",
-                "ZH": "描述"
+                "EN": "Json String",
+                "ZH": "Json字符串"
             },
             "$DISP_show_in_brief_view": true,
-            "$GENL_input_type": "text",
+            "$GENL_input_type": "textarea",
             "$AUTH_read": {
                 "tourist": true,
                 "app_user": true,
