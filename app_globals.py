@@ -20,7 +20,8 @@ def get_db():
 
 
 def get_user_info_dict(person_id):
-    if person_id == 0:
+    print(person_id)
+    if person_id == 0 or person_id == False or person_id == None:
         return {"logined": False}
     else:
         db = get_db()
