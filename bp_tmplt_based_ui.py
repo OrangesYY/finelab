@@ -86,9 +86,7 @@ def t_base_logout():
 def t_base_target_scope():
     logined_person_id = session.get("logined_person_id")
     user_info_dict = get_user_info_dict(logined_person_id)
-    print("before call")
     db = get_db()
-    print("after call")
     cur = db.cursor()
     b_name = request.args.get("b_name")  # business name
     tar_id = request.args.get("id")  # target id
@@ -99,25 +97,7 @@ def t_base_target_scope():
         filters_list=[],
         id=tar_id,
     )
-
-    # # debug
-    # query_sql_str = """
-    #     SELECT
-    #             v_lab_planned_proj_menbers.proj_id              ,
-    #             v_lab_planned_proj_menbers.proj_name            ,
-    #             v_lab_planned_proj_menbers.menber_person_id     ,
-    #             v_lab_planned_proj_menbers.menber_name          ,
-    #             v_lab_planned_proj_menbers.menber_card_number   ,
-    #             v_lab_planned_proj_menbers.act_type             ,
-    #             v_lab_planned_proj_menbers.menber_role
-    #     FROM
-    #             v_lab_planned_proj_menbers
-    #     WHERE
-    #             proj_id = 1
-    # """
     query_result = cur.execute(query_sql_str).fetchall()
-    #print(query_sql_str)  # debug
-    #print(query_result)  # debug
     cur.close()
     return render_template(
         "target_scope.htm",
@@ -154,8 +134,6 @@ def t_base_target_update_form():
         b_name, read_auth_role="tourist", filters_list=[], id=tar_id
     )
     query_result = cur.execute(query_sql_str).fetchall()
-    # print(query_sql_str)  # debug
-    # print(query_result)  # debug
     cur.close()
     return render_template(
         "target_update_form.htm",
