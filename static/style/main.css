@@ -1,0 +1,16 @@
+
+.table-v-middle td,
+.table-v-middle th
+{
+    vertical-align:middle !important;
+    text-align: center;
+
+}
+
+.operation_th
+{
+
+    
+    width: 5em;
+
+}
