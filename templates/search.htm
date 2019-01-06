@@ -118,25 +118,25 @@
   // Shwo target info in the delete dialog
   $(".delBtn").click(function() {
       // Find the row
-      var $row = $(this).closest("tr");
+      var _row = $(this).closest("tr");
       // Set corresponding id_to_del
-      id_to_del = parseInt($row.find("td:nth-child(1)").text());
+      id_to_del = parseInt(_row.find("td:nth-child(1)").text());
       // Get contents
-      var $contentListToBeDel = []
-      var $tds = $row.find("td");
-      $.each($tds, function() {
-          $contentListToBeDel.push($(this).text());
+      var contentListToBeDel = [];
+      var tds = _row.find("td");
+      $.each(tds, function() {
+          contentListToBeDel.push($(this).text());
       });
       // Discard the first and the last elements in content list (one is "id string", the other is "operation string"
-      $contentListToBeDel.pop();
-      $contentListToBeDel.shift();
+      contentListToBeDel.pop();
+      contentListToBeDel.shift();
       // Construct the content string from list
-      var $contentString = ""
-      for (i=0;i<$contentListToBeDel.length;i++) {
-	  $contentString += $contentListToBeDel[i] + "<br>";
+      var contentString = "";
+      for (i=0; i<contentListToBeDel.length ;i++) {
+	  contentString += contentListToBeDel[i] + "<br>";
       }
       // Set text in the modal
-      $("#delModalInfoBody").html($contentString)
+      $("#delModalInfoBody").html(contentString);
   });
 
   $('#del_btn').click(submit_del_info);
