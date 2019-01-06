@@ -132,8 +132,6 @@ def ult_app_info():
 
 
 
-
-
 from bp_tmplt_based_ui import tmplt_based_ui
 from bp_user_api import user_api
 from bp_general_api import general_api

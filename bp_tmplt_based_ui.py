@@ -31,6 +31,7 @@ def search():
         filters_list=filters_list
     )
     query_result = cur.execute(query_sql_str).fetchall()
+    cur.close()
 
     # Delete Columns which should not be displayed in brief view
     for row_index in range(len(query_result)):
@@ -48,14 +49,13 @@ def search():
                     query_result[row_index][key] = content_displacer[origin_result]
             if query_result[row_index][key] == None:
                 query_result[row_index][key] = ""
-    cur.close()
+    
     return render_template(
         "search.htm",
         user_info_dict=user_info_dict,
         bsns_table_dict=bsns_table_dict,
         query_result=query_result,
     )
-
 
 
 
