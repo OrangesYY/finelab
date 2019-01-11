@@ -47,15 +47,15 @@ The management tool for labs
 - for types of inputs are supported: text, select, textarea, radio
 - use [**black**](https://github.com/ambv/black) (The uncompromising Python code formatter) reformatted the whole codes
 - add run_server.sh
+# How to write the Data Structure JSON File (V1)?
+## Dir Structure
 
-# How to write the Data Structure JSON File?
-## Dir structure
+# How to write the Data Structure JSON File (V2)?
+## Dir Structure
 
-## Using
+## Databases (Data Framework)
 
-## File
-
-## Table
+## Tables (Business)
 ### For Each Table:
 | JSON Field Name      | Default               | Exceptions |
 | -------------------- | --------------------- | ---------- |
@@ -87,7 +87,7 @@ Sys-generated args:
 | ----------------- | ------------- | ------------------------------------------------- | ------------------------- | -------------------- | ----------------- |
 | id                | [Primary Key] |                                                   | String(bold)              | [None]               | id                |
 | name              | String        |                                                   | String(bold)              | Text                 |                   |
-| hash              | String        |                                                   | [None]                    | Text(Brfore Hashing) | Hashed Value      |
+| hash              | String        |                                                   | [None]                    | Text(Before Hashing) | Hashed Value      |
 | foreign_id        | [Foreign Key] | foreign_t_name                                    | Name of the cited row     | [JS]                 | id                |
 | foreign_column    | [No column]   | foreign_id_column(in this table) and cited_column | Cited cell content        | [None]               | [None]            |
 | string            | Column        | *displacer *formatter and *input_checker          | Formated String           | Text                 |                   |
