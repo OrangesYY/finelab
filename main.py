@@ -64,7 +64,7 @@ def gen_pdf_and_download():
         # cur.
 
         json_string = input_list['template']
-        # directory = os.getcwd()  # 假设在当前目录
+        # directory = os.getcwd()                          # 假设在当前目录
         directory = "./pdf_tag_gen"
         pdf_gen = TagPDFGenerator()
         pdf_gen.setTemplateFromJsonString(directory, json_string)
@@ -78,7 +78,6 @@ def gen_pdf_and_download():
             ]
         )
 
-        # 需要知道2个参数, 第1个参数是本地目录的path, 第2个参数是文件名(带扩展名)
         t = time.time()
         nowTime = str((lambda:int(round(t * 1000)))())
         pdf_filename = nowTime+".pdf"

@@ -23,7 +23,7 @@
                 "EN": "Person ID",
                 "ZH": "人员ID"
             },
-            "$DISP_show_in_br ief_view": true,
+            "$DISP_show_in_brief_view": true,
             "$GENL_input_type": null,
             "$AUTH_read": {
                 "tourist": true,

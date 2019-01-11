@@ -43,6 +43,8 @@ class DataFrame:
                 self.raw_dict[_key] = tmpDict
                 fpr.close()
             self.format_bussiness()
+        else:
+            raise Exception
 
     def format_bussiness(self):
         
@@ -71,8 +73,7 @@ class DataFrame:
                         self.formatted_dict[t_name]["$COLU"][c_name]["$TYPE"]
                         == "column_cite"
                     ):
-                        pass  # exception
-                        print("Citng from ", t_name, c_name, "Error!")
+                        raise Exception
                     # Attention!
                     # If citing sections has re-defined the parameters,
                     #     the final param is subject to the parameters defined in the citing section,
@@ -134,7 +135,7 @@ class DataFrame:
                     constraints_str += foreign_key_str
                 if c_stru.get("$ISPK") == True:  # Is primary key
                     if c_stru["$TYPE"] == "column_cite":
-                        pass  # ![Exception]
+                        raise Exception
                     else:
                         primary_key_str = " PRIMARY KEY"
                         constraints_str += primary_key_str
