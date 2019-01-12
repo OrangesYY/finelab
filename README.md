@@ -1,6 +1,7 @@
 # FineLab
 The management tool for labs
-
+# Contents
+- [To Do List](#to-do-list)
 
 # Dependencies： 
 * python3: Downlad and install
@@ -57,20 +58,21 @@ The management tool for labs
 
 ## Tables (Business)
 ### For Each Table:
-| JSON Field Name      | Default               | Exceptions |
-| -------------------- | --------------------- | ---------- |
-| $TYPE                | The type of the table |            |
-| $SHOW_IN_SEARCH_MENU |                       |            |
-| $SHOW_IN_APP_MENU    |                       |            |
-| $DISPLAY_NAME        |                       |            |
-| $AUTH_QUERY          |                       |            |
-| $AUTH_UPDATE         |                       |            |
-| $AUTH_INSERT         |                       |            |
-| $AUTH_DELETE         |                       |            |
+| JSON Field Name      | Discription                | Exceptions |
+| -------------------- | -------------------------- | ---------- |
+| $TYPE                | The type of the table      |            |
+| $SHOW_IN_SEARCH_MENU |                            |            |
+| $SHOW_IN_APP_MENU    |                            |            |
+| $DISPLAY_NAME        |                            |            |
+| $AUTH_QUERY          | Default auth of columns    |            |
+| $AUTH_UPDATE         | Default auth of columns    |            |
+| $AUTH_INSERT         |                            |            |
+| $AUTH_DELETE         |                            |            |
+| $COLUMNS             | A dict, columns of a table |            |
 
 Table - Fields Defined by User in JSON File
 
-| Field Name       | Value                                           | Exceptions |
+| Field Name       | Discription                                     | Exceptions |
 | ---------------- | ----------------------------------------------- | ---------- |
 | $NAME            | The name of the table                           |            |
 | $NAME_COLUMN     | The name column's name in this table            |            |

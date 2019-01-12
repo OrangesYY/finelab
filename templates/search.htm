@@ -104,6 +104,7 @@
              },
              success: function(result_json) {
                  $("#message_div").text(result_json.text);
+                 $("#delModalInfoBody").text(result_json.text);
                  if(result_json.status == "succeeded"){
                      // refresh page after a successful delete operation
                      location.reload();

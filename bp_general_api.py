@@ -105,7 +105,10 @@ def gen_target_delete():
             return json.dumps(
                 {"status": "failed", "text": "No such business: !" + b_name}
             )
-
+        if user_info_dict.get("auth_role") != 'admin':
+            return json.dumps(
+                {"status": "failed", "text": "You are not an administrator!"}
+            )
         query_sql_str = bsnses.createDeleteSQL(
             b_name,
             filters_list=[],
